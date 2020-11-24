@@ -1,0 +1,212 @@
+/* .PlayerCharacter,.QuestionWrapper{
+    position:absolute;
+} */
+
+
+._0,._1 {
+    /* bottom:0%; */
+    height:50vh;
+    top:50vh;
+    position: absolute;
+    width: 100%;
+}
+
+
+._1 {
+    top:0vh;
+    transform: rotate(180deg);
+}
+
+._1 .PlayerCharacter{
+    transform: rotate(180deg);
+}
+
+.PlayerCharacter{
+    height: 150px;
+}
+
+
+.QuestionBar > span >span {
+    font-size: 2em;
+    border-radius: 10px;
+    opacity: .8;
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+}
+
+
+.QuestionBar{
+    display:flex;
+    flex-flow: row nowrap;
+    height: calc(50vh - 260px);
+}
+
+
+.QuestionBar > span{
+    display:flex;
+    width:150px;
+    margin: 10px;
+    text-align: center;
+    align-self: center;
+    opacity: .8;
+    border-radius: 10px;
+    height: 100px;
+    align-items: center;
+}
+.QuestionBar .Question{
+    flex-grow: 1;
+    background-color: #F8F8F8;
+    align-items: center;
+    opacity: .8;
+    border-radius: 10px 10px 0 0;
+    margin: 10px 10px 0px 10px;
+    align-self: auto;
+    color: #000;
+    font-weight: bold;
+    /* font-size: 2.5em; */
+    /* text-align: center; */
+    padding: 10px;
+    /* display: inline-block; */
+    height: calc(100% - 10px);
+}
+
+.Close{
+    position: absolute;
+    top: -2px;
+    right: -1px;
+    font-size: 1.5em;
+    margin: 0px;
+    padding: 0px;
+    line-height: 0px;
+}
+/* ._1{
+    bottom:0%;
+}
+ */
+
+
+
+
+.ButtonBar{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    height: 100px;
+    background-color: #F8F8F8;
+    align-items: center;
+    opacity: .8;
+    border-radius: 10px;
+    margin: 0 10px 10px 10px;
+}
+
+/* .ButtonBar *{
+    height: 60px;
+} */
+
+
+
+/* .QuestionWrapper{
+    width: calc(100% - 20px);
+    padding: 10px 10px;
+    margin: 10px;
+    height: 200px;
+    background-color: #FFF;
+    opacity: .8;
+    border-radius: 28px;
+} */
+
+.Answer{
+    border: 1px solid #009688;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 0px;
+    height: 50px;
+    /* align-self: center; */
+    width: 145px;
+    font-size: 2em;
+}
+
+.BtnGo,.BtnNumber{
+    margin: 5px;
+    width: 50px;
+    height: 50px;
+    font-size: 2em;
+    border: 1px solid #FFF;
+    padding: 0px;
+    text-align: center;
+}
+
+.BtnGo{
+    font-size: 1.5em !important;
+    color: #f44336;
+}
+
+
+
+/* 
+
+
+._0 .PlayerCharacter{
+    top:35%;
+}
+
+
+
+.Question{
+    color:#505050;
+    width:100%;
+    height:110px;
+}
+
+.Question span{
+    display:inline-block;
+    width:100%;
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+} */
+
+.PlayerCharacter.points0{
+    left:0vw;
+}
+
+.Ò.points1{
+    left:9vw;
+}
+
+.PlayerCharacter.points2{
+    left:18vw;
+}
+
+.PlayerCharacter.points3{
+    left:27vw;
+}
+
+.PlayerCharacter.points4{
+    left:36vw;
+}
+
+.PlayerCharacter.points5{
+    left:45vw;
+}
+
+.PlayerCharacter.points6{
+    left:54vw;
+}
+
+.PlayerCharacter.points7{
+    left:63vw;
+}
+
+.PlayerCharacter.points8{
+    left:72vw;
+}
+
+.PlayerCharacter.points9{
+    left:81vw;
+}
+
+.PlayerCharacter.points10{
+    left:90vw;
+}
