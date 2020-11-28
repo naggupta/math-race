@@ -36,25 +36,25 @@ class RaceWrapper extends Component {
     }
 
     render() {
-        console.log('[Racewrapper] render', this.props.players,this.props.endtime);
+        console.log('[Racewrapper] render', this.props.players, this.props.endtime);
 
         if (!this.props.players)
-            return (<RaceSetup />);
+            return (<div className={Classes.Race}><RaceSetup /></div>);
         else if (this.props.endtime)
-            return (<RaceComplete players={this.props.players} reset={this.props.reset} />);
+            return (<div className={Classes.Race}><RaceComplete players={this.props.players} reset={this.props.reset} /></div>);
 
         const players = this.props.players.map((player, index) => (
             <PlayerSection
-              key={player.id}
-              playerno={`${player.id}`}
-            />
+                        key={player.id}
+                        playerno={`${player.id}`}
+                    />
         ));
         // console.log('[Race] render', this.props.players);
         return (
             <div className={Classes.Race}>
-                {players}
-                {/* <div className={Classes.Divider}/> */}
-            </div>
+                        {players}
+                        {/* <div className={Classes.Divider}/> */}
+                    </div>
         )
         // return (
         //         <Race players={this.props.players} />
@@ -67,13 +67,13 @@ class RaceWrapper extends Component {
 // }
 
 const mapStateToProps = (state) => ({
-    players: state.game.players,
+                        players: state.game.players,
     starttime: state.game.starttime,
     endtime: state.game.endtime,
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    reset: () => dispatch(ReducerActions.reset()),
+                        reset: () => dispatch(ReducerActions.reset()),
     // start: () => dispatch(ReducerActions.start()),
     // start: (playername1, playername2, questiontype) => dispatch(ReducerActions.start(playername1, playername2, questiontype)),
 })

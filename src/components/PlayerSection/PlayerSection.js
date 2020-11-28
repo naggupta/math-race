@@ -37,11 +37,11 @@ class PlayerSection extends PureComponent {
     }
 
     buttonTheme = () => {
-        return (this.props.playerno === '1' ? 'w3-ripple w3-hover-teal w3-teal' : 'w3-ripple w3-hover-red w3-red');
+        return (this.props.playerno === '1' ? 'w3-ripple w3-hover-indigo w3-indigo' : 'w3-ripple w3-hover-red w3-red');
     }
 
     sectionTheme = () => {
-        return (this.props.playerno === '1' ? 'w3-teal' : 'w3-red');
+        return (this.props.playerno === '1' ? 'w3-indigo' : 'w3-red');
     }
 
     goClick = () => {
@@ -106,7 +106,7 @@ class PlayerSection extends PureComponent {
             <div className={[(this.props.playerno === '0' ? Classes._0 : Classes._1)].join(' ')}>
                 {messagedisplay}
                 <div className={[Classes.PlayerCharacter].join(' ')}>
-                    <img style={{ position: 'absolute', transform: 'scaleX(1)', left: `${this.props.points * 9}vw` }} alt={this.props.playerno} className={[Classes.PlayerCharacter, (this.props.playerno === 1 ? Classes._1 : Classes._2)].join(' ')} height="auto" width="100px" src={`/images/Fish_${this.props.playerno}.svg`} />
+                    <img style={{ position: 'absolute', transform: 'scaleX(1)', transition:'1s' ,left: `${player.points * 9}vw` }} alt={this.props.playerno} className={[Classes.PlayerCharacter, (this.props.playerno === 1 ? Classes._1 : Classes._2)].join(' ')} height="auto" width="100px" src={`/images/Fish_${this.props.playerno}.svg`} />
                 </div>
                 <div className={Classes.QuestionBar}>
                     <span className={[this.sectionTheme()].join(' ')}><span className={[Classes.PlayerName].join(' ')}>{player.name}</span></span>

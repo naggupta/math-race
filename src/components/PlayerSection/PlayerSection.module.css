@@ -210,7 +210,6 @@
 .DisplayMessage.Wrong{
     background-color: indianred;
     animation-duration: 2s;
-    padding:2px;
 }
 
 @keyframes hide-animation{
