@@ -1,0 +1,38 @@
+.DisplayMessage{
+    /* animation-name: hide-animation;
+    animation-duration: 4s;
+    visibility: hidden; */
+    top: 110px;
+    position: absolute;
+    left: 50vw;
+    font-size: 2em;
+    color: #FFF;
+    /* visibility: hidden; */
+    border: 1px solid #FFF;
+    border-radius: 5px;
+    /* opacity: .6; */
+    /* visibility: hidden; */
+}
+
+.DisplayMessage.Correct{
+    background-color: lightseagreen;
+}
+
+
+.DisplayMessage.Wrong{
+    background-color: indianred;
+}
+
+@keyframes hide-animation{
+    0% {
+        visibility: visible;
+        top:110px;
+        opacity: .6;
+      }
+
+      100% {
+        opacity: 0;
+        visibility: hidden;
+        top:0px;
+      }
+}

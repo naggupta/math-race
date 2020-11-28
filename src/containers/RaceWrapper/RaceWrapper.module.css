@@ -1,0 +1,9 @@
+.Race{
+    /* background: center / cover no-repeat url("/images/underwater.jpg"),
+                center repeat-x url('/images/rock.svg') 1; */
+    height:100%;
+    background-image: url('/images/rock.svg') ,url('/images/underwater.jpg');
+    background-position: center, center;
+  background-repeat: repeat-x, no-repeat;
+  background-size: 30px auto,cover;
+}

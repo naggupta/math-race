@@ -1,35 +1,63 @@
 import * as actionTypes from './actionTypes'
+import * as Utils from '../../../Utils/QuestionGenerator'
 
-export const reset = (name1,name2) => {
+export const reset = () => {
     return {
         type: actionTypes.RESET,
-        name1:name1,
-        name2:name2
     }
 };
 
-export const start = () => {
+export const start = (playername1, playername2, questiontype = {
+    type: '+-',
+    nos: 2,
+    digits: 2,
+    decimals: 0,
+    points:10,
+}) => {
     return {
         type: actionTypes.START,
+        questiontype: questiontype,
+        players: [{ id: 0, name: playername1, points: 0, wrong: 0, ...Utils.generateQuestion(questiontype.nos, questiontype.digits, questiontype.decimals), answerresult: '' },
+        { id: 1, name: playername2, points: 0, wrong: 0, ...Utils.generateQuestion(questiontype.nos, questiontype.digits, questiontype.decimals), answerresult: '' },
+        ],
     }
 };
 
+// export const start = () => {
+//     return (dispatch, getstate) => {
+//         const { nos, digits, decimals } = getstate().game.questiontype;
+//         dispatch({
+//             type: actionTypes.START,
+//             players: [Utils.generateQuestion(nos, digits, decimals), Utils.generateQuestion(nos, digits, decimals)],
+//         })
+//     }
+// };
 
 export const nextQuestion = (playerno) => {
-    return {
-        type: actionTypes.CORRECT,
-        playerno:playerno
-    }
-};
-export const wrongAnswer = (playerno) => {
-    return {
-        type: actionTypes.WRONG,
-        playerno:playerno
+    return (dispatch, getstate) => {
+        const { nos, digits, decimals } = getstate().game.questiontype;
+        dispatch({
+            type: actionTypes.CORRECT,
+            playerno: playerno,
+            ...Utils.generateQuestion(nos, digits, decimals),
+        })
     }
 };
 
-export const complete = () => {
+export const wrongAnswer = (playerno) => {
+    return (dispatch, getstate) => {
+        const { nos, digits, decimals } = getstate().game.questiontype;
+        dispatch({
+            type: actionTypes.WRONG,
+            playerno: playerno,
+            ...Utils.generateQuestion(nos, digits, decimals),
+        })
+    }
+};
+
+export const complete = (playerno) => {
     return {
+        playerno: playerno,
         type: actionTypes.COMPLETE,
     }
 };
