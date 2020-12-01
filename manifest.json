@@ -19,7 +19,7 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "/",
+  "start_url": "/math-race",
   "display": "standalone",
   "orientation":"portrait",
   "theme_color": "#000000",
