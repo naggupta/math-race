@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/math-race/static/css/main.98fa3c77.chunk.css",
-    "main.js": "/math-race/static/js/main.700a83cf.chunk.js",
-    "main.js.map": "/math-race/static/js/main.700a83cf.chunk.js.map",
+    "main.css": "/math-race/static/css/main.8b9998cf.chunk.css",
+    "main.js": "/math-race/static/js/main.27a8ff9a.chunk.js",
+    "main.js.map": "/math-race/static/js/main.27a8ff9a.chunk.js.map",
     "runtime-main.js": "/math-race/static/js/runtime-main.960fb439.js",
     "runtime-main.js.map": "/math-race/static/js/runtime-main.960fb439.js.map",
-    "static/js/2.bbdb519e.chunk.js": "/math-race/static/js/2.bbdb519e.chunk.js",
-    "static/js/2.bbdb519e.chunk.js.map": "/math-race/static/js/2.bbdb519e.chunk.js.map",
+    "static/js/2.cadafec8.chunk.js": "/math-race/static/js/2.cadafec8.chunk.js",
+    "static/js/2.cadafec8.chunk.js.map": "/math-race/static/js/2.cadafec8.chunk.js.map",
     "index.html": "/math-race/index.html",
-    "precache-manifest.ac8bcdd594c078847815c236acfbeef3.js": "/math-race/precache-manifest.ac8bcdd594c078847815c236acfbeef3.js",
+    "precache-manifest.2c60b2f08f63c1948380d17982499101.js": "/math-race/precache-manifest.2c60b2f08f63c1948380d17982499101.js",
     "service-worker.js": "/math-race/service-worker.js",
-    "static/css/main.98fa3c77.chunk.css.map": "/math-race/static/css/main.98fa3c77.chunk.css.map",
-    "static/js/2.bbdb519e.chunk.js.LICENSE.txt": "/math-race/static/js/2.bbdb519e.chunk.js.LICENSE.txt"
+    "static/css/main.8b9998cf.chunk.css.map": "/math-race/static/css/main.8b9998cf.chunk.css.map",
+    "static/js/2.cadafec8.chunk.js.LICENSE.txt": "/math-race/static/js/2.cadafec8.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.960fb439.js",
-    "static/js/2.bbdb519e.chunk.js",
-    "static/css/main.98fa3c77.chunk.css",
-    "static/js/main.700a83cf.chunk.js"
+    "static/js/2.cadafec8.chunk.js",
+    "static/css/main.8b9998cf.chunk.css",
+    "static/js/main.27a8ff9a.chunk.js"
   ]
 }

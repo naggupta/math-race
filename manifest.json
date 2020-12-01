@@ -3,18 +3,18 @@
   "name": "Math Race",
   "icons": [
     {
-      "src": "images/logo.ico",
+      "src": "/math-race/images/logo.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "images/logo196.png",
+      "src": "/math-race/images/logo196.png",
       "type": "image/png",
       "sizes": "196x196",
       "purpose": "any maskable"
     },
     {
-      "src": "images/logo512.png",
+      "src": "/math-race/images/logo512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
