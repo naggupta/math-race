@@ -1,0 +1,43 @@
+.Score{
+    margin:10px;
+    padding:10px;
+    height:150px;
+    width:150px;
+}
+
+.RaceComplete{
+    margin:20px;
+}
+.RaceComplete > div:first-of-type .Score > span:first-child{
+    color: #3f51b5;
+}
+
+.RaceComplete > div:last-of-type .Score > span:first-child{
+    color: #e91e63;
+}
+
+.Score > span:first-child{
+    font-size:5em;
+}
+
+.Score > strong{
+    color: #FFF;
+    font-size: 2em;
+    top: 30px;
+}
+
+.ScoreLabel{
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 30px;
+    font-weight: bolder;
+    margin: 0px;
+    padding: 0px;
+}
+
+.RaceComplete button{
+    background-color: #3f51b5;
+    float: right;
+    margin-right: 180px;
+}

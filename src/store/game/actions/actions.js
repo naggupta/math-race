@@ -17,8 +17,8 @@ export const start = (playername1, playername2, questiontype = {
     return {
         type: actionTypes.START,
         questiontype: questiontype,
-        players: [{ id: 0, name: playername1, points: 0, wrong: 0, ...Utils.generateQuestion(questiontype.nos, questiontype.digits, questiontype.decimals), answerresult: '' },
-        { id: 1, name: playername2, points: 0, wrong: 0, ...Utils.generateQuestion(questiontype.nos, questiontype.digits, questiontype.decimals), answerresult: '' },
+        players: [{ id: 0, name: playername1, points: 0, wrong: 0, ...Utils.generateQuestion(questiontype), answerresult: '' },
+        { id: 1, name: playername2, points: 0, wrong: 0, ...Utils.generateQuestion(questiontype), answerresult: '' },
         ],
     }
 };
@@ -35,22 +35,22 @@ export const start = (playername1, playername2, questiontype = {
 
 export const nextQuestion = (playerno) => {
     return (dispatch, getstate) => {
-        const { nos, digits, decimals } = getstate().game.questiontype;
+        // const { nos, digits, decimals } = getstate().game.questiontype;
         dispatch({
             type: actionTypes.CORRECT,
             playerno: playerno,
-            ...Utils.generateQuestion(nos, digits, decimals),
+            ...Utils.generateQuestion(getstate().game.questiontype),
         })
     }
 };
 
 export const wrongAnswer = (playerno) => {
     return (dispatch, getstate) => {
-        const { nos, digits, decimals } = getstate().game.questiontype;
+        // const { nos, digits, decimals } = getstate().game.questiontype;
         dispatch({
             type: actionTypes.WRONG,
             playerno: playerno,
-            ...Utils.generateQuestion(nos, digits, decimals),
+            ...Utils.generateQuestion(getstate().game.questiontype),
         })
     }
 };

@@ -5,12 +5,14 @@ import * as ReducerActions from '../../store/game/actions/index'
 import Classes from './PlayerSection.module.css'
 import * as Utils from '../../Utils/QuestionGenerator'
 import DisplayMessage from '../../UI/DisplayMessage/DisplayMessage'
+import Modal from '../../UI/Modal/Modal'
 
 class PlayerSection extends PureComponent {
     state = {
         // filter: 'ytd',
         // answer: '',
         // answerresult: '',
+        closedisplay: false,
     }
 
     constructor(props) {
@@ -37,11 +39,11 @@ class PlayerSection extends PureComponent {
     }
 
     buttonTheme = () => {
-        return (this.props.playerno === '1' ? 'w3-ripple w3-hover-indigo w3-indigo' : 'w3-ripple w3-hover-red w3-red');
+        return (this.props.playerno === '1' ? 'w3-ripple w3-hover-indigo w3-indigo' : 'w3-ripple w3-hover-red w3-pink');
     }
 
     sectionTheme = () => {
-        return (this.props.playerno === '1' ? 'w3-indigo' : 'w3-red');
+        return (this.props.playerno === '1' ? 'w3-indigo' : 'w3-pink');
     }
 
     goClick = () => {
@@ -89,7 +91,7 @@ class PlayerSection extends PureComponent {
 
     render() {
         const player = this.props.players[this.props.playerno];
-        console.log('[PlayerSection] render', this.props.playerno, player.answerresult);
+        console.log('[PlayerSection] render', this.props.playerno, player.answerresult,'Points',player.points * (+this.props.questiontype.points - 1));
         // const messagedisplay = (player.answerresult) ? <DisplayMessage display={player.answerresult} /> : <Fragment />;
         const messagedisplay = (
             <Fragment>
@@ -104,9 +106,32 @@ class PlayerSection extends PureComponent {
         // this.setState({ answerresult: '' });
         return (
             <div className={[(this.props.playerno === '0' ? Classes._0 : Classes._1)].join(' ')}>
+                <Modal show={!!this.state.closedisplay} modelClosed={() => (this.setState({ closedisplay: false }))}>
+                    <span>Do you want to exit the game?</span>
+                    <div>
+                        <a
+                          role="button"
+                          onClick={this.props.reset}
+                          tabIndex={0}
+                          onKeyPress={this.props.reset}
+                          style={{ margin: '10px' }}
+                          className={['w3-button', 'w3-round-large', this.buttonTheme()].join(' ')}
+                        > Restart
+                        </a>
+                        <a
+                          role="button"
+                          onClick={() => (this.setState({ closedisplay: false }))}
+                          tabIndex={0}
+                          onKeyPress={() => (this.setState({ closedisplay: false }))}
+                          style={{ margin: '10px' }}
+                          className={['w3-button', 'w3-round-large', 'w3-grey'].join(' ')}
+                        > Cancel
+                        </a>
+                    </div>
+                </Modal>
                 {messagedisplay}
                 <div className={[Classes.PlayerCharacter].join(' ')}>
-                    <img style={{ position: 'absolute', transform: 'scaleX(1)', transition:'1s' ,left: `${player.points * 9}vw` }} alt={this.props.playerno} className={[Classes.PlayerCharacter, (this.props.playerno === 1 ? Classes._1 : Classes._2)].join(' ')} height="auto" width="100px" src={`/images/Fish_${this.props.playerno}.svg`} />
+                    <img style={{ position: 'absolute', transform: 'scaleX(1)', transition: '1s', left: `${player.points * (90 / +this.props.questiontype.points)}vw` }} alt={this.props.playerno} className={[Classes.PlayerCharacter, (this.props.playerno === 1 ? Classes._1 : Classes._2)].join(' ')} height="auto" width="100px" src={`/images/Fish_${this.props.playerno}.svg`} />
                 </div>
                 <div className={Classes.QuestionBar}>
                     <span className={[this.sectionTheme()].join(' ')}><span className={[Classes.PlayerName].join(' ')}>{player.name}</span></span>
@@ -119,16 +144,17 @@ class PlayerSection extends PureComponent {
                                 {player.points}
                             </strong>
                         </span>
-                        <a
-                          role="button"
-                          data-playerno={this.props.playerno}
-                          onClick={(e) => this.props.nextQuestion(e.currentTarget.dataset.playerno)}
-                          tabIndex={0}
-                          onKeyPress={(e) => this.props.nextQuestion(e.currentTarget.dataset.playerno)}
-                          className={Classes.Close}
-                        >
-                            <i className="fa fa-window-close" />
-                        </a>
+                        <div>
+                            <a
+                              role="button"
+                              onClick={() => (this.setState({ closedisplay: true }))}
+                              tabIndex={0}
+                              onKeyPress={() => (this.setState({ closedisplay: true }))}
+                              className={Classes.Close}
+                            >
+                                <i className="fa fa-window-close" />
+                            </a>
+                        </div>
                     </span>
                 </div>
                 <div className={Classes.ButtonBar}>
@@ -143,6 +169,7 @@ class PlayerSection extends PureComponent {
                     <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('9')} className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>9</button>
                     <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('0')} className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>0</button>
                     <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('.')} className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>.</button>
+                    <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('-')} className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>-</button>
                     <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('<')} className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>&lt;</button>
                     <input
                       ref={(e) => { this.inputAnswer = e }}
@@ -169,6 +196,7 @@ class PlayerSection extends PureComponent {
 
 const mapStateToProps = (state) => ({
     players: state.game.players,
+    questiontype: state.game.questiontype,
     totalpoints: state.game.questiontype.points,
 })
 

@@ -1,0 +1,21 @@
+.Modal {
+    left: 40vh;
+    z-index: 500;
+    position: fixed;
+    /* box-shadow: 1px 1px 1px black; */
+    padding: 16px;
+    box-sizing: border-box;
+    transition: all 0.3s ease-out;
+    margin-top: 100px;
+    /* top: 40vh; */
+    font-size: 1.5em;
+}
+
+.Close{
+    position: absolute;
+    right:5px;
+    top:-5px;
+    color: #FFF;
+    font-size: 1.1em;
+    cursor: pointer;
+}

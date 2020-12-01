@@ -1,7 +1,8 @@
-export const generateQuestion = (nos, digits, decimals = 0) => {
+export const generateQuestion = (questiontype) => {
     let currentnumber = 0;
     let question = '';
     let answer = 0;
+    const {nos, digits, decimals = 0}=questiontype;
     const totaldigits = digits + decimals;
     for (let i = 0; i < nos; i += 1) {
         const sign = (i === 0 || answer < 10 ** (totaldigits - 1) ? 1 : randomSign());

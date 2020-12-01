@@ -6,8 +6,8 @@ const initialState = {
     endtime: null,
     questiontype: {
         type: '+-',
-        nos: 2,
-        digits: 2,
+        nos: 3,
+        digits: 3,
         decimals: 0,
         points:10,
     },
@@ -24,7 +24,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 starttime: null,
                 endtime: null,
-                players: null,
+                // players: null,
             };
         case actionTypes.START: // Set Names and question actiontype:{} players:[{name}]}
             // action.players.forEach((player, index) => {

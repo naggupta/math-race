@@ -38,7 +38,7 @@ class RaceWrapper extends Component {
     render() {
         console.log('[Racewrapper] render', this.props.players, this.props.endtime);
 
-        if (!this.props.players)
+        if (!this.props.starttime)
             return (<div className={Classes.Race}><RaceSetup /></div>);
         else if (this.props.endtime)
             return (<div className={Classes.Race}><RaceComplete players={this.props.players} reset={this.props.reset} /></div>);
