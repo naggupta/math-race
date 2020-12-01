@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/math-race/static/css/main.20a2a965.chunk.css",
+    "main.js": "/math-race/static/js/main.7f25aa90.chunk.js",
+    "main.js.map": "/math-race/static/js/main.7f25aa90.chunk.js.map",
+    "runtime-main.js": "/math-race/static/js/runtime-main.960fb439.js",
+    "runtime-main.js.map": "/math-race/static/js/runtime-main.960fb439.js.map",
+    "static/js/2.bbdb519e.chunk.js": "/math-race/static/js/2.bbdb519e.chunk.js",
+    "static/js/2.bbdb519e.chunk.js.map": "/math-race/static/js/2.bbdb519e.chunk.js.map",
+    "index.html": "/math-race/index.html",
+    "precache-manifest.a36ad15d02f86bf44824f769c2505233.js": "/math-race/precache-manifest.a36ad15d02f86bf44824f769c2505233.js",
+    "service-worker.js": "/math-race/service-worker.js",
+    "static/css/main.20a2a965.chunk.css.map": "/math-race/static/css/main.20a2a965.chunk.css.map",
+    "static/js/2.bbdb519e.chunk.js.LICENSE.txt": "/math-race/static/js/2.bbdb519e.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.960fb439.js",
+    "static/js/2.bbdb519e.chunk.js",
+    "static/css/main.20a2a965.chunk.css",
+    "static/js/main.7f25aa90.chunk.js"
+  ]
+}
