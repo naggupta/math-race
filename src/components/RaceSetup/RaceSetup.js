@@ -58,8 +58,8 @@ class RaceSetup extends PureComponent {
         console.log('[RaceSetup] render');
 
         const { questiontype } = this.props;
-        const player1 = (this.props.players && this.props.players[0].name) || 'Hasana';
-        const player2 = (this.props.players && this.props.players[1].name) || 'Nanna';
+        const player1 = (this.props.players && this.props.players[1].name) || 'Hasana';
+        const player2 = (this.props.players && this.props.players[0].name) || 'Nanna';
 
         return (
             // <div>
