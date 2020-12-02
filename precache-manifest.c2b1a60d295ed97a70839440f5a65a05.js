@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "296bc23d8c4f13f9b5e5578e4beb59b0",
+    "revision": "b8f2d3195ab566d04185b403bce0be0f",
     "url": "/math-race/index.html"
   },
   {
-    "revision": "aaae61c2e6151b2575c9",
-    "url": "/math-race/static/css/main.f94a28f0.chunk.css"
+    "revision": "93a67994e87efa425ac1",
+    "url": "/math-race/static/css/main.d48ffbd8.chunk.css"
   },
   {
     "revision": "9108f811373ca66553fd",
@@ -16,7 +16,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/math-race/static/js/2.cadafec8.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "aaae61c2e6151b2575c9",
+    "revision": "93a67994e87efa425ac1",
     "url": "/math-race/static/js/main.275d1b8c.chunk.js"
   },
   {
