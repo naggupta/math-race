@@ -1,22 +1,28 @@
 {
   "files": {
-    "main.css": "/math-race/static/css/main.4f3964a0.chunk.css",
-    "main.js": "/math-race/static/js/main.5a9f94bf.chunk.js",
-    "main.js.map": "/math-race/static/js/main.5a9f94bf.chunk.js.map",
-    "runtime-main.js": "/math-race/static/js/runtime-main.960fb439.js",
-    "runtime-main.js.map": "/math-race/static/js/runtime-main.960fb439.js.map",
-    "static/js/2.cadafec8.chunk.js": "/math-race/static/js/2.cadafec8.chunk.js",
-    "static/js/2.cadafec8.chunk.js.map": "/math-race/static/js/2.cadafec8.chunk.js.map",
+    "main.css": "/math-race/static/css/main.da28875d.chunk.css",
+    "main.js": "/math-race/static/js/main.19bb76cb.chunk.js",
+    "main.js.map": "/math-race/static/js/main.19bb76cb.chunk.js.map",
+    "runtime-main.js": "/math-race/static/js/runtime-main.82cad08c.js",
+    "runtime-main.js.map": "/math-race/static/js/runtime-main.82cad08c.js.map",
+    "static/js/2.9ccd0989.chunk.js": "/math-race/static/js/2.9ccd0989.chunk.js",
+    "static/js/2.9ccd0989.chunk.js.map": "/math-race/static/js/2.9ccd0989.chunk.js.map",
+    "static/js/3.e1a26420.chunk.js": "/math-race/static/js/3.e1a26420.chunk.js",
+    "static/js/3.e1a26420.chunk.js.map": "/math-race/static/js/3.e1a26420.chunk.js.map",
     "index.html": "/math-race/index.html",
-    "precache-manifest.69ea8152714da31bf74186ef75740907.js": "/math-race/precache-manifest.69ea8152714da31bf74186ef75740907.js",
+    "precache-manifest.3316dddf7a572e0a04062cb24c4723a5.js": "/math-race/precache-manifest.3316dddf7a572e0a04062cb24c4723a5.js",
     "service-worker.js": "/math-race/service-worker.js",
-    "static/css/main.4f3964a0.chunk.css.map": "/math-race/static/css/main.4f3964a0.chunk.css.map",
-    "static/js/2.cadafec8.chunk.js.LICENSE.txt": "/math-race/static/js/2.cadafec8.chunk.js.LICENSE.txt"
+    "static/css/main.da28875d.chunk.css.map": "/math-race/static/css/main.da28875d.chunk.css.map",
+    "static/js/2.9ccd0989.chunk.js.LICENSE.txt": "/math-race/static/js/2.9ccd0989.chunk.js.LICENSE.txt",
+    "static/js/3.e1a26420.chunk.js.LICENSE.txt": "/math-race/static/js/3.e1a26420.chunk.js.LICENSE.txt",
+    "static/media/movingfish.mp3": "/math-race/static/media/movingfish.9529495e.mp3",
+    "static/media/success.mp3": "/math-race/static/media/success.9145040e.mp3",
+    "static/media/wrong.mp3": "/math-race/static/media/wrong.1cb7c040.mp3"
   },
   "entrypoints": [
-    "static/js/runtime-main.960fb439.js",
-    "static/js/2.cadafec8.chunk.js",
-    "static/css/main.4f3964a0.chunk.css",
-    "static/js/main.5a9f94bf.chunk.js"
+    "static/js/runtime-main.82cad08c.js",
+    "static/js/2.9ccd0989.chunk.js",
+    "static/css/main.da28875d.chunk.css",
+    "static/js/main.19bb76cb.chunk.js"
   ]
 }
