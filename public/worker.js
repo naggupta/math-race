@@ -1,6 +1,6 @@
 const CACHE_NAME = 'math-race';
 const urlsToCache = [
-    '/',
+    '/math-race',
 ];
 
 // Install a service worker

@@ -6,7 +6,7 @@ function RaceComplete(props) {
       ? props.players[0].name
       : props.players[1].name;
 
-  const players = props.players.reverse().map((player) => {
+  const players = [...props.players].reverse().map((player) => {
     const score = +player.points - player.wrong + (winner === player.name ? 10 : 0);
     return (
       <div key={player.key}>
@@ -36,7 +36,7 @@ function RaceComplete(props) {
           <strong className="fa-stack-1x">
             {winner === player.name ? 10 : 0}
           </strong>
-          <span className={Classes.ScoreLabel}>Win Bonous</span>
+          <span className={Classes.ScoreLabel}>Win Bonus</span>
         </span>
         <span className={['fa-stack', Classes.Score].join(' ')}>
           <span className={['fa fa-star fa-stack-2x'].join(' ')} />

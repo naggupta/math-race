@@ -10,6 +10,7 @@ body {
 
 body, html,#root {
   height: 100%;
+  overflow: hidden;
 }
 
 code {
@@ -19,7 +20,8 @@ code {
 
 
 *{
-  box-sizing:border-box
+  box-sizing:border-box;
+  touch-action: manipulation;
 }
 
 *:focus {

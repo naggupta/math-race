@@ -1,11 +1,15 @@
 import React, { Component, Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import useSound from 'use-sound';
 import * as ReducerActions from '../../store/game/actions/index';
 import Classes from './PlayerSection.module.css';
 import * as Utils from '../../Utils/QuestionGenerator';
 import DisplayMessage from '../../UI/DisplayMessage/DisplayMessage';
 import Modal from '../../UI/Modal/Modal';
+import successSound from '../../sounds/success.mp3';
+import wrongSound from '../../sounds/wrong.mp3';
+import movingFishSound from '../../sounds/movingfish.mp3';
 
 class PlayerSection extends PureComponent {
   state = {
@@ -39,9 +43,7 @@ class PlayerSection extends PureComponent {
   }
 
   buttonTheme = () => {
-    return this.props.playerno === '1'
-      ? 'w3-ripple w3-hover-indigo w3-indigo'
-      : 'w3-ripple w3-hover-red w3-pink';
+    return this.props.playerno === '1' ? 'w3-ripple w3-hover-indigo w3-indigo' : 'w3-ripple w3-hover-red w3-pink';
   };
 
   sectionTheme = () => {
@@ -55,7 +57,7 @@ class PlayerSection extends PureComponent {
     const wrongref = this.wrongRef.current;
     if (!this.inputAnswer.value) return;
     if (+this.inputAnswer.value === +player.answer) {
-      if (player.points === this.props.totalpoints - 1) {
+      if (player.points === player.questiontype.points - 1) {
         // alert(`${player.name} Win`);
         // this.props.reset();
         this.props.complete(this.props.playerno);
@@ -65,6 +67,7 @@ class PlayerSection extends PureComponent {
       questionRef.classList.remove(Classes.ShowQuestion);
       correctref.classList.add(Classes.MessageAnimate);
       questionRef.classList.add(Classes.HideQuestion);
+      
       setTimeout(() => {
         this.props.nextQuestion(this.props.playerno);
         // this.setState({ answer: '' });
@@ -73,8 +76,10 @@ class PlayerSection extends PureComponent {
         questionRef.classList.remove(Classes.HideQuestion);
         questionRef.classList.add(Classes.ShowQuestion);
       }, 1000);
+      // useSound(successSound);
     } else {
       wrongref.classList.add(Classes.MessageAnimate);
+      // useSound(wrongSound);
       setTimeout(() => {
         this.props.wrongAnswer(this.props.playerno);
         // this.setState({ answer: '' });
@@ -85,62 +90,31 @@ class PlayerSection extends PureComponent {
   };
 
   appendAnswer = (val) => {
-    if (val === '<')
-      this.inputAnswer.value = this.inputAnswer.value.slice(0, -1);
+    if (val === '<') this.inputAnswer.value = this.inputAnswer.value.slice(0, -1);
     else this.inputAnswer.value += `${val}`;
   };
 
   render() {
     const player = this.props.players[this.props.playerno];
-    console.log(
-      '[PlayerSection] render',
-      this.props.playerno,
-      player.answerresult,
-      'Points',
-      player.points * (+this.props.questiontype.points - 1),
-    );
+    console.log('[PlayerSection] render', this.props.playerno, player.answerresult, 'Points', player.points * (+player.questiontype.points - 1));
     // const messagedisplay = (player.answerresult) ? <DisplayMessage display={player.answerresult} /> : <Fragment />;
     const messagedisplay = (
       <Fragment>
-        <div
-          ref={this.correctRef}
-          className={[Classes.DisplayMessage, Classes.Correct].join(' ')}
-        >
+        <div ref={this.correctRef} className={[Classes.DisplayMessage, Classes.Correct].join(' ')}>
           <i style={{ margin: '5px' }} className="fa fa-check" />
         </div>
-        <div
-          ref={this.wrongRef}
-          className={[Classes.DisplayMessage, Classes.Wrong].join(' ')}
-        >
+        <div ref={this.wrongRef} className={[Classes.DisplayMessage, Classes.Wrong].join(' ')}>
           {player.answer}
         </div>
       </Fragment>
     );
     // this.setState({ answerresult: '' });
     return (
-      <div
-        className={[this.props.playerno === '0' ? Classes._0 : Classes._1].join(
-          ' ',
-        )}
-      >
-        <Modal
-          show={!!this.state.closedisplay}
-          modelClosed={() => this.setState({ closedisplay: false })}
-        >
+      <div className={[this.props.playerno === '0' ? Classes._0 : Classes._1].join(' ')}>
+        <Modal show={!!this.state.closedisplay} modelClosed={() => this.setState({ closedisplay: false })}>
           <span>Do you want to exit the game?</span>
           <div>
-            <a
-              role="button"
-              onClick={this.props.reset}
-              tabIndex={0}
-              onKeyPress={this.props.reset}
-              style={{ margin: '10px' }}
-              className={[
-                'w3-button',
-                'w3-round-large',
-                this.buttonTheme(),
-              ].join(' ')}
-            >
+            <a role="button" onClick={this.props.reset} tabIndex={0} onKeyPress={this.props.reset} style={{ margin: '10px' }} className={['w3-button', 'w3-round-large', this.buttonTheme()].join(' ')}>
               {' '}
               Restart
             </a>
@@ -162,17 +136,12 @@ class PlayerSection extends PureComponent {
           <img
             style={{
               position: 'absolute',
-              transform: 'scaleX(1)',
+              transform: +this.props.playerno === 0 ? 'scaleX(1)' : 'rotateX(180deg)',
               transition: '1s',
-              left: `${
-                player.points * (90 / +this.props.questiontype.points)
-              }vw`,
+              left: `${player.points * (90 / +player.questiontype.points)}vw`,
             }}
             alt={this.props.playerno}
-            className={[
-              Classes.PlayerCharacter,
-              this.props.playerno === 1 ? Classes._1 : Classes._2,
-            ].join(' ')}
+            className={[Classes.PlayerCharacter, this.props.playerno === 1 ? Classes._1 : Classes._2].join(' ')}
             height="auto"
             width="100px"
             src={`${process.env.PUBLIC_URL}/images/Fish_${this.props.playerno}.svg`}
@@ -180,18 +149,24 @@ class PlayerSection extends PureComponent {
         </div>
         <div className={Classes.QuestionBar}>
           <span className={[this.sectionTheme()].join(' ')}>
-            <span className={[Classes.PlayerName].join(' ')}>
-              {player.name}
-            </span>
+            <span className={[Classes.PlayerName].join(' ')}>{player.name}</span>
           </span>
           {/* <span className={Classes.Question}><span style={{fontSize:'2.5em'}}>Emily has £46.20. She wants to buy a new e-book. It costs £20. How much more money does she need to Save?</span></span> */}
           <span ref={this.questionRef} className={Classes.Question}>
             <span style={{ fontSize: '3em' }}>{`${player.question}?`}</span>
+            <input
+              ref={(e) => {
+                this.inputAnswer = e;
+              }}
+              onKeyDown={() => false}
+              onKeyPress={() => false}
+              onKeyUp={() => false}
+              type="text"
+              maxLength="7"
+              className={['w3-btn', 'w3-round-large', this.sectionTheme(), Classes.Answer].join(' ')}
+            />
           </span>
-          <span
-            style={{ position: 'relative' }}
-            className={[this.sectionTheme()].join(' ')}
-          >
+          <span style={{ position: 'relative' }} className={[this.sectionTheme()].join(' ')}>
             <span className={['fa-stack', Classes.Score].join(' ')}>
               <span className={['fa fa-star fa-stack-2x'].join(' ')} />
               <strong className="fa-stack-1x" style={{ color: '#000' }}>
@@ -199,214 +174,58 @@ class PlayerSection extends PureComponent {
               </strong>
             </span>
             <div>
-              <a
-                role="button"
-                onClick={() => this.setState({ closedisplay: true })}
-                tabIndex={0}
-                onKeyPress={() => this.setState({ closedisplay: true })}
-                className={Classes.Close}
-              >
+              <a role="button" onClick={() => this.setState({ closedisplay: true })} tabIndex={0} onKeyPress={() => this.setState({ closedisplay: true })} className={Classes.Close}>
                 <i className="fa fa-window-close" />
               </a>
             </div>
           </span>
         </div>
         <div className={Classes.ButtonBar}>
-          <button
-            type="button"
-            data-playerno={this.props.playerno}
-            onClick={() => this.appendAnswer('1')}
-            className={[
-              'w3-button',
-              'w3-round-large',
-              this.buttonTheme(),
-              Classes.BtnNumber,
-            ].join(' ')}
-          >
+          <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('1')} className={['w3-button', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>
             1
           </button>
-          <button
-            type="button"
-            data-playerno={this.props.playerno}
-            onClick={() => this.appendAnswer('2')}
-            className={[
-              'w3-btn',
-              'w3-round-large',
-              this.buttonTheme(),
-              Classes.BtnNumber,
-            ].join(' ')}
-          >
+          <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('2')} className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>
             2
           </button>
-          <button
-            type="button"
-            data-playerno={this.props.playerno}
-            onClick={() => this.appendAnswer('3')}
-            className={[
-              'w3-btn',
-              'w3-round-large',
-              this.buttonTheme(),
-              Classes.BtnNumber,
-            ].join(' ')}
-          >
+          <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('3')} className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>
             3
           </button>
-          <button
-            type="button"
-            data-playerno={this.props.playerno}
-            onClick={() => this.appendAnswer('4')}
-            className={[
-              'w3-btn',
-              'w3-round-large',
-              this.buttonTheme(),
-              Classes.BtnNumber,
-            ].join(' ')}
-          >
+          <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('4')} className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>
             4
           </button>
-          <button
-            type="button"
-            data-playerno={this.props.playerno}
-            onClick={() => this.appendAnswer('5')}
-            className={[
-              'w3-btn',
-              'w3-round-large',
-              this.buttonTheme(),
-              Classes.BtnNumber,
-            ].join(' ')}
-          >
+          <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('5')} className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>
             5
           </button>
-          <button
-            type="button"
-            data-playerno={this.props.playerno}
-            onClick={() => this.appendAnswer('6')}
-            className={[
-              'w3-btn',
-              'w3-round-large',
-              this.buttonTheme(),
-              Classes.BtnNumber,
-            ].join(' ')}
-          >
+          <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('6')} className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>
             6
           </button>
-          <button
-            type="button"
-            data-playerno={this.props.playerno}
-            onClick={() => this.appendAnswer('7')}
-            className={[
-              'w3-btn',
-              'w3-round-large',
-              this.buttonTheme(),
-              Classes.BtnNumber,
-            ].join(' ')}
-          >
+          <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('7')} className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>
             7
           </button>
-          <button
-            type="button"
-            data-playerno={this.props.playerno}
-            onClick={() => this.appendAnswer('8')}
-            className={[
-              'w3-btn',
-              'w3-round-large',
-              this.buttonTheme(),
-              Classes.BtnNumber,
-            ].join(' ')}
-          >
+          <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('8')} className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>
             8
           </button>
-          <button
-            type="button"
-            data-playerno={this.props.playerno}
-            onClick={() => this.appendAnswer('9')}
-            className={[
-              'w3-btn',
-              'w3-round-large',
-              this.buttonTheme(),
-              Classes.BtnNumber,
-            ].join(' ')}
-          >
+          <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('9')} className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>
             9
           </button>
-          <button
-            type="button"
-            data-playerno={this.props.playerno}
-            onClick={() => this.appendAnswer('0')}
-            className={[
-              'w3-btn',
-              'w3-round-large',
-              this.buttonTheme(),
-              Classes.BtnNumber,
-            ].join(' ')}
-          >
+          <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('0')} className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>
             0
           </button>
-          <button
-            type="button"
-            data-playerno={this.props.playerno}
-            onClick={() => this.appendAnswer('.')}
-            className={[
-              'w3-btn',
-              'w3-round-large',
-              this.buttonTheme(),
-              Classes.BtnNumber,
-            ].join(' ')}
-          >
+          <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('.')} className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>
             .
           </button>
-          <button
-            type="button"
-            data-playerno={this.props.playerno}
-            onClick={() => this.appendAnswer('-')}
-            className={[
-              'w3-btn',
-              'w3-round-large',
-              this.buttonTheme(),
-              Classes.BtnNumber,
-            ].join(' ')}
-          >
+          <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('-')} className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>
             -
           </button>
-          <button
-            type="button"
-            data-playerno={this.props.playerno}
-            onClick={() => this.appendAnswer('<')}
-            className={[
-              'w3-btn',
-              'w3-round-large',
-              this.buttonTheme(),
-              Classes.BtnNumber,
-            ].join(' ')}
-          >
+          <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('<')} className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>
             &lt;
           </button>
-          <input
-            ref={(e) => {
-              this.inputAnswer = e;
-            }}
-            onKeyDown={() => false}
-            onKeyPress={() => false}
-            onKeyUp={() => false}
-            type="text"
-            maxLength="7"
-            className={[
-              'w3-btn',
-              'w3-round-large',
-              this.sectionTheme(),
-              Classes.Answer,
-            ].join(' ')}
-          />
+
           <button
             type="button"
             data-playerno={this.props.playerno}
             onClick={(e) => this.goClick(e.currentTarget.dataset.playerno)}
-            className={[
-              'w3-btn',
-              'w3-round-large',
-              this.buttonTheme(),
-              Classes.BtnGo,
-            ].join(' ')}
+            className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnGo].join(' ')}
           >
             GO
           </button>
@@ -418,8 +237,8 @@ class PlayerSection extends PureComponent {
 
 const mapStateToProps = (state) => ({
   players: state.game.players,
-  questiontype: state.game.questiontype,
-  totalpoints: state.game.questiontype.points,
+  // questiontype: state.game.questiontype,
+  // totalpoints: state.game.questiontype.points,
 });
 
 const mapDispatchToProps = (dispatch) => ({
