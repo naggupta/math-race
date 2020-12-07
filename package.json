@@ -11,6 +11,7 @@
     "filter-invalid-dom-props": "^2.0.0",
     "highcharts": "^8.1.2",
     "highcharts-react-official": "^3.0.0",
+    "howler": "^2.2.1",
     "idb-keyval": "^3.2.0",
     "jquery": "^3.5.0",
     "prop-types": "^15.7.2",
@@ -26,14 +27,18 @@
     "react-window-infinite-loader": "^1.0.5",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "use-sound": "^2.0.1"
+    "workbox-core": "^6.0.2",
+    "workbox-expiration": "^6.0.2",
+    "workbox-precaching": "^6.0.2",
+    "workbox-routing": "^6.0.2",
+    "workbox-strategies": "^6.0.2"
   },
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
+    "start": "react-scripts start --no-cache",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --no-cache",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

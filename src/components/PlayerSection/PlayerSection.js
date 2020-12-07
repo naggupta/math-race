@@ -1,7 +1,8 @@
 import React, { Component, Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import useSound from 'use-sound';
+// import useSound from 'use-sound';
+import { Howl, Howler } from 'howler';
 import * as ReducerActions from '../../store/game/actions/index';
 import Classes from './PlayerSection.module.css';
 import * as Utils from '../../Utils/QuestionGenerator';
@@ -10,8 +11,18 @@ import Modal from '../../UI/Modal/Modal';
 import successSound from '../../sounds/success.mp3';
 import wrongSound from '../../sounds/wrong.mp3';
 import movingFishSound from '../../sounds/movingfish.mp3';
+import clickSound from '../../sounds/click.mp3';
+import clapsSound from '../../sounds/claps.mp3';
+// // import PlaySound from '../../Utils/PlaySound';
+// import UIfx from 'uifx';
 
 class PlayerSection extends PureComponent {
+  success = new Howl({ src: successSound, volume: 0.1 });
+  wrong = new Howl({ src: wrongSound, volume: 0.1 });
+  click = new Howl({ src: clickSound, volume: 0.5 });
+  movingfish = new Howl({ src: movingFishSound, volume: 1 });
+  claps = new Howl({ src: clapsSound, volume: 0.5 });
+
   state = {
     // filter: 'ytd',
     // answer: '',
@@ -55,19 +66,27 @@ class PlayerSection extends PureComponent {
     const correctref = this.correctRef.current;
     const questionRef = this.questionRef.current;
     const wrongref = this.wrongRef.current;
+
     if (!this.inputAnswer.value) return;
     if (+this.inputAnswer.value === +player.answer) {
       if (player.points === player.questiontype.points - 1) {
         // alert(`${player.name} Win`);
         // this.props.reset();
-        this.props.complete(this.props.playerno);
+        this.success.play();
+        this.movingfish.play();
+        this.props.win(this.props.playerno);
+        setTimeout(() => {
+          this.props.complete(this.props.playerno);
+          this.claps.play();
+        }, 2000);
+
         return;
       }
       // wrapper.style.visibility = 'true';
       questionRef.classList.remove(Classes.ShowQuestion);
       correctref.classList.add(Classes.MessageAnimate);
       questionRef.classList.add(Classes.HideQuestion);
-      
+
       setTimeout(() => {
         this.props.nextQuestion(this.props.playerno);
         // this.setState({ answer: '' });
@@ -76,7 +95,9 @@ class PlayerSection extends PureComponent {
         questionRef.classList.remove(Classes.HideQuestion);
         questionRef.classList.add(Classes.ShowQuestion);
       }, 1000);
-      // useSound(successSound);
+      this.success.play();
+      this.movingfish.play();
+      // new UIfx({ asset: successSound }).play();
     } else {
       wrongref.classList.add(Classes.MessageAnimate);
       // useSound(wrongSound);
@@ -86,12 +107,15 @@ class PlayerSection extends PureComponent {
         this.inputAnswer.value = '';
         wrongref.classList.remove(Classes.MessageAnimate);
       }, 1000);
+      this.wrong.play();
+      // new UIfx({ asset: wrongSound }).play();
     }
   };
 
   appendAnswer = (val) => {
     if (val === '<') this.inputAnswer.value = this.inputAnswer.value.slice(0, -1);
     else this.inputAnswer.value += `${val}`;
+    this.click.play();
   };
 
   render() {
@@ -137,7 +161,7 @@ class PlayerSection extends PureComponent {
             style={{
               position: 'absolute',
               transform: +this.props.playerno === 0 ? 'scaleX(1)' : 'rotateX(180deg)',
-              transition: '1s',
+              transition: '2s',
               left: `${player.points * (90 / +player.questiontype.points)}vw`,
             }}
             alt={this.props.playerno}
@@ -148,12 +172,27 @@ class PlayerSection extends PureComponent {
           />
         </div>
         <div className={Classes.QuestionBar}>
-          <span className={[this.sectionTheme()].join(' ')}>
-            <span className={[Classes.PlayerName].join(' ')}>{player.name}</span>
-          </span>
+          <div>
+            <span className={[this.sectionTheme()].join(' ')}>
+              <span className={[Classes.PlayerName].join(' ')}>{player.name}</span>
+            </span>
+            <span style={{ position: 'relative' }} className={[this.sectionTheme()].join(' ')}>
+              <span className={['fa-stack', Classes.Score].join(' ')}>
+                <span className={['fa fa-star fa-stack-2x'].join(' ')} />
+                <strong className="fa-stack-1x" style={{ color: '#000' }}>
+                  {player.points}
+                </strong>
+              </span>
+              <div>
+                <a role="button" onClick={() => this.setState({ closedisplay: true })} tabIndex={0} onKeyPress={() => this.setState({ closedisplay: true })} className={Classes.Close}>
+                  <i className="fa fa-window-close" />
+                </a>
+              </div>
+            </span>
+          </div>
           {/* <span className={Classes.Question}><span style={{fontSize:'2.5em'}}>Emily has £46.20. She wants to buy a new e-book. It costs £20. How much more money does she need to Save?</span></span> */}
           <span ref={this.questionRef} className={Classes.Question}>
-            <span style={{ fontSize: '3em' }}>{`${player.question}?`}</span>
+            <span style={{ fontSize: '2.5em' }}>{`${player.question}?`}</span>
             <input
               ref={(e) => {
                 this.inputAnswer = e;
@@ -165,19 +204,6 @@ class PlayerSection extends PureComponent {
               maxLength="7"
               className={['w3-btn', 'w3-round-large', this.sectionTheme(), Classes.Answer].join(' ')}
             />
-          </span>
-          <span style={{ position: 'relative' }} className={[this.sectionTheme()].join(' ')}>
-            <span className={['fa-stack', Classes.Score].join(' ')}>
-              <span className={['fa fa-star fa-stack-2x'].join(' ')} />
-              <strong className="fa-stack-1x" style={{ color: '#000' }}>
-                {player.points}
-              </strong>
-            </span>
-            <div>
-              <a role="button" onClick={() => this.setState({ closedisplay: true })} tabIndex={0} onKeyPress={() => this.setState({ closedisplay: true })} className={Classes.Close}>
-                <i className="fa fa-window-close" />
-              </a>
-            </div>
           </span>
         </div>
         <div className={Classes.ButtonBar}>
@@ -247,7 +273,8 @@ const mapDispatchToProps = (dispatch) => ({
   // start: () => dispatch(ReducerActions.start()),
   nextQuestion: (playerno) => dispatch(ReducerActions.nextQuestion(playerno)),
   wrongAnswer: (playerno) => dispatch(ReducerActions.wrongAnswer(playerno)),
-  complete: (playerno) => dispatch(ReducerActions.complete(playerno)),
+  win: (playerno) => dispatch(ReducerActions.win(playerno)),
+  complete: () => dispatch(ReducerActions.complete()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerSection);

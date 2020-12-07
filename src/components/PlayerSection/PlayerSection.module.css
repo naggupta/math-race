@@ -22,11 +22,11 @@
 }
 
 .PlayerCharacter{
-    height: 150px;
+    height: 75px;
 }
 
 
-.QuestionBar > span >span {
+.QuestionBar >div > span >span {
     font-size: 2em;
     border-radius: 10px;
     opacity: .8;
@@ -39,11 +39,11 @@
 .QuestionBar{
     display:flex;
     flex-flow: row nowrap;
-    height: calc(50vh - 260px);
+    height: calc(50vh - 175px);
 }
 
 
-.QuestionBar > span{
+.QuestionBar > div >span{
     display:flex;
     width:150px;
     margin: 10px;
@@ -51,7 +51,7 @@
     align-self: center;
     opacity: .8;
     border-radius: 10px;
-    height: 100px;
+    height: 90px;
     align-items: center;
 }
 .QuestionBar .Question{
@@ -61,7 +61,7 @@
     opacity: .8;
     border-radius: 10px 10px 0 0;
     margin: 10px 10px 0px 10px;
-    align-self: auto;
+    /* align-self: auto; */
     color: #000;
     font-weight: bold;
     /* font-size: 2.5em; */
@@ -69,9 +69,16 @@
     padding: 10px;
     /* display: inline-block; */
     height: calc(100% - 10px);
-    /* animation-duration: 1s;
-    animation-name: show-question;
-    opacity: 1; */
+    position: relative;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    
+}
+
+.QuestionBar .Question span{
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 90%, 85% 100%, 0 100%);
+    opacity: .8;
 }
 
 .Close{
@@ -128,6 +135,9 @@
     /* align-self: center; */
     width: 145px;
     font-size: 2em;
+    right: 4px;
+    position: absolute;
+    bottom: 0px;
 }
 
 .BtnGo,.BtnNumber{
@@ -190,7 +200,7 @@
     visibility: hidden;
     animation-duration: 1s;
     visibility: hidden;
-    top: 110px;
+    top: 50px;
     position: absolute;
     left: 50vw;
     font-size: 2em;
@@ -215,7 +225,7 @@
 @keyframes hide-animation{
     0% {
         visibility: visible;
-        top:110px;
+        top:50px;
         opacity: .6;
       }
 

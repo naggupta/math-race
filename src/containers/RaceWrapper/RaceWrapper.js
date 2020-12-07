@@ -27,15 +27,8 @@ class RaceWrapper extends Component {
   }
 
   shouldComponentUpdate(nextProps, newState) {
-    console.log(
-      '[RaceWrapper] shouldComponentUpdate',
-      !this.props.players && nextProps.players,
-    );
-    return (
-      (!this.props.players && nextProps.players)
-      || this.props.starttime !== nextProps.starttime
-      || this.props.endtime !== nextProps.endtime
-    );
+    console.log('[RaceWrapper] shouldComponentUpdate', !this.props.players && nextProps.players);
+    return (!this.props.players && nextProps.players) || this.props.starttime !== nextProps.starttime || this.props.endtime !== nextProps.endtime;
     // return true;
   }
 
@@ -55,15 +48,13 @@ class RaceWrapper extends Component {
         </div>
       );
 
-    const players = this.props.players.map((player, index) => (
-      <PlayerSection key={player.id} playerno={`${player.id}`} />
-    ));
+    const players = this.props.players.map((player, index) => (player.name ? <PlayerSection key={player.id} playerno={`${player.id}`} /> : <Fragment key={player.id} />));
     // console.log('[Race] render', this.props.players);
     return (
       <div
         className={Classes.Race}
         style={{
-          backgroundImage: `url(${process.env.PUBLIC_URL}/images/rock.svg), url(${process.env.PUBLIC_URL}/images/underwater.jpg)`,
+          backgroundImage: `url(${process.env.PUBLIC_URL}/images/underwater.png)`,
         }}
       >
         {players}

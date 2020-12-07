@@ -3,5 +3,6 @@ export {
     start,
     nextQuestion,
     wrongAnswer,
+    win,
     complete,
 } from './actions';

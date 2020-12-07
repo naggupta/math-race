@@ -7,6 +7,7 @@ const questiontype = {
   digits: 2,
   decimals: 0,
   points: 10,
+  inwords: false,
 };
 const player = {
   name: null,
@@ -83,13 +84,21 @@ const reducer = (state = initialState, action) => {
         ...state,
         players: players,
       };
+      case actionTypes.WIN:
+        players = [...state.players];
+        players[action.playerno].points += 1;
+        return {
+          ...state,
+          // endtime: new Date(),
+          players: [...players],
+        };
     case actionTypes.COMPLETE:
-      players = [...state.players];
-      players[action.playerno].points += 1;
+      // players = [...state.players];
+      // players[action.playerno].points += 1;
       return {
         ...state,
         endtime: new Date(),
-        players: [...players],
+        // players: [...players],
       };
     default:
       return state;

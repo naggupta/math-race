@@ -55,9 +55,15 @@ export const wrongAnswer = (playerno) => {
   };
 };
 
-export const complete = (playerno) => {
+export const complete = () => {
+  return {
+    type: actionTypes.COMPLETE,
+  };
+};
+
+export const win = (playerno) => {
   return {
     playerno: playerno,
-    type: actionTypes.COMPLETE,
+    type: actionTypes.WIN,
   };
 };
