@@ -75,14 +75,14 @@
    margin:5px;
  }
 
- .Options .ExtraWide label{
+ /* .Options .ExtraWide label{
     width: 100px;
     font-size: 1.2em;
  }
 
  .Options .ExtraWide input[type="radio"]{
     width: 100px;
- }
+ } */
  
 
   .Options label {
