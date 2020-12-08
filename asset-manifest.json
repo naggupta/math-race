@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/math-race/static/css/main.6045fd99.chunk.css",
-    "main.js": "/math-race/static/js/main.c9eaa517.chunk.js",
-    "main.js.map": "/math-race/static/js/main.c9eaa517.chunk.js.map",
+    "main.js": "/math-race/static/js/main.703d2f42.chunk.js",
+    "main.js.map": "/math-race/static/js/main.703d2f42.chunk.js.map",
     "runtime-main.js": "/math-race/static/js/runtime-main.960fb439.js",
     "runtime-main.js.map": "/math-race/static/js/runtime-main.960fb439.js.map",
     "static/js/2.bf477fe6.chunk.js": "/math-race/static/js/2.bf477fe6.chunk.js",
     "static/js/2.bf477fe6.chunk.js.map": "/math-race/static/js/2.bf477fe6.chunk.js.map",
     "index.html": "/math-race/index.html",
-    "precache-manifest.889df3397dab5eaf2aecf2b910441e74.js": "/math-race/precache-manifest.889df3397dab5eaf2aecf2b910441e74.js",
+    "precache-manifest.da280e58f7a6fe57dc230063651a8d4f.js": "/math-race/precache-manifest.da280e58f7a6fe57dc230063651a8d4f.js",
     "service-worker.js": "/math-race/service-worker.js",
     "static/css/main.6045fd99.chunk.css.map": "/math-race/static/css/main.6045fd99.chunk.css.map",
     "static/js/2.bf477fe6.chunk.js.LICENSE.txt": "/math-race/static/js/2.bf477fe6.chunk.js.LICENSE.txt",
@@ -22,6 +22,6 @@
     "static/js/runtime-main.960fb439.js",
     "static/js/2.bf477fe6.chunk.js",
     "static/css/main.6045fd99.chunk.css",
-    "static/js/main.c9eaa517.chunk.js"
+    "static/js/main.703d2f42.chunk.js"
   ]
 }
