@@ -61,21 +61,21 @@ export const generatePlusMinusQuestion = (questiontype) => {
   const { type, nos, digits, inwords } = questiontype;
   let { decimals = 0 } = questiontype;
   if (inwords) decimals = 0;
-  const symbols=[];
+  const symbols = [];
 
   const totaldigits = digits + decimals;
   for (let i = 0; i < nos; i += 1) {
     const temptype = type;
     let sign = '+';
     if (i === 0 || answer < 10 ** (totaldigits - 1)) sign = '+';
-    else if ((answer >= 100 || answer <= 10) && type === '+-x' && digits>1) sign = randomSign('+-');
-    else if ((answer > 10) && type === '+-x' && digits===1) sign = randomSign('+-');
-    else if (i>1 && type === '+-x' && !symbols.includes('x') && answer>9 && answer<100 && digits>1) sign = 'x'
-    else if (i>1 && type === '+-x' && !symbols.includes('x') && answer<10  && digits===1) sign = 'x'
+    else if ((answer >= 100 || answer <= 10) && type === '+-x' && digits > 1) sign = randomSign('+-');
+    else if (answer > 10 && type === '+-x' && digits === 1) sign = randomSign('+-');
+    else if (i > 1 && type === '+-x' && !symbols.includes('x') && answer > 9 && answer < 100 && digits > 1) sign = 'x';
+    else if (i > 1 && type === '+-x' && !symbols.includes('x') && answer < 10 && digits === 1) sign = 'x';
     else sign = randomSign(temptype);
     // const sign = i === 0 || answer < 10 ** (totaldigits - 1) ? '+' : randomSign(temptype);
     symbols.push(sign);
-    
+
     let tonumber = 10 ** totaldigits - 1;
     let fromnumber = 10 ** (totaldigits - 1) + 1;
     if (sign === 'x') {
@@ -124,4 +124,13 @@ const randomSign = (type) => {
   //     console.log(`${(max * decimalnumber)},${(min * decimalnumber) + 1}`)
   //     return Math.floor(Math.random() * ((max * decimalnumber) - (min * decimalnumber) + 1) + (min * decimalnumber)) / decimalnumber;
   // }
+};
+
+const replaceString = () => {
+  const replacements = { '{NAME}': 'Mike', '{AGE}': '26', '{EVENT}': '20' };
+    let str = 'My Name is {NAME} and my age is {AGE}.';
+
+  str = str.replace(/{\w+}/g, (all) => {
+    return replacements[`{${all}}`] || all;
+  });
 };
