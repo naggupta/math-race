@@ -1,3 +1,5 @@
+/* eslint-disable prefer-const */
+/* eslint-disable no-restricted-syntax */
 const shouldPrefixWithOne = (n) => {
   return n >= 100;
 };
@@ -68,10 +70,12 @@ const numberToEnglish = (val, options = {}) => {
 
   let numToConvert = parseInt(val, 10);
 
+  // eslint-disable-next-line no-restricted-globals
   if (isNaN(numToConvert)) {
     return 'not a number';
   }
 
+  // eslint-disable-next-line no-restricted-globals
   if (!isFinite(numToConvert)) {
     return 'infinity';
   }
@@ -101,6 +105,7 @@ const numberToEnglish = (val, options = {}) => {
 
   // How many 'closestSmallerNumber's can numToConvert be grouped into?
   // e.g. five 'thousand'.
+  // eslint-disable-next-line prefer-const
   prefixNum = Math.floor(numToConvert / closestSmallerNumber);
   if (prefixNum !== 1 || shouldPrefixWithOne(closestSmallerNumber)) {
     words += `${numberToEnglish(prefixNum, options)} `;

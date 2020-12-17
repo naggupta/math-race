@@ -1,4 +1,5 @@
 // import * as indexDB from 'idb-keyval';
+// import { null } from 'mathjs';
 import * as actionTypes from '../actionTypes';
 
 const questiontype = {
@@ -32,6 +33,7 @@ const initialState = {
     { id: 0, ...player },
     { id: 1, ...player },
   ],
+  wordquestions: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -45,6 +47,14 @@ const reducer = (state = initialState, action) => {
         starttime: null,
         endtime: null,
         // players: null,
+      };
+    case actionTypes.LOAD_QUESTIONS: // Set Names and question actiontype:{} players:[{name}]}
+      // action.players.forEach((player, index) => {
+      //     players[index] = { ...players[index], ...player }
+      // });
+      return {
+        ...state,
+        wordquestions: action.questions,
       };
     case actionTypes.START: // Set Names and question actiontype:{} players:[{name}]}
       // action.players.forEach((player, index) => {
@@ -84,14 +94,14 @@ const reducer = (state = initialState, action) => {
         ...state,
         players: players,
       };
-      case actionTypes.WIN:
-        players = [...state.players];
-        players[action.playerno].points += 1;
-        return {
-          ...state,
-          // endtime: new Date(),
-          players: [...players],
-        };
+    case actionTypes.WIN:
+      players = [...state.players];
+      players[action.playerno].points += 1;
+      return {
+        ...state,
+        // endtime: new Date(),
+        players: [...players],
+      };
     case actionTypes.COMPLETE:
       // players = [...state.players];
       // players[action.playerno].points += 1;

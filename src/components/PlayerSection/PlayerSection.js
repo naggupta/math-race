@@ -192,7 +192,7 @@ class PlayerSection extends PureComponent {
           </div>
           {/* <span className={Classes.Question}><span style={{fontSize:'2.5em'}}>Emily has £46.20. She wants to buy a new e-book. It costs £20. How much more money does she need to Save?</span></span> */}
           <span ref={this.questionRef} className={Classes.Question}>
-            <span style={{ fontSize: '2.5em' }} dangerouslySetInnerHTML={{__html: player.question}} />
+            <span style={{ fontSize: '2.5em' }} dangerouslySetInnerHTML={{ __html: player.question }} />
             <input
               ref={(e) => {
                 this.inputAnswer = e;

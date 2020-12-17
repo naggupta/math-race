@@ -11,7 +11,7 @@ function Backdrop(props) {
                               onKeyPress={props.clicked}
                               role="button"
                               tabIndex="0"
-                            ></div>
+                            />
                             );
                             
     return (<Fragment />)

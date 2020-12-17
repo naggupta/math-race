@@ -1,3 +1,4 @@
+import * as mathjs from 'mathjs';
 import numberToEnglish from './NumberToEnglish';
 
 export const generateQuestion = (questiontype) => {
@@ -5,10 +6,10 @@ export const generateQuestion = (questiontype) => {
   if (type === '+-' || type === '+-x') return generatePlusMinusQuestion(questiontype);
 
   return {
-    question: '',
-    answer: '',
+    question: '', // '2+3',
+    answer: '', // mathjs.evaluate('2+3'),
   };
-};
+}; //
 
 // export const generateMultiQuestion = (questiontype) => {
 //   let currentnumber = 0;
@@ -100,7 +101,7 @@ export const generatePlusMinusQuestion = (questiontype) => {
   };
 };
 
-const randomIntFromInterval = (min, max) => {
+export const randomIntFromInterval = (min, max) => {
   // min and max included
   // if (decimals === 0)
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -126,11 +127,28 @@ const randomSign = (type) => {
   // }
 };
 
-const replaceString = () => {
-  const replacements = { '{NAME}': 'Mike', '{AGE}': '26', '{EVENT}': '20' };
-    let str = 'My Name is {NAME} and my age is {AGE}.';
+export const evaluate = (str) => {
+  return mathjs.evaluate(str);
+};
 
-  str = str.replace(/{\w+}/g, (all) => {
-    return replacements[`{${all}}`] || all;
+export const replaceString = (str, ...args) => {
+  let base = str;
+  for (let i = 0; i < args.length; i += 1) base = base.replace(`{${i}}`, args[i]);
+
+  return base;
+  // const replacements = { '{NAME}': 'Mike', '{AGE}': '26', '{EVENT}': '20' };
+  //   let str = 'My Name is {NAME} and my age is {AGE}.';
+
+  // str = str.replace(/{\w+}/g, (all) => {
+  //   return replacements[`{${all}}`] || all;
+  // });
+};
+
+export const replaceValues = (str, valueHash) => {
+  let base = str;
+  base = base.replace(/{\w+}/g, (all) => {
+    console.log('[Utils.replaceValue]', all);
+    return valueHash[all.replace('{', '').replace('}', '')]; // || all;
   });
+  return base;
 };

@@ -50,7 +50,7 @@ class RaceSetup extends PureComponent {
       digits: +digits0.value,
       decimals: +decimals0.value,
       points: +points0.value,
-      inwords: (inwords0.value === 'true'),
+      inwords: inwords0.value === 'true',
     };
     const questiontype1 = {
       type: type1.value,
@@ -58,7 +58,7 @@ class RaceSetup extends PureComponent {
       digits: +digits1.value,
       points: +points1.value,
       decimals: +decimals1.value,
-      inwords: (inwords1.value === 'true'),
+      inwords: inwords1.value === 'true',
     };
 
     // console.log(this.form, questiontype0, questiontype1);
@@ -150,7 +150,7 @@ class RaceSetup extends PureComponent {
                 </div> */}
           </div>
           <div style={{ display: this.state[`player${index}`] ? 'flex' : 'none' }} className={Classes.Options}>
-            <div className={Classes.ExtraWide}>
+            <div>
               <h2>Type</h2>
               <div>
                 <input type="radio" name={`type${index}`} value="+-" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === '+-'} />
@@ -159,6 +159,10 @@ class RaceSetup extends PureComponent {
               <div>
                 <input type="radio" name={`type${index}`} value="+-x" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === '+-x'} />
                 <label>+-x</label>
+              </div>
+              <div className={Classes.ExtraWide}>
+                <input type="radio" name={`type${index}`} value="WORD" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'WORD'} />
+                <label>Word</label>
               </div>
               {/* <div>
                 <input type="radio" placeholder="In words" name={`type${index}`} value="+-W" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === '+-W'} />
@@ -169,7 +173,7 @@ class RaceSetup extends PureComponent {
                         <label>X</label>
                     </div> */}
             </div>
-            <div style={{ display: ['+-','+-x'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+            <div style={{ display: ['+-', '+-x', 'WORD'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
               <h2>Digits</h2>
               <div>
                 <input type="radio" name={`digits${index}`} value="1" defaultChecked={questiontype.digits === 1} />
@@ -184,7 +188,7 @@ class RaceSetup extends PureComponent {
                 <label>3</label>
               </div>
             </div>
-            <div style={{ display: ['+-','+-x'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+            <div style={{ display: ['+-', '+-x'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
               <h2>Numbers</h2>
 
               <div>

@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import * as Utils from '../../../Utils/QuestionGenerator';
+import firebase from '../../../Config/Firebase';
 
 export const reset = () => {
   return {
@@ -7,19 +8,38 @@ export const reset = () => {
   };
 };
 
-export const start = (
-  playername1,
-  playername2,
-  questiontype1,
-  questiontype2,
-) => {
-  return {
-    type: actionTypes.START,
-    // questiontype: questiontype,
-    players: [
-      { id: 0, name: playername1, points: 0, wrong: 0, ...Utils.generateQuestion(questiontype1), answerresult: '', questiontype: questiontype1 },
-      { id: 1, name: playername2, points: 0, wrong: 0, ...Utils.generateQuestion(questiontype2), answerresult: '', questiontype: questiontype2 },
-    ],
+export const start = (playername1, playername2, questiontype1, questiontype2) => {
+  return async (dispatch, getstate) => {
+    // const { nos, digits, decimals } = getstate().game.questiontype;
+
+    if ((questiontype1.type === 'WORD' || questiontype2.type === 'WORD') && !getstate().game.questions) {
+      const db = firebase.firestore();
+      const snapshot = db.collection('/questions');
+      const collections = await snapshot.get();
+      const questions = [];
+      collections.docs.forEach((item) => {
+        const question = item.data();
+        questions.push({ id: item.id, ...question });
+        // Object.keys(question).forEach((key) => {
+        //   console.log(`${key} - ${question[key]}`);
+        // });
+      });
+      console.log('[action.start]', questions);
+
+      await dispatch({
+        type: actionTypes.LOAD_QUESTIONS,
+        questions: questions,
+      });
+    }
+    // Question loaded if required
+    dispatch({
+      type: actionTypes.START,
+      // questiontype: questiontype,
+      players: [
+        { id: 0, name: playername1, points: 0, wrong: 0, ...Utils.generateQuestion(questiontype1), answerresult: '', questiontype: questiontype1 },
+        { id: 1, name: playername2, points: 0, wrong: 0, ...Utils.generateQuestion(questiontype2), answerresult: '', questiontype: questiontype2 },
+      ],
+    });
   };
 };
 

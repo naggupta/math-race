@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import RaceWrapper from '../containers/RaceWrapper/RaceWrapper'
+import RaceWrapper from '../containers/RaceWrapper/RaceWrapper';
+import Temp from '../temp';
 // import { Route, Switch } from 'react-router-dom';
 
 function Layout() {
@@ -9,6 +10,7 @@ function Layout() {
   return (
     <Switch>
       <Route path="/" component={RaceWrapper} />
+      {/* <Temp /> */}
     </Switch>
   );
 }
