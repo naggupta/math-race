@@ -36,8 +36,8 @@ export const start = (playername1, playername2, questiontype1, questiontype2) =>
       type: actionTypes.START,
       // questiontype: questiontype,
       players: [
-        { id: 0, name: playername1, points: 0, wrong: 0, ...Utils.generateQuestion(questiontype1), answerresult: '', questiontype: questiontype1 },
-        { id: 1, name: playername2, points: 0, wrong: 0, ...Utils.generateQuestion(questiontype2), answerresult: '', questiontype: questiontype2 },
+        { id: 0, name: playername1, points: 0, wrong: 0, ...Utils.generateQuestion(questiontype1,getstate().game.wordquestions), answerresult: '', questiontype: questiontype1 },
+        { id: 1, name: playername2, points: 0, wrong: 0, ...Utils.generateQuestion(questiontype2,getstate().game.wordquestions), answerresult: '', questiontype: questiontype2 },
       ],
     });
   };
@@ -59,7 +59,7 @@ export const nextQuestion = (playerno) => {
     dispatch({
       type: actionTypes.CORRECT,
       playerno: playerno,
-      ...Utils.generateQuestion(getstate().game.players[playerno].questiontype),
+      ...Utils.generateQuestion(getstate().game.players[playerno].questiontype,getstate().game.wordquestions),
     });
   };
 };
@@ -70,7 +70,7 @@ export const wrongAnswer = (playerno) => {
     dispatch({
       type: actionTypes.WRONG,
       playerno: playerno,
-      ...Utils.generateQuestion(getstate().game.players[playerno].questiontype),
+      ...Utils.generateQuestion(getstate().game.players[playerno].questiontype,getstate().game.wordquestions),
     });
   };
 };

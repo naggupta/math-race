@@ -1,9 +1,10 @@
 import * as mathjs from 'mathjs';
 import numberToEnglish from './NumberToEnglish';
 
-export const generateQuestion = (questiontype) => {
+export const generateQuestion = (questiontype, wordquestions) => {
   const { type, nos, digits, inwords } = questiontype;
   if (type === '+-' || type === '+-x') return generatePlusMinusQuestion(questiontype);
+  else if (type === 'WORD') return generateWordsQuestion(questiontype, wordquestions);
 
   return {
     question: '', // '2+3',
@@ -54,6 +55,40 @@ export const generateQuestion = (questiontype) => {
 //     answer: answer,
 //   };
 // }
+
+export const generateWordsQuestion = (questiontype, wordquestions) => {
+  const questionno = randomIntFromInterval(0, wordquestions.length - 1);
+  const question = wordquestions[questionno];
+  const { type, nos, digits, inwords } = questiontype;
+  let { decimals = 0 } = questiontype;
+  if (inwords) decimals = 0;
+  const totaldigits = digits + decimals;
+  const tonumber = 10 ** totaldigits - 1;
+  const fromnumber = 10 ** (totaldigits - 1) + 1;
+
+  const q = question.question;
+  const qparams = {};
+  for (let i = 0; ; i += 1) {
+    if (!(i in question)) break;
+    qparams[i] = question[i];
+  }
+
+  Object.keys(qparams)
+    .sort()
+    .forEach((key) => {
+      const params1 = { ...qparams };
+      const param = qparams[key];
+      if (param.indexOf('{val}') > -1) params1.val = randomIntFromInterval(fromnumber, tonumber);
+      const substitute = replaceValues(param, params1);
+      const evalstr = evaluate(substitute);
+      qparams[key] = evalstr;
+    });
+
+  const answer = evaluate(replaceValues(question.answer, qparams));
+  const questionstr = replaceValues(question.question, qparams);
+
+  return { answer: answer, question: questionstr };
+};
 
 export const generatePlusMinusQuestion = (questiontype) => {
   let currentnumber = 0;
