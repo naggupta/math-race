@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/math-race/static/css/main.1c409385.chunk.css",
-    "main.js": "/math-race/static/js/main.87e14428.chunk.js",
-    "main.js.map": "/math-race/static/js/main.87e14428.chunk.js.map",
+    "main.css": "/math-race/static/css/main.e797f9c3.chunk.css",
+    "main.js": "/math-race/static/js/main.503b5f1f.chunk.js",
+    "main.js.map": "/math-race/static/js/main.503b5f1f.chunk.js.map",
     "runtime-main.js": "/math-race/static/js/runtime-main.5cbc5bc9.js",
     "runtime-main.js.map": "/math-race/static/js/runtime-main.5cbc5bc9.js.map",
-    "static/js/2.80e4b8f3.chunk.js": "/math-race/static/js/2.80e4b8f3.chunk.js",
-    "static/js/2.80e4b8f3.chunk.js.map": "/math-race/static/js/2.80e4b8f3.chunk.js.map",
+    "static/js/2.3f211505.chunk.js": "/math-race/static/js/2.3f211505.chunk.js",
+    "static/js/2.3f211505.chunk.js.map": "/math-race/static/js/2.3f211505.chunk.js.map",
     "index.html": "/math-race/index.html",
-    "static/css/main.1c409385.chunk.css.map": "/math-race/static/css/main.1c409385.chunk.css.map",
-    "static/js/2.80e4b8f3.chunk.js.LICENSE.txt": "/math-race/static/js/2.80e4b8f3.chunk.js.LICENSE.txt",
+    "static/css/main.e797f9c3.chunk.css.map": "/math-race/static/css/main.e797f9c3.chunk.css.map",
+    "static/js/2.3f211505.chunk.js.LICENSE.txt": "/math-race/static/js/2.3f211505.chunk.js.LICENSE.txt",
     "static/media/claps.fd683cd7.mp3": "/math-race/static/media/claps.fd683cd7.mp3",
     "static/media/click.8515d2a4.mp3": "/math-race/static/media/click.8515d2a4.mp3",
     "static/media/movingfish.b08d01f0.mp3": "/math-race/static/media/movingfish.b08d01f0.mp3",
@@ -18,8 +18,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.5cbc5bc9.js",
-    "static/js/2.80e4b8f3.chunk.js",
-    "static/css/main.1c409385.chunk.css",
-    "static/js/main.87e14428.chunk.js"
+    "static/js/2.3f211505.chunk.js",
+    "static/css/main.e797f9c3.chunk.css",
+    "static/js/main.503b5f1f.chunk.js"
   ]
 }
