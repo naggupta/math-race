@@ -76,12 +76,12 @@
  }
 
  .Options .ExtraWide label{
-    width: 100px;
+    width: 75px;
     font-size: 1.2em;
  }
 
  .Options .ExtraWide input[type="radio"]{
-    width: 100px;
+    width: 75px;
  }
  
 

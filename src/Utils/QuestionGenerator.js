@@ -4,6 +4,7 @@ import numberToEnglish from './NumberToEnglish';
 export const generateQuestion = (questiontype, wordquestions) => {
   const { type, nos, digits, inwords } = questiontype;
   if (type === '+-' || type === '+-x') return generatePlusMinusQuestion(questiontype);
+  else if (type === 'X2') return generateSquareQuestion(questiontype);
   else if (type === 'WORD') return generateWordsQuestion(questiontype, wordquestions);
 
   return {
@@ -55,6 +56,56 @@ export const generateQuestion = (questiontype, wordquestions) => {
 //     answer: answer,
 //   };
 // }
+
+export const generateSquareQuestion = (questiontype) => {
+  let currentnumber = 0;
+  let question = '';
+  let answer = 0;
+  const { type, digits, inwords, tens } = questiontype;
+  const nos = 2;
+  let { decimals = 0 } = questiontype;
+  if (inwords) decimals = 0;
+  const symbols = [];
+
+  const totaldigits = digits + decimals;
+  // for (let i = 0; i < nos; i += 1) {
+    const temptype = type;
+    // let sign = '+';
+    // if (i === 0 || answer < 10 ** (totaldigits - 1)) sign = '+';
+    // else if ((answer >= 100 || answer <= 10) && type === '+-x' && digits > 1) sign = randomSign('+-');
+    // else if (answer > 10 && type === '+-x' && digits === 1) sign = randomSign('+-');
+    // else if (i > 1 && type === '+-x' && !symbols.includes('x') && answer > 9 && answer < 100 && digits > 1) sign = 'x';
+    // else if (i > 1 && type === '+-x' && !symbols.includes('x') && answer < 10 && digits === 1) sign = 'x';
+    // else sign = randomSign(temptype);
+    // const sign = i === 0 || answer < 10 ** (totaldigits - 1) ? '+' : randomSign(temptype);
+    // symbols.push(sign);
+
+    let tonumber = 10 ** totaldigits - 1;
+    if (tens === 'Y' && totaldigits === 2)
+      tonumber = 19;
+
+    const fromnumber = 10 ** (totaldigits - 1) + 1;
+    // if (sign === 'x') {
+    //   fromnumber = 2;
+    //   tonumber = 9;
+    // } else if (sign === '-' && tonumber > answer) tonumber = answer;
+    // // console.log(`${fromnumber},${tonumber}`)
+    currentnumber = randomIntFromInterval(fromnumber, tonumber);
+    // if (sign === '+' || sign === '-') answer += (sign === '+' ? 1 : -1) * currentnumber;
+    // else if (sign === 'x') answer *= currentnumber;
+    if (!inwords) question = `${currentnumber}<sup>2</sup>`;
+    else if (inwords) {
+      const toword = numberToEnglish(currentnumber);
+      question = `${toword}<sup>2</sup>`;
+    }
+  // }
+  answer = currentnumber * currentnumber;
+  console.log(`${question} ? ${answer}`);
+  return {
+    question: question,
+    answer: answer,
+  };
+}
 
 export const generateWordsQuestion = (questiontype, wordquestions) => {
   const questionno = randomIntFromInterval(0, wordquestions.length - 1);

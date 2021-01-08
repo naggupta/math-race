@@ -65,6 +65,7 @@ module.exports = {
     'arrow-parens': 1,
     'react/no-array-index-key': 1,
     'padded-blocks': 1,
+    // 'no-continue': 0,
     // "padded-blocks":"warn",
     // "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
     // "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies

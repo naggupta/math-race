@@ -17,11 +17,11 @@ import clapsSound from '../../sounds/claps.mp3';
 // import UIfx from 'uifx';
 
 class PlayerSection extends PureComponent {
-  success = new Howl({ src: successSound, volume: 0.1 });
-  wrong = new Howl({ src: wrongSound, volume: 0.1 });
-  click = new Howl({ src: clickSound, volume: 0.5 });
+  success = new Howl({ src: successSound, volume: 1 });
+  wrong = new Howl({ src: wrongSound, volume: 1 });
+  click = new Howl({ src: clickSound, volume: 1 });
   movingfish = new Howl({ src: movingFishSound, volume: 1 });
-  claps = new Howl({ src: clapsSound, volume: 0.5 });
+  claps = new Howl({ src: clapsSound, volume: 1 });
 
   state = {
     // filter: 'ytd',

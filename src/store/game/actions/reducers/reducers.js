@@ -8,6 +8,7 @@ const questiontype = {
   digits: 2,
   decimals: 0,
   points: 10,
+  tens: 'Y',
   inwords: false,
 };
 const player = {
