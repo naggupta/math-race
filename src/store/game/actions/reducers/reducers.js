@@ -9,6 +9,7 @@ const questiontype = {
   decimals: 0,
   points: 10,
   tens: 'Y',
+  delay: 0,
   inwords: false,
 };
 const player = {
@@ -79,6 +80,7 @@ const reducer = (state = initialState, action) => {
       players = [...state.players];
       players[action.playerno].points += 1;
       players[action.playerno].question = action.question;
+      players[action.playerno].questions = action.questions;
       players[action.playerno].answer = action.answer;
       players[action.playerno].answerresult = 'CORRECT';
       return {
@@ -89,6 +91,7 @@ const reducer = (state = initialState, action) => {
       players = [...state.players];
       players[action.playerno].wrong += 1;
       players[action.playerno].question = action.question;
+      players[action.playerno].questions = action.questions;
       players[action.playerno].answer = action.answer;
       players[action.playerno].answerresult = 'WRONG';
       return {

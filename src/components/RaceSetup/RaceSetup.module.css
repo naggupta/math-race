@@ -24,10 +24,17 @@
     align-items: flex-end;
 }
 
-.RaceSetup > div{
+/* .RaceSetup > div{
     width:50vh;
+} */
+
+.RaceSetup .Options{
+    width:70vw;
 }
 
+.RaceSetup .Players{
+    width:30vw;
+}
 .Players, .Options {
     margin: 10px;
     display:flex;

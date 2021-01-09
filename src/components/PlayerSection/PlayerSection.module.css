@@ -54,6 +54,26 @@
     height: 90px;
     align-items: center;
 }
+
+.question-enter {
+    opacity: 0;
+  }
+  
+  .question-enter-active {
+    opacity: 1;
+    transition: opacity 200ms ease-in;
+  }
+  
+  .question-exit {
+    opacity: 1;
+  }
+  
+  .question-exit-active {
+    opacity: 0.01;
+    transition: opacity 200ms ease-in;
+  }
+  
+
 .QuestionBar .Question{
     flex-grow: 1;
     background-color: #F8F8F8;

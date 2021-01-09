@@ -1,6 +1,7 @@
 import React, { Component, Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { CSSTransition } from 'react-transition-group';
 // import useSound from 'use-sound';
 import { Howl, Howler } from 'howler';
 import * as ReducerActions from '../../store/game/actions/index';
@@ -22,12 +23,15 @@ class PlayerSection extends PureComponent {
   click = new Howl({ src: clickSound, volume: 1 });
   movingfish = new Howl({ src: movingFishSound, volume: 1 });
   claps = new Howl({ src: clapsSound, volume: 1 });
+  timers = [];
 
   state = {
     // filter: 'ytd',
     // answer: '',
     // answerresult: '',
     closedisplay: false,
+    question: '',
+    fullquestion: '',
   };
 
   constructor(props) {
@@ -40,17 +44,44 @@ class PlayerSection extends PureComponent {
   }
 
   componentDidMount() {
+    const player = this.props.players[this.props.playerno];
+    if (player.questiontype.delay === 0) this.setState({ question: player.question, fullquestion: player.question });
+    else
+      player.questions.forEach((question, i) => {
+        const timer = setTimeout(() => {
+          this.setState({ question: question, fullquestion: player.question });
+        }, i * player.questiontype.delay * 1000);
+
+        this.timers.push(timer);
+      });
     console.log('[PlayerSection] componentDidMount');
   }
 
   // shouldComponentUpdate(nextProps, newState) {
-  //     console.log('[PlayerSection] shouldComponentUpdate', nextProps.players[nextProps.playerno]);
-  //     // return this.props.players[this.props.playerno] !== nextProps.players[nextProps.playerno];
+  //     console.log('[PlayerSection] shouldComponentUpdate', this.props.players[this.props.playerno].question , nextProps.players[nextProps.playerno].question);
+  //     if (this.props.players[this.props.playerno].question !== nextProps.players[nextProps.playerno].question) {
+  //       const player = nextProps.players[nextProps.playerno];
+  //       this.setState({ question: player.question });
+  //     }
   //     return true;
   // }
 
   componentDidUpdate() {
     console.log('[PlayerSection] componentDidUpdate');
+    const player = this.props.players[this.props.playerno];
+    if (player.question !== this.state.fullquestion) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      if (player.questiontype.delay === 0)
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({ question: player.question, fullquestion: player.question });
+      else
+        player.questions.forEach((question, i) => {
+          const timer = setTimeout(() => {
+            this.setState({ question: question, fullquestion: player.question });
+          }, i * 1000 * player.questiontype.delay);
+          this.timers.push(timer);
+        });
+    }
   }
 
   buttonTheme = () => {
@@ -66,6 +97,10 @@ class PlayerSection extends PureComponent {
     const correctref = this.correctRef.current;
     const questionRef = this.questionRef.current;
     const wrongref = this.wrongRef.current;
+
+    this.timers.forEach((timer) => {
+      clearInterval(timer);
+    });
 
     if (!this.inputAnswer.value) return;
     if (+this.inputAnswer.value === +player.answer) {
@@ -120,7 +155,7 @@ class PlayerSection extends PureComponent {
 
   render() {
     const player = this.props.players[this.props.playerno];
-    console.log('[PlayerSection] render', this.props.playerno, player.answerresult, 'Points', player.points * (+player.questiontype.points - 1));
+    console.log('[PlayerSection] render', this.props.playerno, player.answerresult, player.question, 'questions', player.questions);
     // const messagedisplay = (player.answerresult) ? <DisplayMessage display={player.answerresult} /> : <Fragment />;
     const messagedisplay = (
       <Fragment>
@@ -192,7 +227,10 @@ class PlayerSection extends PureComponent {
           </div>
           {/* <span className={Classes.Question}><span style={{fontSize:'2.5em'}}>Emily has £46.20. She wants to buy a new e-book. It costs £20. How much more money does she need to Save?</span></span> */}
           <span ref={this.questionRef} className={Classes.Question}>
-            <span style={{ fontSize: '2.5em' }} dangerouslySetInnerHTML={{ __html: player.question }} />
+            <CSSTransition classNames="question" timeout={200}>
+              <div><span style={{ fontSize: '2.5em' }} dangerouslySetInnerHTML={{ __html: this.state.question }} />
+              </div>
+            </CSSTransition>
             <input
               ref={(e) => {
                 this.inputAnswer = e;
