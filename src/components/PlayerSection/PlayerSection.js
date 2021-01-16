@@ -46,14 +46,7 @@ class PlayerSection extends PureComponent {
   componentDidMount() {
     const player = this.props.players[this.props.playerno];
     if (player.questiontype.delay === 0) this.setState({ question: player.question, fullquestion: player.question });
-    else
-      player.questions.forEach((question, i) => {
-        const timer = setTimeout(() => {
-          this.setState({ question: question, fullquestion: player.question });
-        }, i * player.questiontype.delay * 1000);
-
-        this.timers.push(timer);
-      });
+    else this.animateQuestion(player);
     console.log('[PlayerSection] componentDidMount');
   }
 
@@ -74,16 +67,18 @@ class PlayerSection extends PureComponent {
       if (player.questiontype.delay === 0)
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({ question: player.question, fullquestion: player.question });
-      else
-        player.questions.forEach((question, i) => {
-          const timer = setTimeout(() => {
-            this.setState({ question: question, fullquestion: player.question });
-          }, i * 1000 * player.questiontype.delay);
-          this.timers.push(timer);
-        });
+      else this.animateQuestion(player);
     }
   }
 
+  animateQuestion = (player) => {
+    player.questions.forEach((question, i) => {
+      const timer = setTimeout(() => {
+        this.setState({ question: question, fullquestion: player.question });
+      }, i * 1000 * player.questiontype.delay);
+      this.timers.push(timer);
+    });
+  };
   buttonTheme = () => {
     return this.props.playerno === '1' ? 'w3-ripple w3-hover-indigo w3-indigo' : 'w3-ripple w3-hover-red w3-pink';
   };
@@ -98,11 +93,12 @@ class PlayerSection extends PureComponent {
     const questionRef = this.questionRef.current;
     const wrongref = this.wrongRef.current;
 
+    if (!this.inputAnswer.value) return;
+
     this.timers.forEach((timer) => {
       clearInterval(timer);
     });
 
-    if (!this.inputAnswer.value) return;
     if (+this.inputAnswer.value === +player.answer) {
       if (player.points === player.questiontype.points - 1) {
         // alert(`${player.name} Win`);
@@ -145,6 +141,19 @@ class PlayerSection extends PureComponent {
       this.wrong.play();
       // new UIfx({ asset: wrongSound }).play();
     }
+  };
+
+  restart = () => {
+    const player = this.props.players[this.props.playerno];
+    this.timers.forEach((timer) => {
+      clearInterval(timer);
+    });
+
+    this.setState({ question: '', fullquestion: player.question });
+    const timer = setTimeout(() => {
+      this.animateQuestion(player);
+    }, 1000);
+    // clearInterval(timer);
   };
 
   appendAnswer = (val) => {
@@ -228,9 +237,13 @@ class PlayerSection extends PureComponent {
           {/* <span className={Classes.Question}><span style={{fontSize:'2.5em'}}>Emily has £46.20. She wants to buy a new e-book. It costs £20. How much more money does she need to Save?</span></span> */}
           <span ref={this.questionRef} className={Classes.Question}>
             <CSSTransition classNames="question" timeout={200}>
-              <div><span style={{ fontSize: '2.5em' }} dangerouslySetInnerHTML={{ __html: this.state.question }} />
+              <div>
+                <span style={{ display: 'inline-block', fontSize: '2.5em' }} dangerouslySetInnerHTML={{ __html: this.state.question }} />
               </div>
             </CSSTransition>
+            <a style={{ display: player.questiontype.delay === 0 ? 'none' : 'block' }} role="button" onClick={this.restart} tabIndex={0} onKeyPress={this.restart} className={Classes.Refresh}>
+              <i className="fa fa-refresh" />
+            </a>
             <input
               ref={(e) => {
                 this.inputAnswer = e;

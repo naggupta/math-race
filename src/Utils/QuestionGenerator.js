@@ -5,7 +5,7 @@ export const generateQuestion = (questiontype, wordquestions) => {
   const { type, nos, digits, inwords } = questiontype;
   if (type === '+-' || type === '+-x') return generatePlusMinusQuestion(questiontype);
   else if (type === 'X2') return generateSquareQuestion(questiontype);
-  else if (type === 'WORD') return generateWordsQuestion(questiontype, wordquestions);
+  else if (['WORD', 'MONEY', 'FILL'].includes(type)) return generateWordsQuestion(questiontype, wordquestions);
 
   return {
     question: '', // '2+3',
@@ -108,10 +108,12 @@ export const generateSquareQuestion = (questiontype) => {
   };
 };
 
-export const generateWordsQuestion = (questiontype, wordquestions) => {
+export const generateWordsQuestion = (questiontype, questions) => {
+  const { type, nos, digits, inwords } = questiontype;
+  const wordquestions=questions[type];
   const questionno = randomIntFromInterval(0, wordquestions.length - 1);
   const question = wordquestions[questionno];
-  const { type, nos, digits, inwords } = questiontype;
+  
   let { decimals = 0 } = questiontype;
   if (inwords) decimals = 0;
   const totaldigits = digits + decimals;

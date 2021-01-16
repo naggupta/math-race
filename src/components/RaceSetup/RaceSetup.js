@@ -53,7 +53,7 @@ class RaceSetup extends PureComponent {
       digits: +digits0.value,
       decimals: +decimals0.value,
       points: +points0.value,
-      delay: +delay0.value,
+      delay: ['+-', '+-x'].includes(type0.value) ? +delay0.value : 0,
       tens: tens0.value,
       inwords: inwords0.value === 'true',
     };
@@ -63,7 +63,7 @@ class RaceSetup extends PureComponent {
       digits: +digits1.value,
       points: +points1.value,
       decimals: +decimals1.value,
-      delay: +delay1.value,
+      delay: ['+-', '+-x'].includes(type1.value) ? +delay1.value : 0,
       tens: tens1.value,
       inwords: inwords1.value === 'true',
     };
@@ -183,10 +183,19 @@ class RaceSetup extends PureComponent {
                   X<sup>2</sup>
                 </label>
               </div>
+              <div>
+                <input type="radio" name={`type${index}`} value="FILL" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'FILL'} />
+                <label>?</label>
+              </div>
+              <div className={Classes.ExtraWide}>
+                <input type="radio" name={`type${index}`} value="MONEY" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'MONEY'} />
+                <label>Money</label>
+              </div>
               <div className={Classes.ExtraWide}>
                 <input type="radio" name={`type${index}`} value="WORD" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'WORD'} />
                 <label>Word</label>
               </div>
+              
               {/* <div>
                 <input type="radio" placeholder="In words" name={`type${index}`} value="+-W" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === '+-W'} />
                 <label>+-(Words)</label>
@@ -197,41 +206,45 @@ class RaceSetup extends PureComponent {
                     </div> */}
             </div>
             <div style={{ display: 'flex' }}>
-            <div style={{ display: ['+-', '+-x', 'X2', 'WORD'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
-              <h2>Digits</h2>
-              <div>
-                <input type="radio" name={`digits${index}`} onChange={(e) => this.setState({ [`digits${index}`]: e.currentTarget.value })} value="1" defaultChecked={questiontype.digits === 1} />
-                <label>1</label>
+              <div style={{ display: ['+-', '+-x', 'X2', 'WORD','FILL','MONEY'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+                <h2>Digits</h2>
+                <div>
+                  <input type="radio" name={`digits${index}`} onChange={(e) => this.setState({ [`digits${index}`]: e.currentTarget.value })} value="1" defaultChecked={questiontype.digits === 1} />
+                  <label>1</label>
+                </div>
+                <div>
+                  <input type="radio" name={`digits${index}`} onChange={(e) => this.setState({ [`digits${index}`]: e.currentTarget.value })} value="2" defaultChecked={questiontype.digits === 2} />
+                  <label>2</label>
+                </div>
+                <div>
+                  <input type="radio" name={`digits${index}`} onChange={(e) => this.setState({ [`digits${index}`]: e.currentTarget.value })} value="3" defaultChecked={questiontype.digits === 3} />
+                  <label>3</label>
+                </div>
               </div>
-              <div>
-                <input type="radio" name={`digits${index}`} onChange={(e) => this.setState({ [`digits${index}`]: e.currentTarget.value })} value="2" defaultChecked={questiontype.digits === 2} />
-                <label>2</label>
-              </div>
-              <div>
-                <input type="radio" name={`digits${index}`} onChange={(e) => this.setState({ [`digits${index}`]: e.currentTarget.value })} value="3" defaultChecked={questiontype.digits === 3} />
-                <label>3</label>
-              </div>
-            </div>
-            <div style={{ marginLeft: '50px', display: ['+-', '+-x'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
-              <h2>Numbers</h2>
+              <div style={{ marginLeft: '50px', display: ['+-', '+-x'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+                <h2>Numbers</h2>
 
-              <div>
-                <input type="radio" name={`numbers${index}`} value="2" defaultChecked={questiontype.nos === 2} />
-                <label>2</label>
+                <div>
+                  <input type="radio" name={`numbers${index}`} value="2" defaultChecked={questiontype.nos === 2} />
+                  <label>2</label>
+                </div>
+                <div>
+                  <input type="radio" name={`numbers${index}`} value="3" defaultChecked={questiontype.nos === 3} />
+                  <label>3</label>
+                </div>
+                <div>
+                  <input type="radio" name={`numbers${index}`} value="4" defaultChecked={questiontype.nos === 4} />
+                  <label>4</label>
+                </div>
+                <div>
+                  <input type="radio" name={`numbers${index}`} value="5" defaultChecked={questiontype.nos === 5} />
+                  <label>5</label>
+                </div>
+                <div>
+                  <input type="radio" name={`numbers${index}`} value="10" defaultChecked={questiontype.nos === 10} />
+                  <label>10</label>
+                </div>
               </div>
-              <div>
-                <input type="radio" name={`numbers${index}`} value="3" defaultChecked={questiontype.nos === 3} />
-                <label>3</label>
-              </div>
-              <div>
-                <input type="radio" name={`numbers${index}`} value="4" defaultChecked={questiontype.nos === 4} />
-                <label>4</label>
-              </div>
-              <div>
-                <input type="radio" name={`numbers${index}`} value="5" defaultChecked={questiontype.nos === 5} />
-                <label>5</label>
-              </div>
-            </div>
             </div>
             <div style={{ display: this.state[`digits${index}`] === 2 && ['X2'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
               <h2>Tens only</h2>
@@ -244,12 +257,16 @@ class RaceSetup extends PureComponent {
                 <label>No</label>
               </div>
             </div>
-            
+
             <div style={{ display: ['+-', '+-x'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
               <h2>Delay</h2>
               <div>
                 <input type="radio" name={`delay${index}`} value="0" defaultChecked={questiontype.delay === 0} />
                 <label>-</label>
+              </div>
+              <div>
+                <input type="radio" name={`delay${index}`} value="1" defaultChecked={questiontype.delay === 1} />
+                <label>1s</label>
               </div>
               <div>
                 <input type="radio" name={`delay${index}`} value="2" defaultChecked={questiontype.delay === 2} />
@@ -315,7 +332,6 @@ class RaceSetup extends PureComponent {
                   <label>2</label>
                 </div>
               </div>
-             
             </div>
             <div>
               <h2>Points</h2>
