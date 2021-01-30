@@ -19,7 +19,7 @@ class RaceSetup extends PureComponent {
       player1: players[1],
     };
 
-    console.log('RaceSetup[constructor]', this.state);
+    // console.log('RaceSetup[constructor]', this.state);
   }
 
   // shouldComponentUpdate(nextProps, newState) {
@@ -45,16 +45,18 @@ class RaceSetup extends PureComponent {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const { player0, player1, digits0, numbers0, decimals0, type0, points0, inwords0, digits1, numbers1, decimals1, type1, points1, inwords1, tens0, tens1, delay0, delay1 } = this.form;
+    const { player0, player1, digits0, numbers0, decimals0, type0, points0, inwords0, digits1, numbers1, decimals1, type1, points1, inwords1, tens0, tens1, delay0, delay1, level0, level1,HR240,HR241 } = this.form;
 
     const questiontype0 = {
       type: type0.value,
       nos: +numbers0.value,
       digits: +digits0.value,
-      decimals: +decimals0.value,
+      decimals: ['+-'].includes(type0.value) ? +decimals0.value : 0,
       points: +points0.value,
       delay: ['+-', '+-x'].includes(type0.value) ? +delay0.value : 0,
       tens: tens0.value,
+      HR24: HR240.value,
+      level: +level0.value,
       inwords: inwords0.value === 'true',
     };
     const questiontype1 = {
@@ -62,9 +64,11 @@ class RaceSetup extends PureComponent {
       nos: +numbers1.value,
       digits: +digits1.value,
       points: +points1.value,
-      decimals: +decimals1.value,
+      decimals: ['+-'].includes(type1.value) ? +decimals1.value : 0,
       delay: ['+-', '+-x'].includes(type1.value) ? +delay1.value : 0,
       tens: tens1.value,
+      HR24: HR241.value,
+      level: +level1.value,
       inwords: inwords1.value === 'true',
     };
 
@@ -77,7 +81,7 @@ class RaceSetup extends PureComponent {
   // }
 
   render() {
-    console.log('[RaceSetup] render');
+    // console.log('[RaceSetup] render');
 
     const players = [(this.props.players && this.props.players[0].name) || 'Hasana', (this.props.players && this.props.players[1].name) || ''];
 
@@ -183,9 +187,13 @@ class RaceSetup extends PureComponent {
                   X<sup>2</sup>
                 </label>
               </div>
+              <div className={Classes.ExtraWide}>
+                <input type="radio" name={`type${index}`} value="TIME+-" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'TIME+-'} />
+                <label>Time+-</label>
+              </div>
               <div>
                 <input type="radio" name={`type${index}`} value="FILL" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'FILL'} />
-                <label>?</label>
+                <label>Fill</label>
               </div>
               <div className={Classes.ExtraWide}>
                 <input type="radio" name={`type${index}`} value="MONEY" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'MONEY'} />
@@ -257,7 +265,36 @@ class RaceSetup extends PureComponent {
                 <label>No</label>
               </div>
             </div>
-
+            <div style={{ display: ['TIME+-'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+              <h2>24Hr</h2>
+              <div>
+                <input type="radio" name={`HR24${index}`} value="Y" defaultChecked={questiontype.HR24 === 'Y'} />
+                <label>Yes</label>
+              </div>
+              <div>
+                <input type="radio" name={`HR24${index}`} value="N" defaultChecked={questiontype.HR24 === 'N'} />
+                <label>No</label>
+              </div>
+            </div>
+            <div style={{ display: ['TIME+-'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+              <h2>Level</h2>
+              <div>
+                <input type="radio" name={`level${index}`} value="1" defaultChecked={questiontype.level === 1} />
+                <label>1</label>
+              </div>
+              <div>
+                <input type="radio" name={`level${index}`} value="2" defaultChecked={questiontype.level === 2} />
+                <label>2</label>
+              </div>
+              <div>
+                <input type="radio" name={`level${index}`} value="3" defaultChecked={questiontype.level === 3} />
+                <label>3</label>
+              </div>
+              <div>
+                <input type="radio" name={`level${index}`} value="4" defaultChecked={questiontype.level === 4} />
+                <label>4</label>
+              </div>
+            </div>
             <div style={{ display: ['+-', '+-x'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
               <h2>Delay</h2>
               <div>

@@ -1,4 +1,5 @@
 import * as mathjs from 'mathjs';
+import moment from 'moment';
 import numberToEnglish from './NumberToEnglish';
 
 export const generateQuestion = (questiontype, wordquestions) => {
@@ -6,7 +7,7 @@ export const generateQuestion = (questiontype, wordquestions) => {
   if (type === '+-' || type === '+-x') return generatePlusMinusQuestion(questiontype);
   else if (type === 'X2') return generateSquareQuestion(questiontype);
   else if (['WORD', 'MONEY', 'FILL'].includes(type)) return generateWordsQuestion(questiontype, wordquestions);
-
+  else if (['TIME+-'].includes(type)) return generateTimeAdditionQuestion(questiontype);
   return {
     question: '', // '2+3',
     questions: [],
@@ -100,7 +101,7 @@ export const generateSquareQuestion = (questiontype) => {
   }
   // }
   answer = currentnumber * currentnumber;
-  console.log(`${question} ? ${answer}`);
+  // console.log(`${question} ? ${answer}`);
   return {
     question: question,
     questions: [],
@@ -110,10 +111,10 @@ export const generateSquareQuestion = (questiontype) => {
 
 export const generateWordsQuestion = (questiontype, questions) => {
   const { type, nos, digits, inwords } = questiontype;
-  const wordquestions=questions[type];
+  const wordquestions = questions[type];
   const questionno = randomIntFromInterval(0, wordquestions.length - 1);
   const question = wordquestions[questionno];
-  
+
   let { decimals = 0 } = questiontype;
   if (inwords) decimals = 0;
   const totaldigits = digits + decimals;
@@ -190,7 +191,7 @@ export const generatePlusMinusQuestion = (questiontype) => {
     }
   }
   answer /= decimals === 0 ? 1 : 10 ** decimals;
-  console.log(`${question} ? ${answer}`);
+  // console.log(`${question} ? ${answer}`);
   questions.push('?');
   // console.log('[Question Generator]', questions);
   return {
@@ -198,6 +199,49 @@ export const generatePlusMinusQuestion = (questiontype) => {
     questions: questions,
     answer: answer,
   };
+};
+
+export const generateTimeAdditionQuestion = (questiontype) => {
+  // let currentnumber = 0;
+  // let question = '';
+  const questions = [];
+  // let answer = 0;
+  const { type, nos, digits, HR24, level } = questiontype;
+  const symbols = [];
+
+  const hrs = HR24 === 'Y' ? randomIntFromInterval(0, 23) : randomIntFromInterval(1, 12);
+  let min = 0;
+  if (level === 1) min = randomFromList(['0', '15', '30', '45']);
+  else if (level === 2) min = randomFromList(['0', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']);
+  else if (level === 3) min = randomFromList(['0', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']);
+  else if (level === 4) min = randomIntFromInterval(0, 59);
+  const timeval = timeformat(hrs, min);
+  const sign = randomSign('+-');
+  let addmin = '';
+  let addhrs = '';
+  if (level === 1) addmin = randomFromList(['15', '30', '45']);
+  else if (level === 2 || level === 3) addmin = randomFromList(['10', '15', '20', '25', '30', '35', '40', '45', '50', '55']);
+  else if (level === 4) addmin = randomIntFromInterval(1, 59);
+
+  if (level > 2) addhrs = randomIntFromInterval(1, 10);
+  const questionstr = `${timeval} ${sign} ${addhrs} ${addhrs ? 'hrs' : ''} ${addmin} min`;
+  // eslint-disable-next-line new-cap
+  let answerdt = new moment(timeval, HR24 === 'Y' ? 'HH:mm' : 'hh:mm');
+  if (sign === '+') answerdt = answerdt.add({ hours: addhrs, minutes: addmin });
+  else if (sign === '-') answerdt = answerdt.subtract({ hours: addhrs, minutes: addmin });
+
+  // console.log('[GenerateTimeQuestion]', sign, answerdt.format('hh:mm'));
+  const answer = '';
+  // console.log('[Question Generator]', questions);
+  return {
+    question: questionstr,
+    questions: '',
+    answer: answerdt.format(HR24 === 'Y' ? 'HH:mm' : 'hh:mm'),
+  };
+};
+
+const timeformat = (hrs, min) => {
+  return `${hrs < 10 ? '0' : ''}${hrs}:${min < 10 ? '0' : ''}${min}`;
 };
 
 export const randomIntFromInterval = (min, max) => {
@@ -209,6 +253,11 @@ export const randomIntFromInterval = (min, max) => {
   //     console.log(`${(max * decimalnumber)},${(min * decimalnumber) + 1}`)
   //     return Math.floor(Math.random() * ((max * decimalnumber) - (min * decimalnumber) + 1) + (min * decimalnumber)) / decimalnumber;
   // }
+};
+
+export const randomFromList = (list) => {
+  // retuns a number from list
+  return list[Math.floor(Math.random() * list.length)];
 };
 
 // const randomSign = () => {
@@ -246,8 +295,37 @@ export const replaceString = (str, ...args) => {
 export const replaceValues = (str, valueHash) => {
   let base = str;
   base = base.replace(/{\w+}/g, (all) => {
-    console.log('[Utils.replaceValue]', all);
+    // console.log('[Utils.replaceValue]', all);
     return valueHash[all.replace('{', '').replace('}', '')]; // || all;
   });
   return base;
+};
+
+const gcd = (a, b) => {
+  return b ? gcd(b, a % b) : a;
+};
+
+const decimalToFraction = (_decimal) => {
+  if (_decimal === parseInt(_decimal, 10)) {
+    return {
+      top: parseInt(_decimal, 10),
+      bottom: 1,
+      display: `${parseInt(_decimal, 10)}/${1}`,
+    };
+  } else {
+    let top = _decimal.toString().includes('.') ? _decimal.toString().replace(/\d+[.]/, '') : 0;
+    const bottom = 10 ** top.toString().replace('-', '').length;
+    if (_decimal >= 1) {
+      top = +top + Math.floor(_decimal) * bottom;
+    } else if (_decimal <= -1) {
+      top = +top + Math.ceil(_decimal) * bottom;
+    }
+
+    const x = Math.abs(gcd(top, bottom));
+    return {
+      top: top / x,
+      bottom: bottom / x,
+      display: `${top / x}/${bottom / x}`,
+    };
+  }
 };

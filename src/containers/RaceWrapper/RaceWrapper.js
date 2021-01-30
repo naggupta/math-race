@@ -12,7 +12,7 @@ import RaceComplete from '../../components/RaceComplete/RaceComplete';
 class RaceWrapper extends Component {
   constructor(props) {
     super(props);
-    console.log('[Racewrapper] constructor');
+    // console.log('[Racewrapper] constructor');
     this.state = {};
 
     this.props.reset();
@@ -27,13 +27,13 @@ class RaceWrapper extends Component {
   }
 
   shouldComponentUpdate(nextProps, newState) {
-    console.log('[RaceWrapper] shouldComponentUpdate', !this.props.players && nextProps.players);
+    // console.log('[RaceWrapper] shouldComponentUpdate', !this.props.players && nextProps.players);
     return (!this.props.players && nextProps.players) || this.props.starttime !== nextProps.starttime || this.props.endtime !== nextProps.endtime;
     // return true;
   }
 
   render() {
-    console.log('[Racewrapper] render', this.props.players, this.props.endtime);
+    // console.log('[Racewrapper] render', this.props.players, this.props.endtime);
 
     if (!this.props.starttime)
       return (

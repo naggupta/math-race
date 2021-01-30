@@ -11,6 +11,8 @@ const questiontype = {
   tens: 'Y',
   delay: 0,
   inwords: false,
+  level: 1,
+  HR24: 'N',
 };
 const player = {
   name: null,
@@ -40,7 +42,7 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   // console.log(action.type)
-  console.log('[reducer]', action.type);
+  // console.log('[reducer]', action.type);
   let players = null;
   switch (action.type) {
     case actionTypes.RESET:

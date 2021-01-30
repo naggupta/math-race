@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import * as Classes from './DisplayMessage.module.css'
 
 function DisplayMessage(props) {
-    console.log('[DisplayMessage] render', props.display);
+    // console.log('[DisplayMessage] render', props.display);
     if (props.display === 'CORRECT')
         return (
             <div className={[Classes.DisplayMessage, Classes.Correct].join(' ')}>

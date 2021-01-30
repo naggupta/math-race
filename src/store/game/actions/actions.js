@@ -12,7 +12,7 @@ export const reset = () => {
 export const start = (playername1, playername2, questiontype1, questiontype2) => {
   return async (dispatch, getstate) => {
     // const { nos, digits, decimals } = getstate().game.questiontype;
-    console.log('[actions] start',questiontype1);
+    // console.log('[actions] start',questiontype1);
     if ((['WORD', 'MONEY', 'FILL'].includes(questiontype1.type) || ['WORD', 'MONEY', 'FILL'].includes(questiontype2.type)) && !getstate().game.questions) {
       //   axios.get('/questions.json')
       //         .then(response=>{
@@ -31,7 +31,7 @@ export const start = (playername1, playername2, questiontype1, questiontype2) =>
       const { data } = await res;
 
       // .then((response) => {
-        console.log('data:',data);
+        // console.log('data:',data);
       Object.keys(data).forEach((key) => {
         const q = [];
         data[key].forEach((item, idx) => {
@@ -46,7 +46,7 @@ export const start = (playername1, playername2, questiontype1, questiontype2) =>
       //   if (!(item.active && item.active === 'N')) questions.push({ id: idx, ...item });
       // });
 
-      console.log('Questions', questions);
+      // console.log('Questions', questions);
       // const db = firebase.firestore();
       // const snapshot = db.collection('/questions');
       // const collections = await snapshot.get();

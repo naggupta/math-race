@@ -47,7 +47,7 @@ class PlayerSection extends PureComponent {
     const player = this.props.players[this.props.playerno];
     if (player.questiontype.delay === 0) this.setState({ question: player.question, fullquestion: player.question });
     else this.animateQuestion(player);
-    console.log('[PlayerSection] componentDidMount');
+    // console.log('[PlayerSection] componentDidMount');
   }
 
   // shouldComponentUpdate(nextProps, newState) {
@@ -60,7 +60,7 @@ class PlayerSection extends PureComponent {
   // }
 
   componentDidUpdate() {
-    console.log('[PlayerSection] componentDidUpdate');
+    // console.log('[PlayerSection] componentDidUpdate');
     const player = this.props.players[this.props.playerno];
     if (player.question !== this.state.fullquestion) {
       // eslint-disable-next-line react/no-did-update-set-state
@@ -99,7 +99,15 @@ class PlayerSection extends PureComponent {
       clearInterval(timer);
     });
 
-    if (+this.inputAnswer.value === +player.answer) {
+    let answer = this.inputAnswer.value;
+
+    if (player.questiontype.decimals > 0) 
+      answer = (+this.inputAnswer.value).toFixed(2).replace(/(\.0+|0+)$/, '');
+    
+    // console.log(answer,String(answer).replace(/^0+/, '') , String(player.answer).replace(/^0+/, ''))
+
+    // eslint-disable-next-line eqeqeq
+    if (String(answer).replace(/^0+/, '') == String(player.answer).replace(/^0+/, '')) {
       if (player.points === player.questiontype.points - 1) {
         // alert(`${player.name} Win`);
         // this.props.reset();
@@ -164,7 +172,7 @@ class PlayerSection extends PureComponent {
 
   render() {
     const player = this.props.players[this.props.playerno];
-    console.log('[PlayerSection] render', this.props.playerno, player.answerresult, player.question, 'questions', player.questions);
+    console.log('[PlayerSection] render', this.props.playerno, player.answer, player.question, 'questions', player.questions);
     // const messagedisplay = (player.answerresult) ? <DisplayMessage display={player.answerresult} /> : <Fragment />;
     const messagedisplay = (
       <Fragment>
@@ -288,8 +296,23 @@ class PlayerSection extends PureComponent {
           <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('0')} className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>
             0
           </button>
-          <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('.')} className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>
+          <button
+            style={{ display: ['TIME+-'].includes(player.questiontype.type) ? 'none' : 'block' }}
+            type="button"
+            data-playerno={this.props.playerno}
+            onClick={() => this.appendAnswer('.')}
+            className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}
+          >
             .
+          </button>
+          <button
+            style={{ display: ['TIME+-'].includes(player.questiontype.type) ? 'block' : 'none' }}
+            type="button"
+            data-playerno={this.props.playerno}
+            onClick={() => this.appendAnswer(':')}
+            className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}
+          >
+            :
           </button>
           <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('-')} className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>
             -
