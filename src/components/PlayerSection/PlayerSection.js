@@ -32,6 +32,7 @@ class PlayerSection extends PureComponent {
     closedisplay: false,
     question: '',
     fullquestion: '',
+    qcounter: 0,
   };
 
   constructor(props) {
@@ -46,7 +47,11 @@ class PlayerSection extends PureComponent {
   componentDidMount() {
     const player = this.props.players[this.props.playerno];
     if (player.questiontype.delay === 0) this.setState({ question: player.question, fullquestion: player.question });
-    else this.animateQuestion(player);
+    else {
+      // eslint-disable-next-line react/no-did-update-set-state
+      // this.setState({ qcounter: 0 });
+      this.displayQuestion(player, 0);
+    }
     // console.log('[PlayerSection] componentDidMount');
   }
 
@@ -67,18 +72,46 @@ class PlayerSection extends PureComponent {
       if (player.questiontype.delay === 0)
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({ question: player.question, fullquestion: player.question });
-      else this.animateQuestion(player);
+      else {
+        // eslint-disable-next-line react/no-did-update-set-state
+        // this.setState({ qcounter: 0 });
+        this.displayQuestion(player, 0);
+      }
     }
   }
 
-  animateQuestion = (player) => {
-    player.questions.forEach((question, i) => {
-      const timer = setTimeout(() => {
-        this.setState({ question: question, fullquestion: player.question });
-      }, i * 1000 * player.questiontype.delay);
-      this.timers.push(timer);
-    });
+  animateNextQuestion = (player) => {
+    const timer = setTimeout(() => {
+      if (this.state.qcounter >= player.questions.length) return;
+      this.setState((prevState) => ({ qcounter: prevState.qcounter + 1, question: player.questions[prevState.qcounter], fullquestion: player.question }));
+      this.animateNextQuestion(player);
+    }, 1000 * player.questiontype.delay);
+    this.timers.push(timer);
   };
+
+  displayQuestion = (player, no) => {
+    let i = no < 0 ? 0 : no;
+    i = no >= player.questions.length ? player.questions.length - 1 : no;
+    if (i >= player.questions.length || i<0) return;
+    console.log('[displayquestion]', i);
+    this.setState((prevState) => ({ qcounter: i + 1, question: player.questions[i], fullquestion: player.question }));
+    this.animateNextQuestion(player);
+  };
+
+  nextQuestion = () => {
+    this.clearTimer();
+    console.log('[nextquestion]', this.state.qcounter);
+    const player = this.props.players[this.props.playerno];
+    this.displayQuestion(player, this.state.qcounter);
+  };
+
+  prevQuestion = () => {
+    this.clearTimer();
+    const player = this.props.players[this.props.playerno];
+    console.log('[nextquestion]', this.state.qcounter);
+    this.displayQuestion(player, this.state.qcounter - 2);
+  };
+
   buttonTheme = () => {
     return this.props.playerno === '1' ? 'w3-ripple w3-hover-indigo w3-indigo' : 'w3-ripple w3-hover-red w3-pink';
   };
@@ -95,15 +128,12 @@ class PlayerSection extends PureComponent {
 
     if (!this.inputAnswer.value) return;
 
-    this.timers.forEach((timer) => {
-      clearInterval(timer);
-    });
+    this.clearTimer();
 
     let answer = this.inputAnswer.value;
 
-    if (player.questiontype.decimals > 0) 
-      answer = (+this.inputAnswer.value).toFixed(2).replace(/(\.0+|0+)$/, '');
-    
+    if (player.questiontype.decimals > 0) answer = (+this.inputAnswer.value).toFixed(2).replace(/(\.0+|0+)$/, '');
+
     // console.log(answer,String(answer).replace(/^0+/, '') , String(player.answer).replace(/^0+/, ''))
 
     // eslint-disable-next-line eqeqeq
@@ -151,16 +181,22 @@ class PlayerSection extends PureComponent {
     }
   };
 
-  restart = () => {
-    const player = this.props.players[this.props.playerno];
+  clearTimer = () => {
     this.timers.forEach((timer) => {
       clearInterval(timer);
     });
+  };
+
+  restart = () => {
+    const player = this.props.players[this.props.playerno];
+    this.clearTimer();
 
     this.setState({ question: '', fullquestion: player.question });
-    const timer = setTimeout(() => {
-      this.animateQuestion(player);
-    }, 1000);
+    // const timer = setTimeout(() => {
+    // eslint-disable-next-line react/no-did-update-set-state
+    // this.setState({ qcounter: 0 });
+    this.displayQuestion(player, 0);
+    // }, 1000);
     // clearInterval(timer);
   };
 
@@ -249,9 +285,17 @@ class PlayerSection extends PureComponent {
                 <span style={{ display: 'inline-block', fontSize: '2.5em' }} dangerouslySetInnerHTML={{ __html: this.state.question }} />
               </div>
             </CSSTransition>
-            <a style={{ display: player.questiontype.delay === 0 ? 'none' : 'block' }} role="button" onClick={this.restart} tabIndex={0} onKeyPress={this.restart} className={Classes.Refresh}>
-              <i className="fa fa-refresh" />
-            </a>
+            <div className={Classes.Refresh}>
+              <a className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')} style={{ display: player.questiontype.delay === 0 ? 'none' : 'flex' }} role="button" onClick={this.prevQuestion} tabIndex={0} onKeyPress={this.prevQuestion}>
+                <i className="fa fa-long-arrow-left" />
+              </a>
+              <a className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')} style={{ display: player.questiontype.delay === 0 ? 'none' : 'flex' }} role="button" onClick={this.nextQuestion} tabIndex={0} onKeyPress={this.nextQuestion}>
+                <i className="fa fa-long-arrow-right" />
+              </a>
+              <a className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')} style={{ display: player.questiontype.delay === 0 ? 'none' : 'flex' }} role="button" onClick={this.restart} tabIndex={0} onKeyPress={this.restart}>
+                <i className="fa fa-refresh" />
+              </a>
+            </div>
             <input
               ref={(e) => {
                 this.inputAnswer = e;

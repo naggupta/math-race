@@ -58,6 +58,7 @@ const numbers = [
 const andWord = 'and';
 
 const numberToEnglish = (val, options = {}) => {
+  if (!val) return '';
   const andForBritish = options.ands || false;
 
   const comma = options.commas ? ',' : '';

@@ -206,7 +206,7 @@ export const generateTimeAdditionQuestion = (questiontype) => {
   // let question = '';
   const questions = [];
   // let answer = 0;
-  const { type, nos, digits, HR24, level } = questiontype;
+  const { type, nos, digits, HR24, level, inwords } = questiontype;
   const symbols = [];
 
   const hrs = HR24 === 'Y' ? randomIntFromInterval(0, 23) : randomIntFromInterval(1, 12);
@@ -224,9 +224,27 @@ export const generateTimeAdditionQuestion = (questiontype) => {
   else if (level === 4) addmin = randomIntFromInterval(1, 59);
 
   if (level > 2) addhrs = randomIntFromInterval(1, 10);
-  const questionstr = `${timeval} ${sign} ${addhrs} ${addhrs ? 'hrs' : ''} ${addmin} min`;
+
   // eslint-disable-next-line new-cap
   let answerdt = new moment(timeval, HR24 === 'Y' ? 'HH:mm' : 'hh:mm');
+  let questionstr = `${timeval} ${sign} ${addhrs} ${addhrs ? 'hrs' : ''} ${addmin} min`;
+  console.log(questionstr);
+
+  if (inwords) {
+    let toword = '';
+    if (+answerdt.format('mm') === 0) toword = `${numberToEnglish(+answerdt.format('HH'))} o'clock`;
+    else if (+answerdt.format('mm') === 30) toword = `Half Past ${numberToEnglish(+answerdt.format('HH'))}`;
+    else if (+answerdt.format('mm') < 30) toword = `${numberToEnglish(answerdt.format('mm'))} min past ${numberToEnglish(+answerdt.format('HH'))}`;
+    else if (+answerdt.format('mm') > 30) {
+      let tohrstr = 1 + +answerdt.format('HH');
+      tohrstr = HR24 === 'Y' && tohrstr === 24 ? '0' : tohrstr;
+      tohrstr = HR24 !== 'Y' && tohrstr === 13 ? '1' : tohrstr;
+      toword = `${numberToEnglish(60 - answerdt.format('mm'))} min to ${numberToEnglish(tohrstr)}`;
+    }
+    questionstr = `${toword} ${sign === '+' ? ' <u><i>plus</i></u> ' : ' <u><i>minus</i></u> '} ${numberToEnglish(addhrs)} ${addhrs ? 'hrs' : ''} ${numberToEnglish(addmin)} minsn`;
+    console.log(questionstr);
+  }
+
   if (sign === '+') answerdt = answerdt.add({ hours: addhrs, minutes: addmin });
   else if (sign === '-') answerdt = answerdt.subtract({ hours: addhrs, minutes: addmin });
 
