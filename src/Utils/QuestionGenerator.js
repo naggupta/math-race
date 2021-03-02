@@ -5,6 +5,8 @@ import numberToEnglish from './NumberToEnglish';
 export const generateQuestion = (questiontype, wordquestions) => {
   const { type, nos, digits, inwords } = questiontype;
   if (type === '+-' || type === '+-x') return generatePlusMinusQuestion(questiontype);
+  else if (type === 'x') return generateMultiplyQuestion(questiontype);
+  else if (type === '/') return generateDivideQuestion(questiontype);
   else if (type === 'X2') return generateSquareQuestion(questiontype);
   else if (['WORD', 'MONEY', 'FILL'].includes(type)) return generateWordsQuestion(questiontype, wordquestions);
   else if (['TIME+-'].includes(type)) return generateTimeAdditionQuestion(questiontype);
@@ -58,6 +60,59 @@ export const generateQuestion = (questiontype, wordquestions) => {
 //     answer: answer,
 //   };
 // }
+
+export const generateMultiplyQuestion = (questiontype) => {
+  // let question = '';
+  // let answer = 0;
+  const { type, digits, inwords, tens } = questiontype;
+  const nos = 2;
+  let { decimals = 0 } = questiontype;
+  if (inwords) decimals = 0;
+  const symbols = [];
+  const tonumber = 10 ** digits - 1;
+  const fromnumber = 10 ** (digits - 1) + 1;
+  const multiplicend = randomIntFromInterval(fromnumber, tonumber);
+  const multiplier = randomIntFromInterval(2, 9);
+  const answer = multiplier * multiplicend;
+  // console.log(`${question} ? ${answer}`);
+  let question = '';
+
+  if (!inwords) question = `${multiplicend} X ${multiplier}`;
+  else if (inwords) question = `${numberToEnglish(multiplicend)} X ${numberToEnglish(multiplier)}`;
+  
+  return {
+    question: question,
+    questions: [],
+    answer: answer,
+  };
+};
+
+export const generateDivideQuestion = (questiontype) => {
+   // let question = '';
+  // let answer = 0;
+  const { type, digits, inwords, tens } = questiontype;
+  const nos = 2;
+  let { decimals = 0 } = questiontype;
+  if (inwords) decimals = 0;
+  const symbols = [];
+  const tonumber = 10 ** digits - 1;
+  const fromnumber = 10 ** (digits - 1) + 1;
+  const answer = randomIntFromInterval(fromnumber, tonumber);
+  const divider = randomIntFromInterval(2, 9);
+  const dividend = answer * divider;
+  // console.log(`${question} ? ${answer}`);
+  let question = '';
+
+  if (!inwords) question = `${dividend} / ${divider}`;
+  else if (inwords) question = `${numberToEnglish(dividend)} X ${numberToEnglish(divider)}`;
+  
+  return {
+    question: question,
+    questions: [],
+    answer: answer,
+  };
+
+};
 
 export const generateSquareQuestion = (questiontype) => {
   let currentnumber = 0;

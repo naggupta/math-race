@@ -33,6 +33,7 @@ const initialState = {
   //     decimals: 0,
   //     points:10,
   // },
+  multiplayer: false,
   players: [
     { id: 0, ...player },
     { id: 1, ...player },
@@ -45,6 +46,12 @@ const reducer = (state = initialState, action) => {
   // console.log('[reducer]', action.type);
   let players = null;
   switch (action.type) {
+    case actionTypes.SET_MULTIPLAYER:
+      return {
+        ...state,
+        players: [...action.players],
+        multiplayer: action.multiplayer,
+      };
     case actionTypes.RESET:
       return {
         ...state,

@@ -6,3 +6,4 @@ export const CORRECT = 'CORRECT';
 export const WRONG = 'WRONG';
 export const WIN = 'WIN'; 
 export const COMPLETE = 'COMPLETE'; 
+export const SET_MULTIPLAYER = 'SET_MULTIPLAYER'; 

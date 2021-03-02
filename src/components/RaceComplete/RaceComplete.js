@@ -4,6 +4,11 @@ import * as Classes from './RaceComplete.module.css';
 function RaceComplete(props) {
   const winner = props.players[0].points >= props.players[1].points ? props.players[0].name : props.players[1].name;
 
+  const playAgain=() => {
+    props.reset();
+    props.history.push('/math-race/setup')
+  }
+
   const players = [...props.players].reverse().map((player) => {
     if (!player.name) return <Fragment key={player.id} />;
     const score = +player.points - player.wrong + (winner === player.name ? 10 : 0);
@@ -45,7 +50,7 @@ function RaceComplete(props) {
   return (
     <div className={Classes.RaceComplete}>
       {players}
-      <button type="button" onClick={(e) => props.reset()} onKeyPress={(e) => props.reset()} className={['w3-btn', 'w3-round-large', Classes.BtnGo].join(' ')}>
+      <button type="button" onClick={playAgain} onKeyPress={playAgain} className={['w3-btn', 'w3-round-large', Classes.BtnGo].join(' ')}>
         Play Again &gt;&gt;
       </button>
     </div>

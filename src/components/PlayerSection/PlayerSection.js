@@ -92,7 +92,7 @@ class PlayerSection extends PureComponent {
   displayQuestion = (player, no) => {
     let i = no < 0 ? 0 : no;
     i = no >= player.questions.length ? player.questions.length - 1 : no;
-    if (i >= player.questions.length || i<0) return;
+    if (i >= player.questions.length || i < 0) return;
     console.log('[displayquestion]', i);
     this.setState((prevState) => ({ qcounter: i + 1, question: player.questions[i], fullquestion: player.question }));
     this.animateNextQuestion(player);
@@ -146,6 +146,7 @@ class PlayerSection extends PureComponent {
         this.props.win(this.props.playerno);
         setTimeout(() => {
           this.props.complete(this.props.playerno);
+          this.props.history.push('/math-race/complete');
           this.claps.play();
         }, 2000);
 
@@ -206,6 +207,10 @@ class PlayerSection extends PureComponent {
     this.click.play();
   };
 
+  reset = () => {
+    this.props.reset();
+    this.props.history.push('/math-race/setup');
+  };
   render() {
     const player = this.props.players[this.props.playerno];
     console.log('[PlayerSection] render', this.props.playerno, player.answer, player.question, 'questions', player.questions);
@@ -226,7 +231,7 @@ class PlayerSection extends PureComponent {
         <Modal show={!!this.state.closedisplay} modelClosed={() => this.setState({ closedisplay: false })}>
           <span>Do you want to exit the game?</span>
           <div>
-            <a role="button" onClick={this.props.reset} tabIndex={0} onKeyPress={this.props.reset} style={{ margin: '10px' }} className={['w3-button', 'w3-round-large', this.buttonTheme()].join(' ')}>
+            <a role="button" onClick={this.reset} tabIndex={0} onKeyPress={this.reset} style={{ margin: '10px' }} className={['w3-button', 'w3-round-large', this.buttonTheme()].join(' ')}>
               {' '}
               Restart
             </a>
@@ -286,13 +291,34 @@ class PlayerSection extends PureComponent {
               </div>
             </CSSTransition>
             <div className={Classes.Refresh}>
-              <a className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')} style={{ display: player.questiontype.delay === 0 ? 'none' : 'flex' }} role="button" onClick={this.prevQuestion} tabIndex={0} onKeyPress={this.prevQuestion}>
+              <a
+                className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}
+                style={{ display: player.questiontype.delay === 0 ? 'none' : 'flex' }}
+                role="button"
+                onClick={this.prevQuestion}
+                tabIndex={0}
+                onKeyPress={this.prevQuestion}
+              >
                 <i className="fa fa-long-arrow-left" />
               </a>
-              <a className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')} style={{ display: player.questiontype.delay === 0 ? 'none' : 'flex' }} role="button" onClick={this.nextQuestion} tabIndex={0} onKeyPress={this.nextQuestion}>
+              <a
+                className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}
+                style={{ display: player.questiontype.delay === 0 ? 'none' : 'flex' }}
+                role="button"
+                onClick={this.nextQuestion}
+                tabIndex={0}
+                onKeyPress={this.nextQuestion}
+              >
                 <i className="fa fa-long-arrow-right" />
               </a>
-              <a className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')} style={{ display: player.questiontype.delay === 0 ? 'none' : 'flex' }} role="button" onClick={this.restart} tabIndex={0} onKeyPress={this.restart}>
+              <a
+                className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}
+                style={{ display: player.questiontype.delay === 0 ? 'none' : 'flex' }}
+                role="button"
+                onClick={this.restart}
+                tabIndex={0}
+                onKeyPress={this.restart}
+              >
                 <i className="fa fa-refresh" />
               </a>
             </div>

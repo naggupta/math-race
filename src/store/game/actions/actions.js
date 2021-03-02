@@ -31,7 +31,7 @@ export const start = (playername1, playername2, questiontype1, questiontype2) =>
       const { data } = await res;
 
       // .then((response) => {
-        // console.log('data:',data);
+      // console.log('data:',data);
       Object.keys(data).forEach((key) => {
         const q = [];
         data[key].forEach((item, idx) => {
@@ -105,6 +105,19 @@ export const wrongAnswer = (playerno) => {
       type: actionTypes.WRONG,
       playerno: playerno,
       ...Utils.generateQuestion(getstate().game.players[playerno].questiontype, getstate().game.wordquestions),
+    });
+  };
+};
+
+export const multiplayermode = (multiplayer, playername1, playername2) => {
+  return (dispatch, getstate) => {
+    const players = [...getstate().game.players];
+    players[0].name = playername1;
+    players[1].name = playername2;
+    dispatch({
+      type: actionTypes.SET_MULTIPLAYER,
+      multiplayer: multiplayer,
+      players: players,
     });
   };
 };

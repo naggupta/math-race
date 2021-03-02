@@ -5,4 +5,5 @@ export {
     wrongAnswer,
     win,
     complete,
+    multiplayermode,
 } from './actions';
