@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+.input-range{
+  width:200px !important;
+  margin-left: 10px;
+  margin-top: 15px;
+}
+
+.input-range__label--min, .input-range__label--max {
+  visibility: hidden;
+}

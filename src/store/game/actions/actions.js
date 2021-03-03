@@ -13,7 +13,7 @@ export const start = (playername1, playername2, questiontype1, questiontype2) =>
   return async (dispatch, getstate) => {
     // const { nos, digits, decimals } = getstate().game.questiontype;
     // console.log('[actions] start',questiontype1);
-    if ((['WORD', 'MONEY', 'FILL'].includes(questiontype1.type) || ['WORD', 'MONEY', 'FILL'].includes(questiontype2.type)) && !getstate().game.questions) {
+    if ((['WORD', 'MONEY', 'FILL'].includes(questiontype1.type) || (questiontype2 && ['WORD', 'MONEY', 'FILL'].includes(questiontype2.type))) && !getstate().game.questions) {
       //   axios.get('/questions.json')
       //         .then(response=>{
       //             console.log(response.data);

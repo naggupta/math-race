@@ -1,9 +1,9 @@
 import React, { Fragment, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PlayerSection from '../PlayerSection/PlayerSection';
-import * as Classes from './Multiplayer.module.css';
+import MultiplayerSection from '../MultiplayerSection/MultiplayerSection';
+import * as Classes from './SingleplayerWrapper.module.css';
 
-class MultiplayerPlay extends PureComponent {
+class SingleplayerWrapper extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -11,7 +11,7 @@ class MultiplayerPlay extends PureComponent {
   }
 
   render() {
-    const players = this.props.players.map((player, index) => (player.name ? <PlayerSection history={this.props.history} key={player.id} playerno={`${player.id}`} /> : <Fragment key={player.id} />));
+    const players = this.props.players.map((player, index) => (player.name ? <MultiplayerSection history={this.props.history} key={player.id} playerno={`${player.id}`} /> : <Fragment key={player.id} />));
     return (
       <div
         className={Classes.Race}
@@ -32,4 +32,4 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(MultiplayerPlay);
+export default connect(mapStateToProps, mapDispatchToProps)(SingleplayerWrapper);

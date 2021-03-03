@@ -4,13 +4,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // import Race from '../../components/Race/Race';
 import * as ReducerActions from '../../store/game/actions/index';
-import RaceSetup2 from '../../components/RaceSetup-2/RaceSetup-2';
-import PlayerSection from '../../components/PlayerSection/PlayerSection';
+import MultiplayerSetup from '../../components/MultiplayerSetup/MultiplayerSetup';
+import MultiplayerSection from '../../components/MultiplayerSection/MultiplayerSection';
 import * as Classes from './RaceWrapper.module.css';
 import RaceComplete from '../../components/RaceComplete/RaceComplete';
 import DrawArea from '../../components/DrawArea/DrawArea';
-import RaceSetup1 from '../../components/RaceSetup-1/RaceSetup-1';
-import MultiplayerPlay from '../../components/MultiplayerPlay/MultiplayerPlay';
+import PlayerSelection from '../../components/PlayerSelection/PlayerSelection';
+import MultiplayerWrapper from '../../components/MultiplayerWrapper/MultiplayerWrapper';
+import SingleplayerSetup from '../../components/SingleplayerSetup/SingleplayerSetup';
+import SingleplayerWrapper from '../../components/SingleplayerWrapper/SingleplayerWrapper';
 
 class RaceWrapper extends Component {
   constructor(props) {
@@ -39,17 +41,18 @@ class RaceWrapper extends Component {
     // console.log('[Racewrapper] render', this.props.players, this.props.endtime);
     return (
       <Fragment>
-        <Route path="/math-race" exact component={RaceSetup1} />
-        <Route path="/math-race/setup" exact component={RaceSetup2} />
-        <Route path="/math-race/play" exact component={MultiplayerPlay} />
-        <Route path="/math-race/complete" exact render={(props) => (<RaceComplete {...props} players={this.props.players} reset={this.props.reset} />)} />
+        <Route path="/math-race" exact component={PlayerSelection} />
+
+        <Route path="/math-race/setup" exact render={(props) => (this.props.multiplayer ? <MultiplayerSetup {...props} /> : <SingleplayerSetup {...props} />)} />
+        <Route path="/math-race/play" exact render={(props) => (this.props.multiplayer ? <MultiplayerWrapper {...props} /> : <SingleplayerWrapper {...props} />)} />
+        <Route path="/math-race/complete" exact render={(props) => <RaceComplete {...props} players={this.props.players} reset={this.props.reset} />} />
         {/* <Route path="/math-race/setup" exact component={RaceSetup2} />
         <Route path="/math-race/complete" render={(props) => (<RaceComplete players={this.props.players} reset={this.props.reset} />)} /> */}
-      {/* <div className={Classes.Race}> */}
-            
+        {/* <div className={Classes.Race}> */}
+
         {/* <Route path="/math-race/play" exact component={RacePlayerSelection} /> */}
-            
-      {/* </div> */}
+
+        {/* </div> */}
       </Fragment>
     );
 
@@ -70,15 +73,15 @@ class RaceWrapper extends Component {
     // const players = this.props.players.map((player, index) => (player.name ? <PlayerSection key={player.id} playerno={`${player.id}`} /> : <DrawArea />));
     // console.log('[Race] render', this.props.players);
     // return (
-      // <div
-        // className={Classes.Race}
-        // style={{
-        //   backgroundImage: `url(${process.env.PUBLIC_URL}/images/underwater.png)`,
-        // }}
-      // >
-        // {players}
-        // {/* <div className={Classes.Divider}/> */}
-      // </div>
+    // <div
+    // className={Classes.Race}
+    // style={{
+    //   backgroundImage: `url(${process.env.PUBLIC_URL}/images/underwater.png)`,
+    // }}
+    // >
+    // {players}
+    // {/* <div className={Classes.Divider}/> */}
+    // </div>
     // );
     // return (
     //         <Race players={this.props.players} />
@@ -92,6 +95,7 @@ class RaceWrapper extends Component {
 
 const mapStateToProps = (state) => ({
   players: state.game.players,
+  multiplayer: state.game.multiplayer,
   starttime: state.game.starttime,
   endtime: state.game.endtime,
 });

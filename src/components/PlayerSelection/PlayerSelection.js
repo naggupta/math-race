@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import * as ReducerActions from '../../store/game/actions/index';
-import * as Classes from './RaceSetup-1.module.css';
+import * as Classes from './PlayerSelection.module.css';
 
-class RaceSetup1 extends PureComponent {
+class PlayerSelection extends PureComponent {
   constructor(props) {
     super(props);
     const players = [(props.players && props.players[0].name) || 'Hasana', (props.players && props.players[1].name) || ''];
@@ -17,7 +17,11 @@ class RaceSetup1 extends PureComponent {
   }
 
   goNext = () => {
-    this.props.setMultiplayer(this.state.multiplayer, this.state.player0, this.state.player1);
+    let { player1 } = this.state;
+    if (this.state.multiplayer && !this.state.player1) player1 = 'Player 2';
+    else if (!this.state.multiplayer && this.state.player1) player1 = '';
+
+    this.props.setMultiplayer(this.state.multiplayer, this.state.player0, player1);
     this.props.history.push('/math-race/setup');
   };
 
@@ -45,15 +49,17 @@ class RaceSetup1 extends PureComponent {
             />
           </div>
         </div>
-        <button
-          type="submit"
-          value="Start"
-          // onKeyPress={(e) => this.startGame(e)}
-          onClick={this.goNext}
-          className={['w3-btn', 'w3-round-large', Classes.BtnGo].join(' ')}
-        >
-          Next &gt;&gt;
-        </button>
+        <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'center' }}>
+          <button
+            type="submit"
+            value="Start"
+            // onKeyPress={(e) => this.startGame(e)}
+            onClick={this.goNext}
+            className={['w3-btn', 'w3-round-large', Classes.BtnGo].join(' ')}
+          >
+            Next &gt;&gt;
+          </button>
+        </div>
       </div>
     );
   }
@@ -68,4 +74,4 @@ const mapDispatchToProps = (dispatch) => ({
   setMultiplayer: (multiplayer, playername1, playername2) => dispatch(ReducerActions.multiplayermode(multiplayer, playername1, playername2)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(RaceSetup1);
+export default connect(mapStateToProps, mapDispatchToProps)(PlayerSelection);

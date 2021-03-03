@@ -1,9 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import * as ReducerActions from '../../store/game/actions/index';
-import * as Classes from './RaceSetup-2.module.css';
+import * as Classes from './MultiplayerSetup.module.css';
 
-class RaceSetup extends PureComponent {
+class MultiplayerSetup extends PureComponent {
   constructor(props) {
     super(props);
     const players = [(props.players && props.players[0].name) || 'Hasana', (props.players && props.players[1].name) || ''];
@@ -19,11 +19,11 @@ class RaceSetup extends PureComponent {
       player1: players[1],
     };
 
-    // console.log('RaceSetup[constructor]', this.state);
+    // console.log('MultiplayerSetup[constructor]', this.state);
   }
 
   // shouldComponentUpdate(nextProps, newState) {
-  //     console.log('[RaceSetup] shouldComponentUpdate', this.props, nextProps);
+  //     console.log('[MultiplayerSetup] shouldComponentUpdate', this.props, nextProps);
   //     return true;
   // }
 
@@ -105,7 +105,7 @@ class RaceSetup extends PureComponent {
   // }
 
   render() {
-    // console.log('[RaceSetup] render');
+    // console.log('[MultiplayerSetup] render');
 
     const players = [(this.props.players && this.props.players[0].name) || 'Hasana', (this.props.players && this.props.players[1].name) || ''];
 
@@ -113,7 +113,7 @@ class RaceSetup extends PureComponent {
       const { name, questiontype } = this.props.players[index];
       return (
         <div key={index} className={Classes.Race}>
-          <div className={Classes.RaceSetup}>
+          <div className={Classes.MultiplayerSetup}>
             
             <div style={{ display: this.state[`player${index}`] ? 'flex' : 'none' }} className={Classes.Options}>
             <h2>{this.state[`player${index}`]}</h2>
@@ -437,4 +437,4 @@ const mapDispatchToProps = (dispatch) => ({
   start: (playername1, playername2, questiontype1, questiontype2) => dispatch(ReducerActions.start(playername1, playername2, questiontype1, questiontype2)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(RaceSetup);
+export default connect(mapStateToProps, mapDispatchToProps)(MultiplayerSetup);

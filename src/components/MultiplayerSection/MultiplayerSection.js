@@ -5,7 +5,7 @@ import { CSSTransition } from 'react-transition-group';
 // import useSound from 'use-sound';
 import { Howl, Howler } from 'howler';
 import * as ReducerActions from '../../store/game/actions/index';
-import Classes from './PlayerSection.module.css';
+import Classes from './MultiplayerSection.module.css';
 import * as Utils from '../../Utils/QuestionGenerator';
 import DisplayMessage from '../../UI/DisplayMessage/DisplayMessage';
 import Modal from '../../UI/Modal/Modal';
@@ -17,7 +17,7 @@ import clapsSound from '../../sounds/claps.mp3';
 // // import PlaySound from '../../Utils/PlaySound';
 // import UIfx from 'uifx';
 
-class PlayerSection extends PureComponent {
+class MultiplayerSection extends PureComponent {
   success = new Howl({ src: successSound, volume: 1 });
   wrong = new Howl({ src: wrongSound, volume: 1 });
   click = new Howl({ src: clickSound, volume: 1 });
@@ -421,4 +421,4 @@ const mapDispatchToProps = (dispatch) => ({
   complete: () => dispatch(ReducerActions.complete()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PlayerSection);
+export default connect(mapStateToProps, mapDispatchToProps)(MultiplayerSection);
