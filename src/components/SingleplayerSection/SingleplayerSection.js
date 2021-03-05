@@ -5,7 +5,7 @@ import { CSSTransition } from 'react-transition-group';
 // import useSound from 'use-sound';
 import { Howl, Howler } from 'howler';
 import * as ReducerActions from '../../store/game/actions/index';
-import Classes from './MultiplayerSection.module.css';
+import Classes from './SingleplayerSection.module.css';
 import * as Utils from '../../Utils/QuestionGenerator';
 import DisplayMessage from '../../UI/DisplayMessage/DisplayMessage';
 import Modal from '../../UI/Modal/Modal';
@@ -14,10 +14,11 @@ import wrongSound from '../../sounds/wrong.mp3';
 import movingFishSound from '../../sounds/movingfish.mp3';
 import clickSound from '../../sounds/click.mp3';
 import clapsSound from '../../sounds/claps.mp3';
+import AnswerInput from '../AnswerInput/AnswerInput';
 // // import PlaySound from '../../Utils/PlaySound';
 // import UIfx from 'uifx';
 
-class MultiplayerSection extends PureComponent {
+class SingleplayerSection extends PureComponent {
   success = new Howl({ src: successSound, volume: 1 });
   wrong = new Howl({ src: wrongSound, volume: 1 });
   click = new Howl({ src: clickSound, volume: 1 });
@@ -90,17 +91,19 @@ class MultiplayerSection extends PureComponent {
   };
 
   displayQuestion = (player, no) => {
+    // this.inputAnswer.focus();
+    this.focusAnswer();
     let i = no < 0 ? 0 : no;
     i = no >= player.questions.length ? player.questions.length - 1 : no;
     if (i >= player.questions.length || i < 0) return;
-    console.log('[displayquestion]', i);
+    // console.log('[displayquestion]', i);
     this.setState((prevState) => ({ qcounter: i + 1, question: player.questions[i], fullquestion: player.question }));
     this.animateNextQuestion(player);
   };
 
   nextQuestion = () => {
     this.clearTimer();
-    console.log('[nextquestion]', this.state.qcounter);
+    // console.log('[nextquestion]', this.state.qcounter);
     const player = this.props.players[this.props.playerno];
     this.displayQuestion(player, this.state.qcounter);
   };
@@ -108,33 +111,39 @@ class MultiplayerSection extends PureComponent {
   prevQuestion = () => {
     this.clearTimer();
     const player = this.props.players[this.props.playerno];
-    console.log('[nextquestion]', this.state.qcounter);
+    // console.log('[nextquestion]', this.state.qcounter);
     this.displayQuestion(player, this.state.qcounter - 2);
   };
 
   buttonTheme = () => {
-    return this.props.playerno === '1' ? 'w3-ripple w3-hover-indigo w3-indigo' : 'w3-ripple w3-hover-red w3-pink';
+    return 'ColorTheme';
   };
 
   sectionTheme = () => {
-    return this.props.playerno === '1' ? 'w3-indigo' : 'w3-pink';
+    return 'ColorTheme';
   };
 
-  goClick = () => {
+  _handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      this.goClick();
+    }
+  };
+
+  goClick = (inputAnswer) => {
     const player = this.props.players[this.props.playerno];
     const correctref = this.correctRef.current;
     const questionRef = this.questionRef.current;
     const wrongref = this.wrongRef.current;
 
-    if (!this.inputAnswer.value) return;
+    if (!inputAnswer) return;
 
     this.clearTimer();
 
-    let answer = this.inputAnswer.value;
+    let answer = inputAnswer;
 
-    if (player.questiontype.decimals > 0) answer = (+this.inputAnswer.value).toFixed(2).replace(/(\.0+|0+)$/, '');
+    if (player.questiontype.decimals > 0) answer = (+inputAnswer).toFixed(2).replace(/(\.0+|0+)$/, '');
 
-    // console.log(answer,String(answer).replace(/^0+/, '') , String(player.answer).replace(/^0+/, ''))
+    console.log('[SingleplayerSection]', answer, String(answer).replace(/^0+/, ''), String(player.answer).replace(/^0+/, ''));
 
     // eslint-disable-next-line eqeqeq
     if (String(answer).replace(/^0+/, '') == String(player.answer).replace(/^0+/, '')) {
@@ -159,8 +168,8 @@ class MultiplayerSection extends PureComponent {
 
       setTimeout(() => {
         this.props.nextQuestion(this.props.playerno);
-        // this.setState({ answer: '' });
-        this.inputAnswer.value = '';
+        // this.inputAnswer.value = '';
+        this.resetAnswer();
         correctref.classList.remove(Classes.MessageAnimate);
         questionRef.classList.remove(Classes.HideQuestion);
         questionRef.classList.add(Classes.ShowQuestion);
@@ -173,8 +182,8 @@ class MultiplayerSection extends PureComponent {
       // useSound(wrongSound);
       setTimeout(() => {
         this.props.wrongAnswer(this.props.playerno);
-        // this.setState({ answer: '' });
-        this.inputAnswer.value = '';
+        // this.inputAnswer.value = '';
+        this.resetAnswer();
         wrongref.classList.remove(Classes.MessageAnimate);
       }, 1000);
       this.wrong.play();
@@ -201,11 +210,11 @@ class MultiplayerSection extends PureComponent {
     // clearInterval(timer);
   };
 
-  appendAnswer = (val) => {
-    if (val === '<') this.inputAnswer.value = this.inputAnswer.value.slice(0, -1);
-    else this.inputAnswer.value += `${val}`;
-    this.click.play();
-  };
+  //   appendAnswer = (val) => {
+  //     if (val === '<') this.inputAnswer.value = this.inputAnswer.value.slice(0, -1);
+  //     else this.inputAnswer.value += `${val}`;
+  //     this.click.play();
+  //   };
 
   reset = () => {
     this.props.reset();
@@ -214,20 +223,22 @@ class MultiplayerSection extends PureComponent {
   render() {
     const player = this.props.players[this.props.playerno];
     console.log('[PlayerSection] render', this.props.playerno, player.answer, player.question, 'questions', player.questions);
+    let seperator = '';
+    seperator = player.questiontype.type === 'TIMEHRS+-' ? ':' : '';
     // const messagedisplay = (player.answerresult) ? <DisplayMessage display={player.answerresult} /> : <Fragment />;
     const messagedisplay = (
       <Fragment>
         <div ref={this.correctRef} className={[Classes.DisplayMessage, Classes.Correct].join(' ')}>
-          <i style={{ margin: '5px' }} className="fa fa-check" />
+          {Utils.getDisplaySuccessMessage()}
         </div>
         <div ref={this.wrongRef} className={[Classes.DisplayMessage, Classes.Wrong].join(' ')}>
-          {player.answer}
+          {`${Utils.getDisplayWrongMessage()} It's ${player.answer}`}
         </div>
       </Fragment>
     );
     // this.setState({ answerresult: '' });
     return (
-      <div className={[this.props.playerno === '0' ? Classes._0 : Classes._1].join(' ')}>
+      <div className={[Classes.SingleplayerSection].join(' ')}>
         <Modal show={!!this.state.closedisplay} modelClosed={() => this.setState({ closedisplay: false })}>
           <span>Do you want to exit the game?</span>
           <div>
@@ -250,7 +261,12 @@ class MultiplayerSection extends PureComponent {
         </Modal>
         {messagedisplay}
         <div className={[Classes.PlayerCharacter].join(' ')}>
-          <img
+          <div className="w3-light-grey w3-round">
+            <div className="w3-container w3-round ColorTheme" style={{ width: `${player.points * (100 / +player.questiontype.points)}vw` }}>
+              <span className={Classes.ProgressBar}>{`${player.points}/${player.questiontype.points}`}</span>
+            </div>
+          </div>
+          {/* <img
             style={{
               position: 'absolute',
               transform: +this.props.playerno === 0 ? 'scaleX(1)' : 'rotateX(180deg)',
@@ -262,10 +278,10 @@ class MultiplayerSection extends PureComponent {
             height="auto"
             width="100px"
             src={`${process.env.PUBLIC_URL}/images/Fish_${this.props.playerno}.svg`}
-          />
+          /> */}
         </div>
         <div className={Classes.QuestionBar}>
-          <div>
+          {/* <div>
             <span className={[this.sectionTheme()].join(' ')}>
               <span className={[Classes.PlayerName].join(' ')}>{player.name}</span>
             </span>
@@ -282,14 +298,15 @@ class MultiplayerSection extends PureComponent {
                 </a>
               </div>
             </span>
-          </div>
+          </div> */}
           {/* <span className={Classes.Question}><span style={{fontSize:'2.5em'}}>Emily has £46.20. She wants to buy a new e-book. It costs £20. How much more money does she need to Save?</span></span> */}
-          <span ref={this.questionRef} className={Classes.Question}>
+          <div ref={this.questionRef} className={Classes.Question}>
             <CSSTransition classNames="question" timeout={200}>
               <div>
                 <span style={{ display: 'inline-block', fontSize: '2.5em' }} dangerouslySetInnerHTML={{ __html: this.state.question }} />
               </div>
             </CSSTransition>
+
             <div className={Classes.Refresh}>
               <a
                 className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}
@@ -321,21 +338,42 @@ class MultiplayerSection extends PureComponent {
               >
                 <i className="fa fa-refresh" />
               </a>
+              <a
+                className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}
+                style={{ display: 'flex' }}
+                role="button"
+                onClick={() => this.setState({ closedisplay: true })}
+                tabIndex={0}
+                onKeyPress={() => this.setState({ closedisplay: true })}
+              >
+                <i className="fa fa-window-close" />
+              </a>
             </div>
-            <input
-              ref={(e) => {
-                this.inputAnswer = e;
-              }}
-              onKeyDown={() => false}
-              onKeyPress={() => false}
-              onKeyUp={() => false}
-              type="text"
-              maxLength="7"
-              className={['w3-btn', 'w3-round-large', this.sectionTheme(), Classes.Answer].join(' ')}
-            />
-          </span>
+            <div className={Classes.Answer}>
+              <AnswerInput
+                resetAnswer={(e) => {
+                  this.resetAnswer = e;
+                }}
+                focusAnswer={(e) => {
+                  this.focusAnswer = e;
+                }}
+                seperator={seperator}
+                goClick={this.goClick}
+              />
+              {/* <input
+                ref={(e) => {
+                  this.inputAnswer = e;
+                }}
+                inputMode="numeric"
+                onKeyDown={this._handleKeyDown}
+                type="text"
+                maxLength="7"
+                className={['w3-btn', 'w3-round-large'].join(' ')}
+              /> */}
+            </div>
+          </div>
         </div>
-        <div className={Classes.ButtonBar}>
+        {/* <div className={Classes.ButtonBar}>
           <button type="button" data-playerno={this.props.playerno} onClick={() => this.appendAnswer('1')} className={['w3-button', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}>
             1
           </button>
@@ -399,7 +437,7 @@ class MultiplayerSection extends PureComponent {
           >
             GO
           </button>
-        </div>
+        </div> */}
       </div>
     );
   }
@@ -421,4 +459,4 @@ const mapDispatchToProps = (dispatch) => ({
   complete: () => dispatch(ReducerActions.complete()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MultiplayerSection);
+export default connect(mapStateToProps, mapDispatchToProps)(SingleplayerSection);

@@ -11,7 +11,7 @@ function RaceComplete(props) {
 
   const players = [...props.players].reverse().map((player) => {
     if (!player.name) return <Fragment key={player.id} />;
-    const score = +player.points - player.wrong + (winner === player.name ? 10 : 0);
+    const score = +player.points + (winner === player.name ? 10 : 0);
     return (
       <div key={player.id}>
         <h1>
@@ -22,11 +22,11 @@ function RaceComplete(props) {
           <strong className="fa-stack-1x">{player.points}</strong>
           <span className={Classes.ScoreLabel}>Correct</span>
         </span>
-        <span className={['fa-stack', Classes.Score].join(' ')}>
+        {/* <span className={['fa-stack', Classes.Score].join(' ')}>
           <span className={['fa fa-star fa-stack-2x'].join(' ')} />
           <strong className="fa-stack-1x">{-player.wrong}</strong>
           <span className={Classes.ScoreLabel}>Wrong</span>
-        </span>
+        </span> */}
         {/* <span className={['fa-stack', Classes.Score].join(' ')}>
                     <span className={['fa fa-star fa-stack-2x'].join(' ')} />
                     <strong className="fa-stack-1x">

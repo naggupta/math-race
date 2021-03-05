@@ -46,3 +46,9 @@
 .input-range__label--min, .input-range__label--max {
   visibility: hidden;
 }
+
+.ColorTheme{
+  color:#000 !important;
+  background-color: #F79B19 !important;
+
+}

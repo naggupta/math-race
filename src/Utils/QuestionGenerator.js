@@ -9,7 +9,7 @@ export const generateQuestion = (questiontype, wordquestions) => {
   else if (type === '/') return generateDivideQuestion(questiontype);
   else if (type === 'X2') return generateSquareQuestion(questiontype);
   else if (['WORD', 'MONEY', 'FILL'].includes(type)) return generateWordsQuestion(questiontype, wordquestions);
-  else if (['TIME+-'].includes(type)) return generateTimeAdditionQuestion(questiontype);
+  else if (['TIMEHRS+-'].includes(type)) return generateTimeAdditionQuestion(questiontype);
   return {
     question: '', // '2+3',
     questions: [],
@@ -79,7 +79,7 @@ export const generateMultiplyQuestion = (questiontype) => {
 
   if (!inwords) question = `${multiplicend} X ${multiplier}`;
   else if (inwords) question = `${numberToEnglish(multiplicend)} X ${numberToEnglish(multiplier)}`;
-  
+
   return {
     question: question,
     questions: [],
@@ -88,7 +88,7 @@ export const generateMultiplyQuestion = (questiontype) => {
 };
 
 export const generateDivideQuestion = (questiontype) => {
-   // let question = '';
+  // let question = '';
   // let answer = 0;
   const { type, digits, inwords, tens } = questiontype;
   const nos = 2;
@@ -105,13 +105,12 @@ export const generateDivideQuestion = (questiontype) => {
 
   if (!inwords) question = `${dividend} / ${divider}`;
   else if (inwords) question = `${numberToEnglish(dividend)} X ${numberToEnglish(divider)}`;
-  
+
   return {
     question: question,
     questions: [],
     answer: answer,
   };
-
 };
 
 export const generateSquareQuestion = (questiontype) => {
@@ -205,12 +204,13 @@ export const generatePlusMinusQuestion = (questiontype) => {
   let question = '';
   const questions = [];
   let answer = 0;
-  const { type, nos, digits, inwords } = questiontype;
+  const { type, nos, digits, inwords, level } = questiontype;
   let { decimals = 0 } = questiontype;
   if (inwords) decimals = 0;
   const symbols = [];
 
   const totaldigits = digits + decimals;
+  let isHigherNumber = false;
   for (let i = 0; i < nos; i += 1) {
     const temptype = type;
     let sign = '+';
@@ -221,6 +221,7 @@ export const generatePlusMinusQuestion = (questiontype) => {
     else if (i > 1 && type === '+-x' && !symbols.includes('x') && answer < 10 && digits === 1) sign = 'x';
     else sign = randomSign(temptype);
     // const sign = i === 0 || answer < 10 ** (totaldigits - 1) ? '+' : randomSign(temptype);
+    if (!isHigherNumber && level === 2 && i === nos - 1) sign = '+';
     symbols.push(sign);
 
     let tonumber = 10 ** totaldigits - 1;
@@ -230,10 +231,17 @@ export const generatePlusMinusQuestion = (questiontype) => {
       tonumber = 9;
     } else if (sign === '-' && tonumber > answer) tonumber = answer;
     // console.log(`${fromnumber},${tonumber}`)
-    currentnumber = randomIntFromInterval(fromnumber, tonumber);
+
+    if (!isHigherNumber && level === 2 && i === nos - 1) {
+      fromnumber = 10 ** digits - answer;
+      currentnumber = randomIntFromInterval(fromnumber, fromnumber + 10 ** digits);
+    } else currentnumber = randomIntFromInterval(fromnumber, tonumber);
     let q = '';
     if (sign === '+' || sign === '-') answer += (sign === '+' ? 1 : -1) * currentnumber;
     else if (sign === 'x') answer *= currentnumber;
+
+    if (!isHigherNumber && level === 2 && answer.toString().length > digits) isHigherNumber = true;
+
     if (!inwords) {
       q = `${i > 0 ? sign : ''} ${currentnumber / (decimals === 0 ? 1 : 10 ** decimals)}`;
       question = `${question} ${q}`;
@@ -247,6 +255,7 @@ export const generatePlusMinusQuestion = (questiontype) => {
   }
   answer /= decimals === 0 ? 1 : 10 ** decimals;
   // console.log(`${question} ? ${answer}`);
+
   questions.push('?');
   // console.log('[Question Generator]', questions);
   return {
@@ -283,7 +292,7 @@ export const generateTimeAdditionQuestion = (questiontype) => {
   // eslint-disable-next-line new-cap
   let answerdt = new moment(timeval, HR24 === 'Y' ? 'HH:mm' : 'hh:mm');
   let questionstr = `${timeval} ${sign} ${addhrs} ${addhrs ? 'hrs' : ''} ${addmin} min`;
-  console.log(questionstr);
+  // console.log(questionstr);
 
   if (inwords) {
     let toword = '';
@@ -336,6 +345,38 @@ export const randomFromList = (list) => {
 // const randomSign = () => {
 //   return Math.round(Math.random()) * 2 - 1;
 // };
+
+export const getDisplaySuccessMessage = () => {
+  const successMessages = [
+    'Tremendous',
+    'Remarkable',
+    'Great',
+    'Terrific',
+    'Enormous',
+    'Impressive',
+    'Outstanding',
+    'Phenomenal',
+    'Marvellous',
+    'Wonderful',
+    'Sensational',
+    'Magnificent',
+    'Superb',
+    'Excellent',
+    'Very good',
+    'First-class',
+    'Fabulous',
+    'Super',
+    'Awesome',
+    'Brilliant',
+    'Keep going',
+  ];
+  return randomFromList(successMessages);
+};
+
+export const getDisplayWrongMessage = () => {
+  const successMessages = ['Try again', 'Concentrate', 'Focus', 'Think hard', 'Give attention', 'Be attentive'];
+  return randomFromList(successMessages);
+};
 
 const randomSign = (type) => {
   const signs = type.split('');

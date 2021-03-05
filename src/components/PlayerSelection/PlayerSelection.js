@@ -29,36 +29,38 @@ class PlayerSelection extends PureComponent {
     return (
       <div>
         <h2 style={{ textAlign: 'center' }}>Maths Race</h2>
-        <div className={Classes.RaceSetup}>
-          <div>
-            <input type="radio" name="mode" value="false" onChange={(e) => this.setState({ multiplayer: false })} defaultChecked={!this.state.multiplayer} />
-            <label>Single Player</label>
-            <input type="text" placeholder="Player Name" onChange={(e) => this.setState({ player0: e.currentTarget.value })} name="player1" value={this.state.player0} />
-          </div>
+        <div className={Classes.PlayerSelection}>
+          <div className={Classes.RaceSetup}>
+            <div>
+              <input type="radio" name="mode" value="false" onChange={(e) => this.setState({ multiplayer: false })} defaultChecked={!this.state.multiplayer} />
+              <label>Single Player</label>
+              <input type="text" placeholder="Player Name" onChange={(e) => this.setState({ player0: e.currentTarget.value })} name="player1" value={this.state.player0} />
+            </div>
 
-          <div>
-            <input type="radio" name="mode" value="true" onChange={(e) => this.setState({ multiplayer: true })} defaultChecked={!!this.state.multiplayer} />
-            <label>Two Player</label>
-            <input
-              style={{ visibility: !this.state.multiplayer ? 'hidden' : 'visible' }}
-              type="text"
-              name="player1"
-              placeholder="Player Name"
-              onChange={(e) => this.setState({ player1: e.currentTarget.value })}
-              value={this.state.player1}
-            />
+            <div>
+              <input type="radio" name="mode" value="true" onChange={(e) => this.setState({ multiplayer: true })} defaultChecked={!!this.state.multiplayer} />
+              <label>Two Player</label>
+              <input
+                style={{ visibility: !this.state.multiplayer ? 'hidden' : 'visible' }}
+                type="text"
+                name="player1"
+                placeholder="Player Name"
+                onChange={(e) => this.setState({ player1: e.currentTarget.value })}
+                value={this.state.player1}
+              />
+            </div>
           </div>
-        </div>
-        <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'center' }}>
-          <button
-            type="submit"
-            value="Start"
-            // onKeyPress={(e) => this.startGame(e)}
-            onClick={this.goNext}
-            className={['w3-btn', 'w3-round-large', Classes.BtnGo].join(' ')}
-          >
-            Next &gt;&gt;
-          </button>
+          <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'flex-end', marginRight: '10px' }}>
+            <button
+              type="submit"
+              value="Start"
+              // onKeyPress={(e) => this.startGame(e)}
+              onClick={this.goNext}
+              className={['w3-btn', 'w3-round-large', Classes.BtnGo].join(' ')}
+            >
+              Next &gt;&gt;
+            </button>
+          </div>
         </div>
       </div>
     );

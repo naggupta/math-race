@@ -1,0 +1,301 @@
+/* .PlayerCharacter,.QuestionWrapper{
+    position:absolute;
+} */
+
+
+.SingleplayerSection{
+    width: 100%;
+}
+
+.PlayerCharacter{
+    height: 20px;
+}
+
+.ProgressBar{
+    color:black;
+    font-weight: bold;
+}
+
+.QuestionBar >div > span >span {
+    font-size: 2em;
+    border-radius: 10px;
+    opacity: .8;
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+}
+
+
+.QuestionBar{
+    display:flex;
+    flex-flow: row nowrap;
+    height: calc(100vh - 50px);
+}
+
+
+.QuestionBar > div >span{
+    display:flex;
+    width:150px;
+    margin: 10px;
+    text-align: center;
+    align-self: center;
+    opacity: .8;
+    border-radius: 10px;
+    height: 90px;
+    align-items: center;
+}
+
+.question-enter {
+    opacity: 0;
+  }
+  
+  .question-enter-active {
+    opacity: 1;
+    transition: opacity 200ms ease-in;
+  }
+  
+  .question-exit {
+    opacity: 1;
+  }
+  
+  .question-exit-active {
+    opacity: 0.01;
+    transition: opacity 200ms ease-in;
+  }
+  
+
+.QuestionBar .Question{
+    flex-grow: 1;
+    /* background-color: #F8F8F8; */
+    align-items: center;
+    opacity: .8;
+    /* border-radius: 10px 10px 0 0; */
+    margin: 10px 10px 0px 10px;
+    /* align-self: auto; */
+    color: #FFF;
+    font-weight: bold;
+    /* font-size: 2.5em; */
+    /* text-align: center; */
+    padding: 10px;
+    /* display: inline-block; */
+    height: calc(100% - 10px);
+    position: relative;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    
+}
+
+.QuestionBar .Question span{
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 90%, 85% 100%, 0 100%);
+    opacity: .8;
+}
+
+.Close{
+    position: absolute;
+    top: -2px;
+    right: -1px;
+    font-size: 1.5em;
+    margin: 0px;
+    padding: 0px;
+    line-height: 0px;
+}
+.Refresh{
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    font-size: 1.5em;
+    margin: 0px;
+    padding: 0px;
+    line-height: 0px;
+    display:flex;
+
+}
+/* ._1{
+    bottom:0%;
+}
+ */
+
+
+.Refresh > a {
+    /* margin: 6px;
+    display: block;
+    border: 1px solid black;
+    width: 70px;
+    height: 75px; */
+    font-size: 1em;
+    font-weight: normal;
+    /* padding: 0px;
+    text-align: center;
+    border-radius: 5px; */
+    justify-content: center;
+    align-items: center;
+}
+
+.ButtonBar{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    height: 100px;
+    background-color: #F8F8F8;
+    align-items: center;
+    opacity: .8;
+    border-radius: 10px;
+    margin: 0 10px 10px 10px;
+}
+
+/* .ButtonBar *{
+    height: 60px;
+} */
+
+
+
+/* .QuestionWrapper{
+    width: calc(100% - 20px);
+    padding: 10px 10px;
+    margin: 10px;
+    height: 200px;
+    background-color: #FFF;
+    opacity: .8;
+    border-radius: 28px;
+} */
+
+.Answer{
+    
+    right: 4px;
+    position: absolute;
+    bottom: 0px;
+}
+
+.Answer input[type="text"]{
+    /* border: 1px solid #009688; */
+    border-radius: 10px;
+    padding: 5px;
+    margin: 0px;
+    height: 50px;
+    color:#000;
+    background-color: #FFF;
+    /* align-self: center; */
+    width: 145px;
+    font-size: 1.5em;
+    /* right: 4px;
+    position: absolute;
+    bottom: 0px; */
+}
+
+.BtnGo,.BtnNumber{
+    margin: 5px;
+    width: 50px;
+    height: 50px;
+    font-size: 1em;
+    border: 1px solid #FFF;
+    text-align: center;
+}
+
+.BtnGo{
+    font-size: 1em !important;
+    color: #f44336;
+}
+
+.QuestionBar .Question.HideQuestion{
+    animation-name: hide-question;
+    animation-duration: 1s;
+}
+
+@keyframes hide-question{
+    0% {
+        opacity: 1;
+      }
+
+
+      100% {
+        opacity: 0;
+      }
+}
+
+.QuestionBar .Question.ShowQuestion{
+    animation-name: show-question;
+    animation-duration: 1s;
+}
+
+@keyframes show-question{
+    0% {
+        opacity: 0;
+      }
+
+
+      100% {
+        opacity: 1;
+      }
+}
+
+
+.DisplayMessage.MessageAnimate
+{
+    animation-name: hide-animation;
+    visibility:visible;
+    animation-duration: 20s;
+}
+
+.DisplayMessage{
+    /* animation-name: hide-animation;*/
+    visibility: hidden;
+    animation-duration: 20s;
+    visibility: hidden;
+    top: 40vh;
+    position: absolute;
+    left: 40vw;
+    font-size: 2em;
+    color: #FFF;
+    /* visibility: hidden; */
+    border: 1px solid #FFF;
+    border-radius: 5px;
+    /* opacity: .6; */
+    /* visibility: hidden; */
+}
+
+.DisplayMessage.Correct{
+    background-color: lightseagreen;
+}
+
+
+.DisplayMessage.Wrong{
+    background-color: indianred;
+    animation-duration: 20s;
+}
+
+@keyframes hide-animation{
+    0% {
+        visibility: visible;
+        top:40vh;
+        opacity: .6;
+      }
+
+      100% {
+        opacity: 0;
+        visibility: hidden;
+        top:0px;
+      }
+}
+/* 
+
+
+._0 .PlayerCharacter{
+    top:35%;
+}
+
+
+
+.Question{
+    color:#505050;
+    width:100%;
+    height:110px;
+}
+
+.Question span{
+    display:inline-block;
+    width:100%;
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+} */

@@ -1,5 +1,5 @@
 .Modal {
-    left: 40vh;
+    left: 30%;
     z-index: 500;
     position: fixed;
     /* box-shadow: 1px 1px 1px black; */
@@ -9,6 +9,12 @@
     margin-top: 100px;
     /* top: 40vh; */
     font-size: 1.5em;
+}
+
+@media (max-width:600px){
+    .Modal {
+        left: 0vh;
+    }
 }
 
 .Close{

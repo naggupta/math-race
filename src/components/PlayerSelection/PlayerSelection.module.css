@@ -1,3 +1,9 @@
+.PlayerSelection{
+    width:100vh;
+    max-width:400px;
+    margin:auto;
+}
+
 .RaceSetup{
     display: flex;
     flex-flow: row nowrap;
@@ -8,7 +14,6 @@
 }
 
 .RaceSetup > div{
-    margin:10px;
     /* background-color: #F8F8F8; */
     opacity: .8;
     margin:10px;
@@ -52,7 +57,7 @@
 }  
 
 .BtnGo{
-    margin: 10px 100px 0px 0px;
+    /* margin: 10px 100px 0px 0px; */
     width: 100px;
     height: 50px;
     font-size: 1em;

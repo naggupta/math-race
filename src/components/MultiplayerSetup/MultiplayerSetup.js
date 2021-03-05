@@ -145,11 +145,11 @@ class MultiplayerSetup extends PureComponent {
                   <input
                     type="radio"
                     name={`type${index}`}
-                    value="TIME+-"
+                    value="TIMEHRS+-"
                     onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })}
-                    defaultChecked={questiontype.type === 'TIME+-'}
+                    defaultChecked={questiontype.type === 'TIMEHRS+-'}
                   />
-                  <label>Time+-</label>
+                  <label>TIMEHRS+-</label>
                 </div>
                 <div>
                   <input type="radio" name={`type${index}`} value="FILL" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'FILL'} />
@@ -229,7 +229,7 @@ class MultiplayerSetup extends PureComponent {
                   <label>No</label>
                 </div>
               </div>
-              <div style={{ display: ['TIME+-'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+              <div style={{ display: ['TIMEHRS+-'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
                 <h2>24Hr</h2>
                 <div>
                   <input type="radio" name={`HR24${index}`} value="Y" defaultChecked={questiontype.HR24 === 'Y'} />
@@ -240,7 +240,7 @@ class MultiplayerSetup extends PureComponent {
                   <label>No</label>
                 </div>
               </div>
-              <div style={{ display: ['TIME+-'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+              <div style={{ display: ['TIMEHRS+-'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
                 <h2>Level</h2>
                 <div>
                   <input type="radio" name={`level${index}`} value="1" defaultChecked={questiontype.level === 1} />

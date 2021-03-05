@@ -1,0 +1,13 @@
+.BtnGo,.BtnNumber{
+    margin: 5px;
+    width: 50px;
+    height: 50px;
+    font-size: 1em;
+    border: 1px solid #FFF;
+    text-align: center;
+}
+
+.BtnGo{
+    font-size: 1em !important;
+    color: #f44336;
+}

@@ -1,6 +1,6 @@
 import React, { Fragment, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import MultiplayerSection from '../MultiplayerSection/MultiplayerSection';
+import SingleplayerSection from '../SingleplayerSection/SingleplayerSection';
 import * as Classes from './SingleplayerWrapper.module.css';
 
 class SingleplayerWrapper extends PureComponent {
@@ -11,15 +11,10 @@ class SingleplayerWrapper extends PureComponent {
   }
 
   render() {
-    const players = this.props.players.map((player, index) => (player.name ? <MultiplayerSection history={this.props.history} key={player.id} playerno={`${player.id}`} /> : <Fragment key={player.id} />));
+    const player = this.props.players[0];
     return (
-      <div
-        className={Classes.Race}
-        style={{
-          backgroundImage: `url(${process.env.PUBLIC_URL}/images/underwater.png)`,
-        }}
-      >
-        {players}
+      <div className={Classes.Race}>
+        <SingleplayerSection history={this.props.history} key={player.id} playerno={`${player.id}`} />
         {/* <div className={Classes.Divider}/> */}
       </div>
     );
