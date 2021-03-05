@@ -55,14 +55,14 @@ class SingleplayerSetup extends PureComponent {
     e.preventDefault();
 
     const { player0, digits0, numbers0, decimals0, type0, points0, inwords0, tens0, delay0, level0, HR240 } = this.form;
-    console.log('[SingleplayerSetup]', this.form);
+    // console.log('[SingleplayerSetup]', this.form);
     const questiontype0 = {
       type: type0.value,
       nos: +numbers0.value,
       digits: +digits0.value,
       decimals: ['+-'].includes(type0.value) ? +decimals0.value : 0,
       points: +points0.value,
-      delay: ['+-', '+-x'].includes(type0.value) ? +delay0.value : 0,
+      delay: ['+-', '+-x', 'BAL'].includes(type0.value) ? +delay0.value : 0,
       tens: tens0.value,
       HR24: HR240.value,
       level: +level0.value,
@@ -126,24 +126,34 @@ class SingleplayerSetup extends PureComponent {
               </label>
             </div>
             <div className={Classes.Group2}>
-              <div className={Classes.ExtraWide}>
+              <div>
                 <input type="radio" name={`type${index}`} value="TIME+-" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'TIME+-'} />
-                <label>Time +- Time</label>
+                <label>Time Difference</label>
               </div>
-              <div className={Classes.ExtraWide}>
-                <input type="radio" name={`type${index}`} value="TIMEHRS+-" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'TIMEHRS+-'} />
+              <div>
+                <input
+                  type="radio"
+                  name={`type${index}`}
+                  value="TIMEHRS+-"
+                  onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })}
+                  defaultChecked={questiontype.type === 'TIMEHRS+-'}
+                />
                 <label>Time +- Hrs</label>
               </div>
+            </div>
+            <div>
+              <input type="radio" name={`type${index}`} value="BAL" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'BAL'} />
+              <label>Balancing Technique</label>
             </div>
             <div>
               <input type="radio" name={`type${index}`} value="FILL" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'FILL'} />
               <label>Fill</label>
             </div>
-            <div className={Classes.ExtraWide}>
+            <div>
               <input type="radio" name={`type${index}`} value="MONEY" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'MONEY'} />
               <label>Money</label>
             </div>
-            <div className={Classes.ExtraWide}>
+            <div>
               <input type="radio" name={`type${index}`} value="WORD" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'WORD'} />
               <label>Word</label>
             </div>
@@ -155,7 +165,7 @@ class SingleplayerSetup extends PureComponent {
                 <InputRange name="digits0" minValue={1} maxValue={4} value={this.state.digits0} onChange={(value) => this.setState({ digits0: value })} step={1} />
               </div>
 
-              <div style={{ marginLeft: '0px', display: ['+-', '+-x'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+              <div style={{ marginLeft: '0px', display: ['+-', '+-x', 'BAL'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
                 <h5>Numbers</h5>
                 <InputRange name="numbers0" minValue={2} maxValue={10} value={this.state.numbers0} onChange={(value) => this.setState({ numbers0: value })} step={1} />
               </div>
@@ -173,7 +183,7 @@ class SingleplayerSetup extends PureComponent {
                   </div>
                 </div>
               </div>
-              <div style={{ display: ['TIMEHRS+-'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+              <div style={{ display: ['TIMEHRS+-','TIME+-'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
                 <h5>24Hr</h5>
                 <div className={Classes.Items}>
                   <div>
@@ -186,7 +196,7 @@ class SingleplayerSetup extends PureComponent {
                   </div>
                 </div>
               </div>
-              <div style={{ display: ['+-', 'TIMEHRS+-'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+              <div style={{ display: ['+-', 'TIMEHRS+-', 'TIME+-'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
                 <h5>Level</h5>
                 <InputRange
                   name="level0"
@@ -197,7 +207,7 @@ class SingleplayerSetup extends PureComponent {
                   step={1}
                 />
               </div>
-              <div style={{ display: ['+-', '+-x'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+              <div style={{ display: ['+-', '+-x', 'BAL'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
                 <h5>Delay</h5>
                 <InputRange name="delay0" minValue={0} maxValue={10} value={this.state.delay0} onChange={(value) => this.setState({ delay0: value })} step={1} formatLabel={(value) => `${value}s`} />
               </div>

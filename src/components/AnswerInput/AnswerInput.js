@@ -14,7 +14,6 @@ class AnswerInput extends PureComponent {
   submitAnswer = (e) => {
     let answer = this.inputAnswer.value;
     if (this.props.seperator) answer = `${this.inputAnswer.value}${this.props.seperator}${this.inputAnswer1.value}`;
-    console.log(answer);
     this.props.goClick(answer);
   };
   _handleKeyDown = (e) => {
@@ -59,6 +58,7 @@ class AnswerInput extends PureComponent {
       inputfields = (
         <Fragment>
           <input
+            placeholder="hrs"
             ref={(e) => {
               this.inputAnswer = e;
             }}
@@ -70,6 +70,7 @@ class AnswerInput extends PureComponent {
           />
           {this.props.seperator}
           <input
+            placeholder="min"
             ref={(e) => {
               this.inputAnswer1 = e;
             }}

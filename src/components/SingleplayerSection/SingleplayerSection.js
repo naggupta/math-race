@@ -143,7 +143,7 @@ class SingleplayerSection extends PureComponent {
 
     if (player.questiontype.decimals > 0) answer = (+inputAnswer).toFixed(2).replace(/(\.0+|0+)$/, '');
 
-    console.log('[SingleplayerSection]', answer, String(answer).replace(/^0+/, ''), String(player.answer).replace(/^0+/, ''));
+    // console.log('[SingleplayerSection]', answer, String(answer).replace(/^0+/, ''), String(player.answer).replace(/^0+/, ''));
 
     // eslint-disable-next-line eqeqeq
     if (String(answer).replace(/^0+/, '') == String(player.answer).replace(/^0+/, '')) {
@@ -224,7 +224,8 @@ class SingleplayerSection extends PureComponent {
     const player = this.props.players[this.props.playerno];
     console.log('[PlayerSection] render', this.props.playerno, player.answer, player.question, 'questions', player.questions);
     let seperator = '';
-    seperator = player.questiontype.type === 'TIMEHRS+-' ? ':' : '';
+    seperator = player.questiontype.type === 'TIMEHRS+-' ? ':' : seperator;
+    seperator = player.questiontype.type === 'TIME+-' ? ':' : seperator;
     // const messagedisplay = (player.answerresult) ? <DisplayMessage display={player.answerresult} /> : <Fragment />;
     const messagedisplay = (
       <Fragment>
@@ -232,7 +233,7 @@ class SingleplayerSection extends PureComponent {
           {Utils.getDisplaySuccessMessage()}
         </div>
         <div ref={this.wrongRef} className={[Classes.DisplayMessage, Classes.Wrong].join(' ')}>
-          {`${Utils.getDisplayWrongMessage()} It's ${player.answer}`}
+          {`${Utils.getDisplayWrongMessage()}`}<br /> {`It's ${player.answer}`}
         </div>
       </Fragment>
     );

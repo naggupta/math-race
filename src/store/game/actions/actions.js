@@ -65,13 +65,15 @@ export const start = (playername1, playername2, questiontype1, questiontype2) =>
         questions: questions,
       });
     }
+    let question2 = {};
+    if (playername2) question2 = { ...Utils.generateQuestion(questiontype2, getstate().game.wordquestions) };
     // Question loaded if required
     dispatch({
       type: actionTypes.START,
       // questiontype: questiontype,
       players: [
         { id: 0, name: playername1, points: 0, wrong: 0, ...Utils.generateQuestion(questiontype1, getstate().game.wordquestions), answerresult: '', questiontype: questiontype1 },
-        { id: 1, name: playername2, points: 0, wrong: 0, ...Utils.generateQuestion(questiontype2, getstate().game.wordquestions), answerresult: '', questiontype: questiontype2 },
+        { id: 1, name: playername2, points: 0, wrong: 0, ...question2, answerresult: '', questiontype: questiontype2 },
       ],
     });
   };

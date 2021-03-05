@@ -9,7 +9,9 @@ export const generateQuestion = (questiontype, wordquestions) => {
   else if (type === '/') return generateDivideQuestion(questiontype);
   else if (type === 'X2') return generateSquareQuestion(questiontype);
   else if (['WORD', 'MONEY', 'FILL'].includes(type)) return generateWordsQuestion(questiontype, wordquestions);
-  else if (['TIMEHRS+-'].includes(type)) return generateTimeAdditionQuestion(questiontype);
+  else if (['TIMEHRS+-'].includes(type)) return generateTimeHrsArthematicQuestion(questiontype);
+  else if (['TIME+-'].includes(type)) return generateTimeArthematicQuestion(questiontype);
+  else if (['BAL'].includes(type)) return generateBalance(questiontype);
   return {
     question: '', // '2+3',
     questions: [],
@@ -60,6 +62,49 @@ export const generateQuestion = (questiontype, wordquestions) => {
 //     answer: answer,
 //   };
 // }
+
+export const generateBalance = (questiontype) => {
+  let question = '';
+  const questions = [];
+  let answer = 0;
+  const { type, nos, digits, inwords, level } = questiontype;
+  let { decimals = 0 } = questiontype;
+  if (inwords) decimals = 0;
+  const symbols = [];
+
+  const totaldigits = digits + decimals;
+  for (let i = 0; i < nos; i += 1) {
+    const temptype = type;
+    const sign = '|';
+
+    let tonumber = 99;
+    const issingle = randomIntFromInterval(0, 1);
+    if (issingle) tonumber = 9;
+    const fromnumber = 1;
+    const currentnumber = randomIntFromInterval(fromnumber, tonumber);
+
+    if (!inwords) {
+      const q = `${i > 0 ? sign : ''} ${currentnumber}`;
+      question = `${question} ${q}`;
+      questions.push(q.replace('|', ''));
+    } else if (inwords) {
+      const toword = numberToEnglish(currentnumber);
+      const q = `${i <= 0 ? '' : ' <u><i>|</i></u> '}${toword}`;
+      question = `${question}${q}`;
+      questions.push(q.replace('|', ''));
+    }
+    answer = answer * 10 + currentnumber;
+  }
+  // console.log(`${question} ? ${answer}`);
+
+  questions.push('?');
+  // console.log('[Question Generator]', questions);
+  return {
+    question: question,
+    questions: questions,
+    answer: answer,
+  };
+};
 
 export const generateMultiplyQuestion = (questiontype) => {
   // let question = '';
@@ -264,8 +309,73 @@ export const generatePlusMinusQuestion = (questiontype) => {
     answer: answer,
   };
 };
+export const generateTimeArthematicQuestion = (questiontype) => {
+  // let currentnumber = 0;
+  // let question = '';
+  const questions = [];
+  // let answer = 0;
+  const { type, nos, digits, HR24, level, inwords } = questiontype;
+  const symbols = [];
 
-export const generateTimeAdditionQuestion = (questiontype) => {
+  const hrs = HR24 === 'Y' ? randomIntFromInterval(0, 23) : randomIntFromInterval(1, 12);
+  let min = 0;
+  if (level === 1) min = randomFromList(['0', '15', '30', '45']);
+  else if (level === 2) min = randomFromList(['0', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']);
+  else if (level === 3) min = randomFromList(['0', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']);
+  else if (level === 4) min = randomIntFromInterval(0, 59);
+  const timeval = timeformat(hrs, min);
+  const sign = randomSign('+-');
+  let addmin = '';
+  let addhrs = '';
+  if (level === 1) addmin = randomFromList(['15', '30', '45']);
+  else if (level === 2 || level === 3) addmin = randomFromList(['10', '15', '20', '25', '30', '35', '40', '45', '50', '55']);
+  else if (level === 4) addmin = randomIntFromInterval(1, 59);
+
+  if (level > 2) addhrs = randomIntFromInterval(1, 10);
+
+  // eslint-disable-next-line new-cap
+  const dt1 = moment(timeval, HR24 === 'Y' ? 'HH:mm' : 'hh:mm');
+  // eslint-disable-next-line new-cap
+  const dt2 = moment(timeval, HR24 === 'Y' ? 'HH:mm' : 'hh:mm').subtract({ hours: addhrs, minutes: addmin });
+
+  let questionstr = `How many minutes from ${dt2.format(HR24 === 'Y' ? 'HH:mm' : 'hh:mm')} and  ${timeval}?`;
+  // console.log(questionstr);
+
+  if (inwords) {
+    const toword1 = TimeInWords(dt1, HR24);
+    const toword2 = TimeInWords(dt2, HR24);
+    questionstr = `How many minutes from <u><i>${toword2}</u></i> and  <u><i>${toword1}</u></i>?`;
+    // console.log(questionstr);
+  }
+  const answer = `${addhrs}:${addmin}`;
+  // console.log('[GenerateTimeQuestion]', sign, answerdt.format('hh:mm'));
+  // console.log('[Question Generator]', questions);
+  return {
+    question: questionstr,
+    questions: '',
+    answer: answer,
+  };
+};
+
+const TimeInWords = (time, isHR24) => {
+  let toword = '';
+  const hrFormat = isHR24 === 'Y' ? 'HH' : 'hh';
+  // console.log('QuoteGenerator]TimeInWords', time, isHR24);
+
+  if (+time.format('mm') === 0) toword = `${numberToEnglish(+time.format(hrFormat))} o'clock`;
+  else if (+time.format('mm') === 30) toword = `Half Past ${numberToEnglish(+time.format(hrFormat))}`;
+  else if (+time.format('mm') < 30) toword = `${numberToEnglish(time.format('mm'))} min past ${numberToEnglish(+time.format('HH'))}`;
+  else if (+time.format('mm') > 30) {
+    let tohrstr = 1 + +time.format(hrFormat);
+    tohrstr = isHR24 === 'Y' && tohrstr === 24 ? '0' : tohrstr;
+    tohrstr = isHR24 !== 'Y' && tohrstr === 13 ? '1' : tohrstr;
+    toword = `${numberToEnglish(60 - time.format('mm'))} min to ${numberToEnglish(tohrstr)}`;
+  }
+
+  return toword;
+};
+
+export const generateTimeHrsArthematicQuestion = (questiontype) => {
   // let currentnumber = 0;
   // let question = '';
   const questions = [];
@@ -295,18 +405,9 @@ export const generateTimeAdditionQuestion = (questiontype) => {
   // console.log(questionstr);
 
   if (inwords) {
-    let toword = '';
-    if (+answerdt.format('mm') === 0) toword = `${numberToEnglish(+answerdt.format('HH'))} o'clock`;
-    else if (+answerdt.format('mm') === 30) toword = `Half Past ${numberToEnglish(+answerdt.format('HH'))}`;
-    else if (+answerdt.format('mm') < 30) toword = `${numberToEnglish(answerdt.format('mm'))} min past ${numberToEnglish(+answerdt.format('HH'))}`;
-    else if (+answerdt.format('mm') > 30) {
-      let tohrstr = 1 + +answerdt.format('HH');
-      tohrstr = HR24 === 'Y' && tohrstr === 24 ? '0' : tohrstr;
-      tohrstr = HR24 !== 'Y' && tohrstr === 13 ? '1' : tohrstr;
-      toword = `${numberToEnglish(60 - answerdt.format('mm'))} min to ${numberToEnglish(tohrstr)}`;
-    }
-    questionstr = `${toword} ${sign === '+' ? ' <u><i>plus</i></u> ' : ' <u><i>minus</i></u> '} ${numberToEnglish(addhrs)} ${addhrs ? 'hrs' : ''} ${numberToEnglish(addmin)} minsn`;
-    console.log(questionstr);
+    const toword = TimeInWords(answerdt, HR24);
+    questionstr = `${toword} ${sign === '+' ? ' <u><i>plus</i></u> ' : ' <u><i>minus</i></u> '} ${numberToEnglish(addhrs)} ${addhrs ? 'hrs' : ''} ${numberToEnglish(addmin)} mins`;
+    // console.log(questionstr);
   }
 
   if (sign === '+') answerdt = answerdt.add({ hours: addhrs, minutes: addmin });

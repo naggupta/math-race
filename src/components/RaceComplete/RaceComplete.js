@@ -15,7 +15,7 @@ function RaceComplete(props) {
     return (
       <div key={player.id}>
         <h1>
-          {player.name}, {winner === player.name ? 'You won!!' : 'Opps You lost!!'}
+          {winner === player.name ? 'Good Job' : 'Keep trying'} {player.name}
         </h1>
         <span className={['fa-stack', Classes.Score].join(' ')}>
           <span className={['fa fa-star fa-stack-2x'].join(' ')} />
