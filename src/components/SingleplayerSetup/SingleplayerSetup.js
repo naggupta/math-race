@@ -6,6 +6,7 @@ import * as ReducerActions from '../../store/game/actions/index';
 import * as Classes from './SingleplayerSetup.module.css';
 // import 'react-rangeslider/lib/index.css'
 import 'react-input-range/lib/css/index.css';
+import ToggleControl from '../controls/ToggleControl/ToggleControl';
 
 class SingleplayerSetup extends PureComponent {
   constructor(props) {
@@ -26,6 +27,7 @@ class SingleplayerSetup extends PureComponent {
       delay0: (props.players && props.players[0].questiontype.delay) || 0,
       level0: (props.players && props.players[0].questiontype.level) || 2,
       HR240: props.players && props.players[0].questiontype.HR24,
+      testmode0: props.players && props.players[0].questiontype.testmode,
     };
 
     // console.log('SingleplayerSetup[constructor]', this.state);
@@ -54,8 +56,8 @@ class SingleplayerSetup extends PureComponent {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const { player0, digits0, numbers0, decimals0, type0, points0, inwords0, tens0, delay0, level0, HR240 } = this.form;
-    // console.log('[SingleplayerSetup]', this.form);
+    const { player0, digits0, numbers0, decimals0, type0, points0, inwords0, tens0, delay0, level0, HR240, testmode0 } = this.form;
+    // console.log('[SingleplayerSetup]', this.form.inwords0.checked);
     const questiontype0 = {
       type: type0.value,
       nos: +numbers0.value,
@@ -63,10 +65,11 @@ class SingleplayerSetup extends PureComponent {
       decimals: ['+-'].includes(type0.value) ? +decimals0.value : 0,
       points: +points0.value,
       delay: ['+-', '+-x', 'BAL'].includes(type0.value) ? +delay0.value : 0,
-      tens: tens0.value,
-      HR24: HR240.value,
+      tens: tens0.checked,
+      HR24: HR240.checked,
       level: +level0.value,
-      inwords: inwords0.value === 'true',
+      inwords: inwords0.checked,
+      testmode: testmode0.checked,
     };
     // const questiontype1 = {
     //   type: type1.value,
@@ -167,41 +170,27 @@ class SingleplayerSetup extends PureComponent {
 
               <div style={{ marginLeft: '0px', display: ['+-', '+-x', 'BAL'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
                 <h5>Numbers</h5>
-                <InputRange name="numbers0" minValue={2} maxValue={10} value={this.state.numbers0} onChange={(value) => this.setState({ numbers0: value })} step={1} />
+                <InputRange name="numbers0" minValue={2} maxValue={20} value={this.state.numbers0} onChange={(value) => this.setState({ numbers0: value })} step={1} />
               </div>
 
               <div style={{ display: this.state[`digits${index}`] === 2 && ['X2'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
                 <h5>Tens only</h5>
                 <div className={Classes.Items}>
-                  <div>
-                    <input type="radio" name={`tens${index}`} value="Y" defaultChecked={questiontype.tens === 'Y'} />
-                    <label>Yes</label>
-                  </div>
-                  <div>
-                    <input type="radio" name={`tens${index}`} value="N" defaultChecked={questiontype.tens === 'N'} />
-                    <label>No</label>
-                  </div>
+                  <ToggleControl label={`tens${index}`} checked={!!questiontype.tens} />
                 </div>
               </div>
-              <div style={{ display: ['TIMEHRS+-','TIME+-'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+              <div style={{ display: ['TIMEHRS+-', 'TIME+-'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
                 <h5>24Hr</h5>
                 <div className={Classes.Items}>
-                  <div>
-                    <input type="radio" name={`HR24${index}`} value="Y" defaultChecked={questiontype.HR24 === 'Y'} />
-                    <label>Yes</label>
-                  </div>
-                  <div>
-                    <input type="radio" name={`HR24${index}`} value="N" defaultChecked={questiontype.HR24 === 'N'} />
-                    <label>No</label>
-                  </div>
+                  <ToggleControl label={`HR24${index}`} checked={!!questiontype.HR24} />
                 </div>
               </div>
-              <div style={{ display: ['+-', 'TIMEHRS+-', 'TIME+-'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+              <div style={{ display: ['+-', 'TIMEHRS+-', 'TIME+-', 'BAL'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
                 <h5>Level</h5>
                 <InputRange
                   name="level0"
                   minValue={1}
-                  maxValue={this.state[`type${index}`] === '+-' ? 2 : 4}
+                  maxValue={['+-', 'BAL'].includes(this.state[`type${index}`]) ? 2 : 4}
                   value={this.state.level0}
                   onChange={(value) => this.setState({ level0: value })}
                   step={1}
@@ -214,14 +203,7 @@ class SingleplayerSetup extends PureComponent {
               <div style={{ display: 'flex' }}>
                 <h5>In Words</h5>
                 <div className={Classes.Items}>
-                  <div>
-                    <input type="radio" name={`inwords${index}`} value="true" defaultChecked={!!questiontype.inwords} />
-                    <label>Yes</label>
-                  </div>
-                  <div>
-                    <input type="radio" name={`inwords${index}`} value="false" defaultChecked={!questiontype.inwords} />
-                    <label>No</label>
-                  </div>
+                  <ToggleControl label={`inwords${index}`} checked={!!questiontype.inwords} />
                 </div>
               </div>
               <div style={{ display: this.state[`type${index}`] === '+-' ? 'flex' : 'none' }}>
@@ -232,6 +214,13 @@ class SingleplayerSetup extends PureComponent {
                 <h5>Points</h5>
                 <InputRange name="points0" minValue={1} maxValue={20} value={this.state.points0} onChange={(value) => this.setState({ points0: value })} step={1} />
               </div>
+              <div style={{ display: 'flex' }}>
+                <h5>Exam</h5>
+                <div className={Classes.Items}>
+                  <ToggleControl label={`testmode${index}`} checked={!!questiontype.testmode} />
+                </div>
+              </div>
+
               <div style={{ display: 'flex' }} />
             </div>
           </div>

@@ -13,6 +13,7 @@ const questiontype = {
   inwords: false,
   level: 1,
   HR24: 'N',
+  testmode: false,
 };
 const player = {
   name: null,
@@ -88,6 +89,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.CORRECT:
       players = [...state.players];
       players[action.playerno].points += 1;
+      if (!action.isCorrect) players[action.playerno].wrong += 1;
       players[action.playerno].question = action.question;
       players[action.playerno].questions = action.questions;
       players[action.playerno].answer = action.answer;
@@ -110,6 +112,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.WIN:
       players = [...state.players];
       players[action.playerno].points += 1;
+      if (!action.isCorrect) players[action.playerno].wrong += 1;
       return {
         ...state,
         // endtime: new Date(),

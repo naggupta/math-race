@@ -1,135 +1,348 @@
 {
-  "questions" : {
-    "FILL" : [ {
-      "0" : "{val}",
-      "1" : "{0} + {val}",
-      "answer" : "{1}-{0}",
-      "question" : "{0} + ____ = {1}"
-    },
-    {
-      "0" : "{val}",
-      "1" : "{0} + {val}",
-      "answer" : "{1}-{0}",
-      "question" : "{1} - ____ = {0}"
-    },
-    {
-      "0" : "{val}",
-      "1" : "{0} + {val}",
-      "answer" : "{1}-{0}",
-      "question" : "____ + {0} = {1}"
-    }, 
-    {
-      "0" : "{val}",
-      "1" : "{val}",
-      "answer" : "{1}+{0}",
-      "question" : "____ - {1} = {0}"
-    },
+  "questions": {
+    "FILL": [
+      {
+        "0": "{val}",
+        "1": "{0} + {val}",
+        "answer": "{1}-{0}",
+        "question": "{0} + ____ = {1}"
+      },
+      {
+        "0": "{val}",
+        "1": "{0} + {val}",
+        "answer": "{1}-{0}",
+        "question": "{1} - ____ = {0}"
+      },
+      {
+        "0": "{val}",
+        "1": "{0} + {val}",
+        "answer": "{1}-{0}",
+        "question": "____ + {0} = {1}"
+      },
+      {
+        "0": "{val}",
+        "1": "{val}",
+        "answer": "{1}+{0}",
+        "question": "____ - {1} = {0}"
+      },
+      {
+        "0": "{val}",
+        "1": "{val}",
+        "2": "{0} + {1} + {val}",
+        "answer": "{2}-{0}-{1}",
+        "question": "{2} - ____ = {0} + {1}"
+      },
+      {
+        "0": "{val}",
+        "1": "{val}",
+        "2": "{val}",
+        "answer": "{1}+{0}+{2}",
+        "question": "____ - {0} - {1} = {2}"
+      },
+      {
+        "0": "{val}",
+        "1": "{0}+{val}",
+        "2": "{0}+{val}",
+        "answer": "{1}+{2}-{0}",
+        "question": "____ + {0} = {1} + {2}"
+      },
+      {
+        "0": "{val}",
+        "1": "{val}",
+        "2": "{0}+{1}+{val}",
+        "answer": "{2}-{0}-{1}",
+        "question": "____ + {0} + {1} = {2}"
+      },
+      {
+        "0": "{val}",
+        "1": "{0}+{val}",
+        "2": "{0}+{val}",
+        "answer": "{1}+{2}-{0}",
+        "question": "{1} + {2} - ___ = {0}"
+      },
+      {
+        "0": "{val}",
+        "1": "{val}",
+        "2": "{0}+{1}+{val}",
+        "answer": "{2}-{0}-{1}",
+        "question": "{2} - ___ = {0} + {1}"
+      },
+      {
+        "0": "{val}",
+        "1": "{val}",
+        "2": "{0}+{1}+{val}",
+        "answer": "{2}-{0}-{1}",
+        "question": "{0} + {1} + ___ = {2}"
+      },
+      {
+        "0": "{val}",
+        "1": "{0}+{val}",
+        "2": "{0}+{val}",
+        "answer": "{1}+{2}-{0}",
+        "question": "{0} + ___ = {1} + {2}"
+      }
+    ],
+    "WORD": [
+      {
+        "0": {
+          "val": "{val}/100",
+          "min": 1001,
+          "max": 6999
+        },
+        "answer": "70-{0}",
+        "question": "Arlo has a £50 and a £20 note. Ken has £{0}. How much more money does Arlo have than Ken?"
+      },
+      {
+        "0": {
+          "val": "{val}",
+          "min": 10,
+          "max": 24
+        },
+        "answer": "72.45-({0}*3)",
+        "question": "Elliot earns £{0} every time he mows the lawn. He mows the lawn three times. How much more does he need to save to buy a skateboard that costs £72.45?"
+      }
+    ],
+    "MONEY": [
+      {
+        "0": "{val}",
+        "1": "{val}",
+        "answer": "{0}+{1}",
+        "question": "Ben has {0}p and Sonia has {1}p. How much money do they have together?",
+        "active": "N"
+      },
+      {
+        "0": "{val}",
+        "1": "{val}",
+        "answer": "{0}+{1}",
+        "question": "Angela buys a pencil for {0}p and a notebook for {1}p at a store. How much did she spent?",
+        "active": "N"
+      },
+      {
+        "0": "{val}",
+        "1": "{val}",
+        "answer": "{0}+{1}",
+        "question": "Grace has {0}p. Her brother has {1}p. How much do they have together?",
+        "active": "N"
+      },
+      {
+        "0": "{val}",
+        "answer": "{0}*2",
+        "question": "Rachel wants to buy a bracelet for herself and for her friend. Each bracelet costs {0}p. How much money will Rachel need?",
+        "active": "N"
+      },
 
-    {
-      "0" : "{val}",
-      "1" : "{val}",
-      "2" : "{0} + {1} + {val}",
-      "answer" : "{2}-{0}-{1}",
-      "question" : "{2} - ____ = {0} + {1}"
-    },
-    {
-      "0" : "{val}",
-      "1" : "{val}",
-      "2" : "{val}",
-      "answer" : "{1}+{0}+{2}",
-      "question" : "____ - {0} - {1} = {2}"
-    },
-    {
-      "0" : "{val}",
-      "1" : "{0}+{val}",
-      "2" : "{0}+{val}",
-      "answer" : "{1}+{2}-{0}",
-      "question" : "____ + {0} = {1} + {2}"
-    },
-    {
-      "0" : "{val}",
-      "1" : "{val}",
-      "2" : "{0}+{1}+{val}",
-      "answer" : "{2}-{0}-{1}",
-      "question" : "____ + {0} + {1} = {2}"
-    },
-    {
-      "0" : "{val}",
-      "1" : "{0}+{val}",
-      "2" : "{0}+{val}",
-      "answer" : "{1}+{2}-{0}",
-      "question" : "{1} + {2} - ___ = {0}"
-    },
-    {
-      "0" : "{val}",
-      "1" : "{val}",
-      "2" : "{0}+{1}+{val}",
-      "answer" : "{2}-{0}-{1}",
-      "question" : "{2} - ___ = {0} + {1}"
-    },
-    {
-      "0" : "{val}",
-      "1" : "{val}",
-      "2" : "{0}+{1}+{val}",
-      "answer" : "{2}-{0}-{1}",
-      "question" : "{0} + {1} + ___ = {2}"
-    },
-    {
-      "0" : "{val}",
-      "1" : "{0}+{val}",
-      "2" : "{0}+{val}",
-      "answer" : "{1}+{2}-{0}",
-      "question" : "{0} + ___ = {1} + {2}"
-    }
-  ],
-    "WORD" : [ {
-      "0" : "{val}",
-      "answer" : "{0}*7",
-      "question" : "Kaz ran {0} km everyday for a week. How far did she run?"
-    } ],
-    "MONEY" : [ 
-        {
-        "0" : "{val}",
-        "1" : "{val}",
-        "answer" : "{0}+{1}",
-        "question" : "Ben has {0}p and Sonia has {1}p. How much money do they have together?"
+      {
+        "0": {
+          "val": "{val}",
+          "list": [20, 50]
+        },
+        "1": {
+          "val": "{val}",
+          "list": [1, 2, 5, 10]
+        },
+        "2": "{val}",
+        "answer": "({0}+(3*{1}))+({2}*10)",
+        "question": "Jason has a {0}p coin and three {1}p coins, then he found {2} 10p coins. How much _____p does Jason have now?"
+      },
+
+      {
+        "0": {
+          "val": "{val}",
+          "min": 1,
+          "max": 9
+        },
+        "1": {
+          "val": "{val}",
+          "list": [10, 20, 50]
+        },
+        "2": {
+          "val": "{val}",
+          "min": 1,
+          "max": 9
+        },
+        "3": {
+          "val": "{val}",
+          "list": [1, 2, 5]
+        },
+        "4": {
+          "val": "{val}",
+          "min": 1,
+          "max": 9
+        },
+        "5": {
+          "val": "{val}",
+          "list": [10, 20, 50]
+        },
+        "6": {
+          "val": "{val}",
+          "min": 1,
+          "max": 9
+        },
+        "7": {
+          "val": "{val}",
+          "list": [1, 2, 5]
+        },
+        "8": {
+          "val": "{val}",
+          "min": 1,
+          "max": 90
+        },
+        "answer": "(({0}*{1})+({2}*{3})+({4}*{5})+({6}*{7})+{8})/100",
+        "question": "Ava has a lemonade stand. She earned {0} {1}p coins and {2} {3}p coins in the morning. In the afternoon she earned {4} {5}p coins and {6} {7}p coins. In the evening she earned {8}p. How much £ ____ did she make all together?"
       },
       {
-        "0" : "{val}",
-        "1" : "{val}",
-        "answer" : "{0}+{1}",
-        "question" : "Angela buys a pencil for {0}p and a notebook for {1}p at a store. How much did she spent?"
+        "0": {
+          "val": "{val}",
+          "min": 3,
+          "max": 9
+        },
+        "1": {
+          "val": "{val}",
+          "list": [20, 50]
+        },
+        "2": {
+          "val": "{val}",
+          "min": 3,
+          "max": 9
+        },
+        "3": {
+          "val": "{val}",
+          "list": [1, 2, 5, 10]
+        },
+        "answer": "({0}*{1})+({2}*{3})-55",
+        "question": "Evan had {0} {1}p coins and {2} {3}p coins, then he bought a toy car for 55p. How much money did he have left after the purchase?"
       },
       {
-        "0" : "{val}",
-        "answer" : "({0}*10)+25",
-        "question" : "Jason has a 20p coin and three 5p coins, then he found {0} 10p coins. How much _____p does Jason have now?"
+        "0": {
+          "val": "{val}",
+          "min": 10,
+          "max": 50
+        },
+        "1": "({val}+{0}*5)/100",
+        "answer": "(({1}*100-{0}*5)*100)/10000",
+        "question": "The library charges {0}p each day a book is late. Koki had one book that was 5 days late. If she had £{1} before paying this fee, how much does she have after the fee is paid in Pounds?"
       },
       {
-        "0" : "{val}",
-        "answer" : "{0}*2",
-        "question" : "Rachel wants to buy a bracelet for herself and for her friend. Each bracelet costs {0}p. How much money will Rachel need?"
+        "0": {
+          "val": "{val}/100",
+          "min": 1001,
+          "max": 9999
+        },
+        "1": {
+          "val": "({val}/100)+{0}",
+          "min": 1001,
+          "max": 9999
+        },
+        "answer": "{1}-{0}",
+        "question": "Jimmy has £{0}. He wants to buy a video game that costs £{1}. How much more money does he need?"
       },
       {
-        "0" : "{val}",
-        "1" : "{val}",
-        "answer" : "{0}+{1}",
-        "question" : "Grace has {0}p. Her brother has {1}p. How much do they have together?"
+        "0": {
+          "val": "{val}/100",
+          "min": 1001,
+          "max": 9999
+        },
+        "1": {
+          "val": "({val}/100)+{0}",
+          "min": 1001,
+          "max": 9999
+        },
+        "answer": "{1}-{0}",
+        "question": "Chris has £{0} and Martin has £{1}. How much more money  does Martin have than Chris?"
       },
       {
-        "0" : "{val}",
-        "answer" : "{0}+47",
-        "question" : "Ava has a lemonade stand. She earned three 5p coins and seven 2P coins in the morning. In the afternoon she earned two 5p coins and eight 1p coins. In the evening she earned {0}p. How much ____p did she make all together?"
+        "0": {
+          "val": "{val}/100",
+          "min": 1001,
+          "max": 9999
+        },
+        "1": {
+          "val": "({val}/100)+{0}",
+          "min": 1001,
+          "max": 9999
+        },
+        "answer": "{1}-{0}",
+        "question": "Jimmy has £{0}. She wants to buy a new e-reader tablet. It costs £{1}. How much more money does she need to save?"
       },
       {
-        "answer" : "25",
-        "question" : "Evan had three 20p coins and two 10p coins, then he bought a toy car for 55p. How much money did he have left after the purchase?"
+        "0": {
+          "val": "{val}/100",
+          "min": 1001,
+          "max": 6999
+        },
+        "answer": "70-{0}",
+        "question": "Arlo has a £50 and a £20 note. Ken has £{0}. How much more money does Arlo have than Ken?"
       },
       {
-        "0" : "60+{val}",    
-        "answer" : "{0}-60",
-        "question" :"Luke has {0}p. His sister has two 20p and four 5p coins. How much more money does Luke have than his sister? ?"
+        "0": {
+          "val": "{val}",
+          "min": 10,
+          "max": 24
+        },
+        "answer": "72.45-({0}*3)",
+        "question": "Elliot earns £{0} every time he mows the lawn. He mows the lawn three times. How much more does he need to save to buy a skateboard that costs £72.45?"
+      },
+      {
+        "0": {
+          "val": "{val}/100",
+          "min": 10000,
+          "max": 99999
+        },
+        "1": {
+          "val": "{0}+({val}/100)",
+          "min": 10000,
+          "max": 50000
+        },
+        "answer": "{1}-{0}",
+        "question": "Sara is looking at computers. The first computer costs £{1}. The second costs £{0}. How much more is the first computer?"
+      },
+      {
+        "0": {
+          "val": "{val}/100",
+          "min": 10000,
+          "max": 99999
+        },
+        "1": {
+          "val": "{0}+({val}/100)",
+          "min": 10000,
+          "max": 50000
+        },
+        "answer": "{1}-{0}",
+        "question": "Sara wants the computer that costs £{1}. She currently has £{0} saved. How much more money does she need to buy it?"
+      },
+      {
+        "0": {
+          "val": "{val}/100",
+          "min": 10000,
+          "max": 99999
+        },
+        "1": {
+          "val": "{0}+({val}/100)",
+          "min": 1000,
+          "max": 9900
+        },
+        "answer": "{1}-{0}",
+        "question": "Maria had £{1} before buying concert tickets. If the tickets were £{0}, how much money does she have after the purchase?"
+      },
+      {
+        "0": {
+          "val": "{val}/100",
+          "min": 10000,
+          "max": 49999
+        },
+        "1": {
+          "val": "{val}/100",
+          "min": 10000,
+          "max": 49999
+        },
+        "2": {
+          "val": "{0}+{1}+({val}/100)",
+          "min": 1000,
+          "max": 9900
+        },
+        "answer": "{2}-{0}-{1}",
+        "question": "Isaac and Josh want to buy an £{2} fishing boat together. Isaac has £{0} saved. Josh has £{1} saved. How much more money do they need before they can buy the boat?"
       }
     ]
-  } 
+  }
 }

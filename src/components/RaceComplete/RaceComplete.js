@@ -4,10 +4,10 @@ import * as Classes from './RaceComplete.module.css';
 function RaceComplete(props) {
   const winner = props.players[0].points >= props.players[1].points ? props.players[0].name : props.players[1].name;
 
-  const playAgain=() => {
+  const playAgain = () => {
     props.reset();
-    props.history.push('/math-race/setup')
-  }
+    props.history.push('/math-race/setup');
+  };
 
   const players = [...props.players].reverse().map((player) => {
     if (!player.name) return <Fragment key={player.id} />;
@@ -19,14 +19,14 @@ function RaceComplete(props) {
         </h1>
         <span className={['fa-stack', Classes.Score].join(' ')}>
           <span className={['fa fa-star fa-stack-2x'].join(' ')} />
-          <strong className="fa-stack-1x">{player.points}</strong>
+          <strong className="fa-stack-1x">{player.points - (player.questiontype.testmode ? player.wrong : 0)}</strong>
           <span className={Classes.ScoreLabel}>Correct</span>
         </span>
-        {/* <span className={['fa-stack', Classes.Score].join(' ')}>
+        <span className={['fa-stack', Classes.Score].join(' ')}>
           <span className={['fa fa-star fa-stack-2x'].join(' ')} />
-          <strong className="fa-stack-1x">{-player.wrong}</strong>
+          <strong className="fa-stack-1x">{player.wrong}</strong>
           <span className={Classes.ScoreLabel}>Wrong</span>
-        </span> */}
+        </span>
         {/* <span className={['fa-stack', Classes.Score].join(' ')}>
                     <span className={['fa fa-star fa-stack-2x'].join(' ')} />
                     <strong className="fa-stack-1x">
@@ -34,7 +34,7 @@ function RaceComplete(props) {
                     </strong>
                     <span className={Classes.ScoreLabel}>Time Bonous</span>
                 </span> */}
-        <span className={['fa-stack', Classes.Score].join(' ')}>
+        {/* <span className={['fa-stack', Classes.Score].join(' ')}>
           <span className={['fa fa-star fa-stack-2x'].join(' ')} />
           <strong className="fa-stack-1x">{winner === player.name ? 10 : 0}</strong>
           <span className={Classes.ScoreLabel}>Win Bonus</span>
@@ -43,7 +43,7 @@ function RaceComplete(props) {
           <span className={['fa fa-star fa-stack-2x'].join(' ')} />
           <strong className="fa-stack-1x">{score}</strong>
           <span className={Classes.ScoreLabel}>Total</span>
-        </span>
+        </span> */}
       </div>
     );
   });

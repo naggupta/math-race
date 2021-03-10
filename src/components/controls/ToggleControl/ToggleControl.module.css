@@ -1,0 +1,57 @@
+
+.Toggle {
+    position: relative;
+    display: inline-block;
+    width: 70px  !important;;
+    height: 30px  !important;;
+    border: none !important;
+    background-color: inherit !important;
+    padding: 0px !important;
+    border-radius: inherit !important;
+  }
+  
+  .Toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .Toggle .Slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ddd;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+  }
+  
+  .Toggle .Slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 21px;
+    left: 10px;
+    bottom: 6px;
+    background-color: #f79b19;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  
+  .Toggle input:checked + .Slider {
+    background-color: #f79b19;
+  }
+  
+  .Toggle input:focus + .Slider {
+    box-shadow: 0 0 1px #f79b19;
+  }
+  
+  .Toggle input:checked + .Slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+    background-color: #000;
+  }

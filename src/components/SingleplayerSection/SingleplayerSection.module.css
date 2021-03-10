@@ -272,6 +272,11 @@
     animation-duration: 10s;
 }
 
+.DisplayMessage.Retry{
+    background-color: #f79b19;
+    animation-duration: 10s;
+}
+
 @keyframes hide-animation{
     0% {
         visibility: visible;

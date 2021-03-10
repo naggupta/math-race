@@ -1,9 +1,10 @@
 import React, { Component, Fragment, PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { bool } from 'prop-types';
 import { connect } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
 // import useSound from 'use-sound';
 import { Howl, Howler } from 'howler';
+import { boolean } from 'mathjs';
 import * as ReducerActions from '../../store/game/actions/index';
 import Classes from './SingleplayerSection.module.css';
 import * as Utils from '../../Utils/QuestionGenerator';
@@ -34,6 +35,7 @@ class SingleplayerSection extends PureComponent {
     question: '',
     fullquestion: '',
     qcounter: 0,
+    attempts: 0,
   };
 
   constructor(props) {
@@ -41,6 +43,7 @@ class SingleplayerSection extends PureComponent {
     this.correctRef = React.createRef();
     this.wrongRef = React.createRef();
     this.questionRef = React.createRef();
+    this.retryRef = React.createRef();
     // this.inputAnswer = React.createRef();
     // console.log('[PlayerSection] constructor');
   }
@@ -72,10 +75,12 @@ class SingleplayerSection extends PureComponent {
       // eslint-disable-next-line react/no-did-update-set-state
       if (player.questiontype.delay === 0)
         // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({ question: player.question, fullquestion: player.question });
+        this.setState({ question: player.question, fullquestion: player.question, attempts: 0 });
       else {
         // eslint-disable-next-line react/no-did-update-set-state
         // this.setState({ qcounter: 0 });
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({ attempts: 0 });
         this.displayQuestion(player, 0);
       }
     }
@@ -134,6 +139,7 @@ class SingleplayerSection extends PureComponent {
     const correctref = this.correctRef.current;
     const questionRef = this.questionRef.current;
     const wrongref = this.wrongRef.current;
+    const retryRef = this.retryRef.current;
 
     if (!inputAnswer) return;
 
@@ -141,18 +147,20 @@ class SingleplayerSection extends PureComponent {
 
     let answer = inputAnswer;
 
-    if (player.questiontype.decimals > 0) answer = (+inputAnswer).toFixed(2).replace(/(\.0+|0+)$/, '');
+    if (player.questiontype.decimals > 0 || inputAnswer.indexOf('.') > -1) answer = (+inputAnswer).toFixed(2).replace(/(\.0+|0+)$/, '');
 
     // console.log('[SingleplayerSection]', answer, String(answer).replace(/^0+/, ''), String(player.answer).replace(/^0+/, ''));
+    // eslint-disable-next-line eqeqeq
+    const iscorrect = String(answer).replace(/^0+/, '') == String(player.answer).replace(/^0+/, '');
 
     // eslint-disable-next-line eqeqeq
-    if (String(answer).replace(/^0+/, '') == String(player.answer).replace(/^0+/, '')) {
+    if (player.questiontype.testmode || iscorrect) {
       if (player.points === player.questiontype.points - 1) {
         // alert(`${player.name} Win`);
         // this.props.reset();
         this.success.play();
         this.movingfish.play();
-        this.props.win(this.props.playerno);
+        this.props.win(this.props.playerno, iscorrect);
         setTimeout(() => {
           this.props.complete(this.props.playerno);
           this.props.history.push('/math-race/complete');
@@ -167,7 +175,7 @@ class SingleplayerSection extends PureComponent {
       questionRef.classList.add(Classes.HideQuestion);
 
       setTimeout(() => {
-        this.props.nextQuestion(this.props.playerno);
+        this.props.nextQuestion(this.props.playerno, iscorrect);
         // this.inputAnswer.value = '';
         this.resetAnswer();
         correctref.classList.remove(Classes.MessageAnimate);
@@ -177,7 +185,7 @@ class SingleplayerSection extends PureComponent {
       this.success.play();
       this.movingfish.play();
       // new UIfx({ asset: successSound }).play();
-    } else {
+    } else if (this.state.attempts > 1) {
       wrongref.classList.add(Classes.MessageAnimate);
       // useSound(wrongSound);
       setTimeout(() => {
@@ -188,6 +196,16 @@ class SingleplayerSection extends PureComponent {
       }, 1000);
       this.wrong.play();
       // new UIfx({ asset: wrongSound }).play();
+    } else {
+      retryRef.classList.add(Classes.MessageAnimate);
+      setTimeout(() => {
+        retryRef.classList.remove(Classes.MessageAnimate);
+      }, 1000);
+      this.resetAnswer();
+      this.setState((state) => {
+        return { attempts: state.attempts + 1 };
+      });
+      this.wrong.play();
     }
   };
 
@@ -230,10 +248,15 @@ class SingleplayerSection extends PureComponent {
     const messagedisplay = (
       <Fragment>
         <div ref={this.correctRef} className={[Classes.DisplayMessage, Classes.Correct].join(' ')}>
-          {Utils.getDisplaySuccessMessage()}
+          {player.questiontype.testmode ? 'Next Question' : Utils.getDisplaySuccessMessage()}
         </div>
         <div ref={this.wrongRef} className={[Classes.DisplayMessage, Classes.Wrong].join(' ')}>
-          {`${Utils.getDisplayWrongMessage()}`}<br /> {`It's ${player.answer}`}
+          {`${Utils.getDisplayWrongMessage()}`}
+          <br /> {`It's ${player.answer}`}
+        </div>
+        <div ref={this.retryRef} className={[Classes.DisplayMessage, Classes.Retry].join(' ')}>
+          {`${Utils.getDisplayRetryMessage()}`}
+          <br /> {`attempt #${this.state.attempts + 1}`}
         </div>
       </Fragment>
     );
@@ -304,7 +327,7 @@ class SingleplayerSection extends PureComponent {
           <div ref={this.questionRef} className={Classes.Question}>
             <CSSTransition classNames="question" timeout={200}>
               <div>
-                <span style={{ display: 'inline-block', fontSize: '2.5em' }} dangerouslySetInnerHTML={{ __html: this.state.question }} />
+                <span style={{ display: 'inline-block', fontSize: '2.3em', paddingBottom: '20px' }} dangerouslySetInnerHTML={{ __html: this.state.question }} />
               </div>
             </CSSTransition>
 
@@ -454,9 +477,9 @@ const mapDispatchToProps = (dispatch) => ({
   reset: () => dispatch(ReducerActions.reset()),
   // init: (playername1, playername2, questiontype) => dispatch(ReducerActions.init(playername1, playername2, questiontype)),
   // start: () => dispatch(ReducerActions.start()),
-  nextQuestion: (playerno) => dispatch(ReducerActions.nextQuestion(playerno)),
+  nextQuestion: (playerno, isCorrect) => dispatch(ReducerActions.nextQuestion(playerno, isCorrect)),
   wrongAnswer: (playerno) => dispatch(ReducerActions.wrongAnswer(playerno)),
-  win: (playerno) => dispatch(ReducerActions.win(playerno)),
+  win: (playerno, iscorrect) => dispatch(ReducerActions.win(playerno, iscorrect)),
   complete: () => dispatch(ReducerActions.complete()),
 });
 

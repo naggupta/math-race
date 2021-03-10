@@ -89,11 +89,12 @@ export const start = (playername1, playername2, questiontype1, questiontype2) =>
 //     }
 // };
 
-export const nextQuestion = (playerno) => {
+export const nextQuestion = (playerno, isCorrect = true) => {
   return (dispatch, getstate) => {
     // const { nos, digits, decimals } = getstate().game.questiontype;
     dispatch({
       type: actionTypes.CORRECT,
+      isCorrect: isCorrect,
       playerno: playerno,
       ...Utils.generateQuestion(getstate().game.players[playerno].questiontype, getstate().game.wordquestions),
     });
@@ -130,9 +131,10 @@ export const complete = () => {
   };
 };
 
-export const win = (playerno) => {
+export const win = (playerno, isCorrect = true) => {
   return {
     playerno: playerno,
     type: actionTypes.WIN,
+    isCorrect: isCorrect,
   };
 };

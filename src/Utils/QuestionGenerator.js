@@ -84,7 +84,7 @@ export const generateBalance = (questiontype) => {
     const currentnumber = randomIntFromInterval(fromnumber, tonumber);
 
     if (!inwords) {
-      const q = `${i > 0 ? sign : ''} ${currentnumber}`;
+      const q = `${i > 0 ? sign : ''} ${currentnumber < 10 && level === 1 ? `&nbsp;${currentnumber}` : currentnumber}`;
       question = `${question} ${q}`;
       questions.push(q.replace('|', ''));
     } else if (inwords) {
@@ -208,6 +208,15 @@ export const generateSquareQuestion = (questiontype) => {
   };
 };
 
+const isJsonString = (str) => {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+};
+
 export const generateWordsQuestion = (questiontype, questions) => {
   const { type, nos, digits, inwords } = questiontype;
   const wordquestions = questions[type];
@@ -232,16 +241,31 @@ export const generateWordsQuestion = (questiontype, questions) => {
     .forEach((key) => {
       const params1 = { ...qparams };
       const param = qparams[key];
-      if (param.indexOf('{val}') > -1) params1.val = randomIntFromInterval(fromnumber, tonumber);
-      const substitute = replaceValues(param, params1);
+      let substitute = '';
+      // console.log('[QuestionGenerator]generatewordsQuestion', param);
+      if (param instanceof Object) {
+        if ('list' in param) {
+          params1.val = randomFromList(param.list);
+        } else {
+          params1.val = randomIntFromInterval('min' in param ? param.min : fromnumber, 'max' in param ? param.max : tonumber);
+        }
+        substitute = replaceValues(param.val, params1);
+      } else if (param.indexOf('{val}') > -1) {
+        params1.val = randomIntFromInterval(fromnumber, tonumber);
+        substitute = replaceValues(param, params1);
+      }
       const evalstr = evaluate(substitute);
-      qparams[key] = evalstr;
+      qparams[key] = roundValue(evalstr);
     });
 
   const answer = evaluate(replaceValues(question.answer, qparams));
   const questionstr = replaceValues(question.question, qparams);
 
-  return { answer: answer, question: questionstr, questions: [] };
+  return { answer: roundValue(answer), question: questionstr, questions: [] };
+};
+
+const roundValue = (val) => {
+  return Math.round(val * 100) / 100;
 };
 
 export const generatePlusMinusQuestion = (questiontype) => {
@@ -475,7 +499,12 @@ export const getDisplaySuccessMessage = () => {
 };
 
 export const getDisplayWrongMessage = () => {
-  const successMessages = ['Try again', 'Concentrate', 'Focus', 'Think hard', 'Give attention', 'Be attentive'];
+  const successMessages = ['Concentrate', 'Focus', 'Think hard', 'Give attention', 'Be attentive'];
+  return randomFromList(successMessages);
+};
+
+export const getDisplayRetryMessage = () => {
+  const successMessages = ['Try Again', 'Retry', 'Re-attempt', 'Re-Think'];
   return randomFromList(successMessages);
 };
 

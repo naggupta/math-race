@@ -37,18 +37,20 @@
   }
 }
 
-.input-range{
-  width:200px !important;
+.input-range {
+  width: 200px !important;
   margin-left: 10px;
   margin-top: 15px;
 }
 
-.input-range__label--min, .input-range__label--max {
+.input-range__label--min,
+.input-range__label--max {
   visibility: hidden;
 }
 
-.ColorTheme{
-  color:#000 !important;
-  background-color: #F79B19 !important;
-
+.ColorTheme,
+.input-range__slider,
+.input-range__track--active {
+  color: #000 !important;
+  background-color: #f79b19 !important;
 }
