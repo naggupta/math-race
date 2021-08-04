@@ -213,6 +213,11 @@
       }
 }
 
+.HideAnswer{
+    visibility: hidden;
+}
+
+
 .QuestionBar .Question.ShowQuestion{
     animation-name: show-question;
     animation-duration: 1s;
@@ -289,6 +294,16 @@
         visibility: hidden;
         top:10vh;
       }
+}
+
+.NextAnswer{
+    display: block;
+     font-size: 2.3em; 
+     padding-bottom: 20px;
+      bottom: 50px;
+      position: absolute;
+      right: 20px;
+      color: #fed9b7
 }
 /* 
 

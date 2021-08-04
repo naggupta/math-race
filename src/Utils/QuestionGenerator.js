@@ -15,6 +15,7 @@ export const generateQuestion = (questiontype, wordquestions) => {
   return {
     question: '', // '2+3',
     questions: [],
+    answers: [],
     answer: '', // mathjs.evaluate('2+3'),
   };
 }; //
@@ -66,6 +67,7 @@ export const generateQuestion = (questiontype, wordquestions) => {
 export const generateBalance = (questiontype) => {
   let question = '';
   const questions = [];
+  const answers = [];
   let answer = 0;
   const { type, nos, digits, inwords, level } = questiontype;
   let { decimals = 0 } = questiontype;
@@ -94,6 +96,7 @@ export const generateBalance = (questiontype) => {
       questions.push(q.replace('|', ''));
     }
     answer = answer * 10 + currentnumber;
+    answers.push(answer);
   }
   // console.log(`${question} ? ${answer}`);
 
@@ -102,6 +105,7 @@ export const generateBalance = (questiontype) => {
   return {
     question: question,
     questions: questions,
+    answers: answers,
     answer: answer,
   };
 };
@@ -204,6 +208,7 @@ export const generateSquareQuestion = (questiontype) => {
   return {
     question: question,
     questions: [],
+    answers: [],
     answer: answer,
   };
 };
@@ -272,6 +277,7 @@ export const generatePlusMinusQuestion = (questiontype) => {
   let currentnumber = 0;
   let question = '';
   const questions = [];
+  const answers = [];
   let answer = 0;
   const { type, nos, digits, inwords, level } = questiontype;
   let { decimals = 0 } = questiontype;
@@ -280,7 +286,9 @@ export const generatePlusMinusQuestion = (questiontype) => {
 
   const totaldigits = digits + decimals;
   let isHigherNumber = false;
+  let prevnumber = -999;
   for (let i = 0; i < nos; i += 1) {
+    console.log(`Number generating i: ,${i}`);
     const temptype = type;
     let sign = '+';
     if (i === 0 || answer < 10 ** (totaldigits - 1)) sign = '+';
@@ -305,21 +313,31 @@ export const generatePlusMinusQuestion = (questiontype) => {
       fromnumber = 10 ** digits - answer;
       currentnumber = randomIntFromInterval(fromnumber, fromnumber + 10 ** digits);
     } else currentnumber = randomIntFromInterval(fromnumber, tonumber);
-    let q = '';
-    if (sign === '+' || sign === '-') answer += (sign === '+' ? 1 : -1) * currentnumber;
-    else if (sign === 'x') answer *= currentnumber;
 
-    if (!isHigherNumber && level === 2 && answer.toString().length > digits) isHigherNumber = true;
+    // console.log(`current no and prev number: ${currentnumber},${prevnumber}`);
+    if (currentnumber === prevnumber) {
+      i -= 1;
+      // console.log(`*** Skipping number and resetting count i ,${i}`);
+    } else {
+      prevnumber = currentnumber;
 
-    if (!inwords) {
-      q = `${i > 0 ? sign : ''} ${currentnumber / (decimals === 0 ? 1 : 10 ** decimals)}`;
-      question = `${question} ${q}`;
-      questions.push(q.replace('+', ''));
-    } else if (inwords) {
-      const toword = numberToEnglish(currentnumber);
-      q = `${i <= 0 ? '' : sign === '+' ? ' <u><i>plus</i></u> ' : sign === '-' ? ' <u><i>minus</i></u> ' : ' <u><i>times</i></u> '}${toword}`;
-      question = `${question}${q}`;
-      questions.push(q.replace('+', ''));
+      let q = '';
+      if (sign === '+' || sign === '-') answer += (sign === '+' ? 1 : -1) * currentnumber;
+      else if (sign === 'x') answer *= currentnumber;
+
+      if (!isHigherNumber && level === 2 && answer.toString().length > digits) isHigherNumber = true;
+
+      if (!inwords) {
+        q = `${i > 0 ? sign : ''} ${currentnumber / (decimals === 0 ? 1 : 10 ** decimals)}`;
+        question = `${question} ${q}`;
+        questions.push(q.replace('+', ''));
+      } else if (inwords) {
+        const toword = numberToEnglish(currentnumber);
+        q = `${i <= 0 ? '' : sign === '+' ? ' <u><i>plus</i></u> ' : sign === '-' ? ' <u><i>minus</i></u> ' : ' <u><i>times</i></u> '}${toword}`;
+        question = `${question}${q}`;
+        questions.push(q.replace('+', ''));
+      }
+      answers.push(answer);
     }
   }
   answer /= decimals === 0 ? 1 : 10 ** decimals;
@@ -331,6 +349,7 @@ export const generatePlusMinusQuestion = (questiontype) => {
     question: question,
     questions: questions,
     answer: answer,
+    answers: answers,
   };
 };
 export const generateTimeArthematicQuestion = (questiontype) => {
@@ -377,6 +396,7 @@ export const generateTimeArthematicQuestion = (questiontype) => {
   return {
     question: questionstr,
     questions: '',
+    answers: '',
     answer: answer,
   };
 };
@@ -443,6 +463,7 @@ export const generateTimeHrsArthematicQuestion = (questiontype) => {
   return {
     question: questionstr,
     questions: '',
+    answers: '',
     answer: answerdt.format(HR24 === 'Y' ? 'HH:mm' : 'hh:mm'),
   };
 };

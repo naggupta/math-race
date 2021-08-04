@@ -92,6 +92,7 @@ const reducer = (state = initialState, action) => {
       if (!action.isCorrect) players[action.playerno].wrong += 1;
       players[action.playerno].question = action.question;
       players[action.playerno].questions = action.questions;
+      players[action.playerno].answers = action.answers;
       players[action.playerno].answer = action.answer;
       players[action.playerno].answerresult = 'CORRECT';
       return {
@@ -103,6 +104,7 @@ const reducer = (state = initialState, action) => {
       players[action.playerno].wrong += 1;
       players[action.playerno].question = action.question;
       players[action.playerno].questions = action.questions;
+      players[action.playerno].answers = action.answers;
       players[action.playerno].answer = action.answer;
       players[action.playerno].answerresult = 'WRONG';
       return {

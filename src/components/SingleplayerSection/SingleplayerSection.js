@@ -26,6 +26,7 @@ class SingleplayerSection extends PureComponent {
   movingfish = new Howl({ src: movingFishSound, volume: 1 });
   claps = new Howl({ src: clapsSound, volume: 1 });
   timers = [];
+  answertimers = [];
 
   state = {
     // filter: 'ytd',
@@ -33,6 +34,7 @@ class SingleplayerSection extends PureComponent {
     // answerresult: '',
     closedisplay: false,
     question: '',
+    answer: '',
     fullquestion: '',
     qcounter: 0,
     attempts: 0,
@@ -44,6 +46,7 @@ class SingleplayerSection extends PureComponent {
     this.wrongRef = React.createRef();
     this.questionRef = React.createRef();
     this.retryRef = React.createRef();
+    this.answerRef = React.createRef();
     // this.inputAnswer = React.createRef();
     // console.log('[PlayerSection] constructor');
   }
@@ -88,8 +91,24 @@ class SingleplayerSection extends PureComponent {
 
   animateNextQuestion = (player) => {
     const timer = setTimeout(() => {
+      const answerRef = this.answerRef.current;
       if (this.state.qcounter >= player.questions.length) return;
-      this.setState((prevState) => ({ qcounter: prevState.qcounter + 1, question: player.questions[prevState.qcounter], fullquestion: player.question }));
+      // this.setState((prevState) => ({ qcounter: prevState.qcounter + 1, question: player.questions[prevState.qcounter], fullquestion: player.question }));
+      this.setState((prevState) => ({
+        qcounter: prevState.qcounter + 1,
+        question: player.questions[prevState.qcounter],
+        answer: prevState.qcounter < player.questions.length - 1 && prevState.attempts > 1 ? player.answers[prevState.qcounter - 1] : '',
+        fullquestion: player.question,
+        automate: true,
+      }));
+      if (answerRef) {
+        answerRef.classList.remove(Classes.HideAnswer);
+        const answertimer = setTimeout(() => {
+          answerRef.classList.add(Classes.HideAnswer);
+        }, 1000);
+        this.answertimers.push(answertimer);
+      }
+
       this.animateNextQuestion(player);
     }, 1000 * player.questiontype.delay);
     this.timers.push(timer);
@@ -97,12 +116,16 @@ class SingleplayerSection extends PureComponent {
 
   displayQuestion = (player, no) => {
     // this.inputAnswer.focus();
+    const answerRef = this.retryRef.current;
+    // if (this.state.qcounter >= player.questions.length) return;
     this.focusAnswer();
     let i = no < 0 ? 0 : no;
     i = no >= player.questions.length ? player.questions.length - 1 : no;
     if (i >= player.questions.length || i < 0) return;
     // console.log('[displayquestion]', i);
-    this.setState((prevState) => ({ qcounter: i + 1, question: player.questions[i], fullquestion: player.question }));
+    const answer = i < player.questions.length - 1 && this.state.attempts > 1 ? player.answers[i - 1] : '';
+    this.setState((prevState) => ({ qcounter: i + 1, question: player.questions[i], answer: answer, fullquestion: player.question }));
+    // this.setState((prevState) => ({ qcounter: i + 1, question: player.questions[i], fullquestion: player.question }));
     this.animateNextQuestion(player);
   };
 
@@ -211,6 +234,9 @@ class SingleplayerSection extends PureComponent {
 
   clearTimer = () => {
     this.timers.forEach((timer) => {
+      clearInterval(timer);
+    });
+    this.answertimers.forEach((timer) => {
       clearInterval(timer);
     });
   };
@@ -328,6 +354,7 @@ class SingleplayerSection extends PureComponent {
             <CSSTransition classNames="question" timeout={200}>
               <div>
                 <span style={{ display: 'inline-block', fontSize: '2.3em', paddingBottom: '20px' }} dangerouslySetInnerHTML={{ __html: this.state.question }} />
+                <span ref={this.answerRef} className={Classes.NextAnswer} dangerouslySetInnerHTML={{ __html: this.state.answer }} />
               </div>
             </CSSTransition>
 
