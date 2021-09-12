@@ -2,13 +2,13 @@ import * as mathjs from 'mathjs';
 import moment from 'moment';
 import numberToEnglish from './NumberToEnglish';
 
-export const generateQuestion = (questiontype, wordquestions) => {
+export const generateQuestion = (questiontype, wordquestions, wordquestionsindexs = []) => {
   const { type, nos, digits, inwords } = questiontype;
   if (type === '+-' || type === '+-x') return generatePlusMinusQuestion(questiontype);
   else if (type === 'x') return generateMultiplyQuestion(questiontype);
   else if (type === '/') return generateDivideQuestion(questiontype);
   else if (type === 'X2') return generateSquareQuestion(questiontype);
-  else if (['WORD', 'MONEY', 'FILL'].includes(type)) return generateWordsQuestion(questiontype, wordquestions);
+  else if (['WORD', 'MONEY', 'FILL', 'CONVERSIONS'].includes(type)) return generateWordsQuestion(questiontype, wordquestions, wordquestionsindexs);
   else if (['TIMEHRS+-'].includes(type)) return generateTimeHrsArthematicQuestion(questiontype);
   else if (['TIME+-'].includes(type)) return generateTimeArthematicQuestion(questiontype);
   else if (['BAL'].includes(type)) return generateBalance(questiontype);
@@ -222,10 +222,11 @@ const isJsonString = (str) => {
   return true;
 };
 
-export const generateWordsQuestion = (questiontype, questions) => {
+export const generateWordsQuestion = (questiontype, questions, wordquestionsindexs) => {
   const { type, nos, digits, inwords } = questiontype;
   const wordquestions = questions[type];
-  const questionno = randomIntFromInterval(0, wordquestions.length - 1);
+  // const questionno = randomIntFromInterval(0, wordquestions.length - 1);
+  const questionno = randomFromList(wordquestionsindexs);
   const question = wordquestions[questionno];
 
   let { decimals = 0 } = questiontype;
@@ -247,7 +248,7 @@ export const generateWordsQuestion = (questiontype, questions) => {
       const params1 = { ...qparams };
       const param = qparams[key];
       let substitute = '';
-      // console.log('[QuestionGenerator]generatewordsQuestion', param);
+      console.log('[QuestionGenerator]generatewordsQuestion', param);
       if (param instanceof Object) {
         if ('list' in param) {
           params1.val = randomFromList(param.list);
@@ -266,7 +267,7 @@ export const generateWordsQuestion = (questiontype, questions) => {
   const answer = evaluate(replaceValues(question.answer, qparams));
   const questionstr = replaceValues(question.question, qparams);
 
-  return { answer: roundValue(answer), question: questionstr, questions: [] };
+  return { answer: roundValue(answer), question: questionstr, questions: [], questionno: questionno };
 };
 
 const roundValue = (val) => {

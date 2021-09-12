@@ -13,7 +13,13 @@ export const start = (playername1, playername2, questiontype1, questiontype2) =>
   return async (dispatch, getstate) => {
     // const { nos, digits, decimals } = getstate().game.questiontype;
     // console.log('[actions] start',questiontype1);
-    if ((['WORD', 'MONEY', 'FILL'].includes(questiontype1.type) || (questiontype2 && ['WORD', 'MONEY', 'FILL'].includes(questiontype2.type))) && !getstate().game.questions) {
+    const lquestiontype1 = questiontype1;
+    const lquestiontype2 = questiontype2;
+    if (
+      // eslint-disable-next-line operator-linebreak
+      !getstate().game.questions &&
+      (['WORD', 'MONEY', 'FILL', 'CONVERSIONS'].includes(lquestiontype1.type) || (lquestiontype2 && ['WORD', 'MONEY', 'FILL', 'CONVERSIONS'].includes(lquestiontype2.type)))
+    ) {
       //   axios.get('/questions.json')
       //         .then(response=>{
       //             console.log(response.data);
@@ -66,14 +72,37 @@ export const start = (playername1, playername2, questiontype1, questiontype2) =>
       });
     }
     let question2 = {};
-    if (playername2) question2 = { ...Utils.generateQuestion(questiontype2, getstate().game.wordquestions) };
+    let indexs2 = [];
+    if (playername2) {
+      if (['WORD', 'MONEY', 'FILL', 'CONVERSIONS'].includes(questiontype2.type)) {
+        lquestiontype2.points = indexs2.length;
+        indexs2 = [...Array(getstate().game.wordquestions[lquestiontype2.type].length).keys()];
+      }
+      question2 = { ...Utils.generateQuestion(lquestiontype2, getstate().game.wordquestions, indexs2) };
+    }
+
+    let indexs1 = [];
+    if (['WORD', 'MONEY', 'FILL', 'CONVERSIONS'].includes(questiontype1.type)) {
+      indexs1 = [...Array(getstate().game.wordquestions[lquestiontype1.type].length).keys()];
+      lquestiontype1.points = indexs1.length;
+    }
+
     // Question loaded if required
     dispatch({
       type: actionTypes.START,
       // questiontype: questiontype,
       players: [
-        { id: 0, name: playername1, points: 0, wrong: 0, ...Utils.generateQuestion(questiontype1, getstate().game.wordquestions), answerresult: '', questiontype: questiontype1 },
-        { id: 1, name: playername2, points: 0, wrong: 0, ...question2, answerresult: '', questiontype: questiontype2 },
+        {
+          id: 0,
+          name: playername1,
+          points: 0,
+          wrong: 0,
+          ...Utils.generateQuestion(lquestiontype1, getstate().game.wordquestions, indexs1),
+          answerresult: '',
+          questiontype: lquestiontype1,
+          wordquestionsindexs: indexs1,
+        },
+        { id: 1, name: playername2, points: 0, wrong: 0, ...question2, answerresult: '', questiontype: lquestiontype2, wordquestionsindexs: indexs2 },
       ],
     });
   };
@@ -92,11 +121,24 @@ export const start = (playername1, playername2, questiontype1, questiontype2) =>
 export const nextQuestion = (playerno, isCorrect = true) => {
   return (dispatch, getstate) => {
     // const { nos, digits, decimals } = getstate().game.questiontype;
+    const { questionno, questiontype } = getstate().game.players[playerno];
+    const { wordquestionsindexs } = getstate().game.players[playerno];
+    const index = wordquestionsindexs.indexOf(questionno);
+    if (index > -1) {
+      wordquestionsindexs.splice(index, 1);
+    } //
+    // Reload the indexes if all questions are answered...
+    // if (!wordquestionsindexs || wordquestionsindexs.length <= 0) {
+      // dispatch(complete());
+      // return;
+      // wordquestionsindexs = [...Array(getstate().game.wordquestions[questiontype.type].length).keys()];
+    // }
     dispatch({
       type: actionTypes.CORRECT,
       isCorrect: isCorrect,
       playerno: playerno,
-      ...Utils.generateQuestion(getstate().game.players[playerno].questiontype, getstate().game.wordquestions),
+      ...Utils.generateQuestion(getstate().game.players[playerno].questiontype, getstate().game.wordquestions, wordquestionsindexs),
+      wordquestionsindexs: wordquestionsindexs,
     });
   };
 };
@@ -104,10 +146,11 @@ export const nextQuestion = (playerno, isCorrect = true) => {
 export const wrongAnswer = (playerno) => {
   return (dispatch, getstate) => {
     // const { nos, digits, decimals } = getstate().game.questiontype;
+    const { wordquestionsindexs } = getstate().game.players[playerno];
     dispatch({
       type: actionTypes.WRONG,
       playerno: playerno,
-      ...Utils.generateQuestion(getstate().game.players[playerno].questiontype, getstate().game.wordquestions),
+      ...Utils.generateQuestion(getstate().game.players[playerno].questiontype, getstate().game.wordquestions, wordquestionsindexs),
     });
   };
 };

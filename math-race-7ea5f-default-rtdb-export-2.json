@@ -343,6 +343,96 @@
         "answer": "{2}-{0}-{1}",
         "question": "Isaac and Josh want to buy an £{2} fishing boat together. Isaac has £{0} saved. Josh has £{1} saved. How much more money do they need before they can buy the boat?"
       }
+    ],
+    "CONVERSIONS": [
+      {
+        "0": "{val}",
+        "answer": "1000*{0}",
+        "question": "How many milliliter (ml) in {0} liter (l)?",
+        "active": "Y"
+      },
+      {
+        "0": "{val}",
+        "answer": "1000*{0}",
+        "question": "How many milligrams (mg) in {0} grams (g)?",
+        "active": "Y"
+      },
+      {
+        "0": "{val}",
+        "answer": "1000*{0}",
+        "question": "How may grams (g) in {0} Kilogram (KG)?",
+        "active": "Y"
+      },
+      {
+        "0": "{val}",
+        "answer": "100*{0}",
+        "question": "How many centimeters (cm) in {0} Meters (m)?",
+        "active": "Y"
+      },
+      {
+        "0": "{val}",
+        "answer": "1000*{0}",
+        "question": "How many meters (m) in {0} Kilometer (KM)?",
+        "active": "Y"
+      },
+      {
+        "0": "{val}",
+        "answer": "12*{0}",
+        "question": "How many months in {0} year?",
+        "active": "Y"
+      },
+      {
+        "0": "{val}",
+        "answer": "52*{0}",
+        "question": "How many weeks in {0} year?",
+        "active": "Y"
+      },
+      {
+        "0": "1",
+        "answer": "365",
+        "question": "How many days in a year?",
+        "active": "Y"
+      },
+      {
+        "0": "{val}",
+        "answer": "2*{0}",
+        "question": "How many weeks in {0} fortnight?",
+        "active": "Y"
+      },
+      {
+        "0": "{val}",
+        "answer": "7*{0}",
+        "question": "How many days in {0} week(s)?",
+        "active": "Y"
+      },
+      {
+        "0": "{val}",
+        "answer": "24*{0}",
+        "question": "How many hours in {0} days?",
+        "active": "Y"
+      },
+      {
+        "0": "{val}",
+        "answer": "60*{0}",
+        "question": "How many minutes in {0} hours?",
+        "active": "Y"
+      },
+      {
+        "0": "{val}",
+        "answer": "60*{0}",
+        "question": "How many seconds in {0} minutes?",
+        "active": "Y"
+      },
+      {
+        "0": {
+          "val": "{val}",
+          "min": 1,
+          "max": 12
+        },
+        "answer": "({0}==4 or {0} == 6 or {0} == 9 or {0} == 11)?30:(({0}==2)?28:31)",
+        "question": "How many days in the month {0}?",
+        "active": "Y"
+      }
     ]
   }
 }

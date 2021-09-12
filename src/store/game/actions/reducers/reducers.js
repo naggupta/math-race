@@ -95,6 +95,8 @@ const reducer = (state = initialState, action) => {
       players[action.playerno].answers = action.answers;
       players[action.playerno].answer = action.answer;
       players[action.playerno].answerresult = 'CORRECT';
+      players[action.playerno].questionno = action.questionno;
+      players[action.playerno].wordquestionsindexs = action.wordquestionsindexs;
       return {
         ...state,
         players: [...players],
@@ -106,6 +108,7 @@ const reducer = (state = initialState, action) => {
       players[action.playerno].questions = action.questions;
       players[action.playerno].answers = action.answers;
       players[action.playerno].answer = action.answer;
+      players[action.playerno].questionno = action.questionno;
       players[action.playerno].answerresult = 'WRONG';
       return {
         ...state,

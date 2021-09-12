@@ -160,10 +160,20 @@ class SingleplayerSetup extends PureComponent {
               <input type="radio" name={`type${index}`} value="WORD" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'WORD'} />
               <label>Word</label>
             </div>
+            <div>
+              <input
+                type="radio"
+                name={`type${index}`}
+                value="CONVERSIONS"
+                onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })}
+                defaultChecked={questiontype.type === 'CONVERSIONS'}
+              />
+              <label>Conversions</label>
+            </div>
           </div>
           <div className={['w3-col m6'].join(' ')}>
             <div className={[Classes.Options].join(' ')}>
-              <div style={{ display: ['+-', '+-x', 'x', '/', 'X2', 'WORD', 'FILL', 'MONEY'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+              <div style={{ display: ['+-', '+-x', 'x', '/', 'X2', 'WORD', 'FILL', 'MONEY', 'CONVERSIONS'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
                 <h5>Digits</h5>
                 <InputRange name="digits0" minValue={1} maxValue={4} value={this.state.digits0} onChange={(value) => this.setState({ digits0: value })} step={1} />
               </div>
@@ -210,7 +220,7 @@ class SingleplayerSetup extends PureComponent {
                 <h5>Decimals</h5>
                 <InputRange name="decimals0" minValue={0} maxValue={2} value={this.state.decimals0} onChange={(value) => this.setState({ decimals0: value })} step={1} />
               </div>
-              <div style={{ display: 'flex' }}>
+              <div style={{ display: ['FILL', 'WORD', 'MONEY', 'CONVERSIONS'].includes(this.state[`type${index}`]) ? 'none' : 'flex' }}>
                 <h5>Points</h5>
                 <InputRange name="points0" minValue={1} maxValue={20} value={this.state.points0} onChange={(value) => this.setState({ points0: value })} step={1} />
               </div>

@@ -178,7 +178,7 @@ class SingleplayerSection extends PureComponent {
 
     // eslint-disable-next-line eqeqeq
     if (player.questiontype.testmode || iscorrect) {
-      if (player.points === player.questiontype.points - 1) {
+      if (player.points === player.questiontype.points - 1 || (player.wordquestionsindexs && player.wordquestionsindexs.length === 1)) {
         // alert(`${player.name} Win`);
         // this.props.reset();
         this.success.play();
@@ -361,7 +361,7 @@ class SingleplayerSection extends PureComponent {
             <div className={Classes.Refresh}>
               <a
                 className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}
-                style={{ display: player.questiontype.delay === 0 ? 'none' : 'flex' }}
+                style={{ display: player.questiontype.delay === 0 || player.questiontype.testmode ? 'none' : 'flex' }}
                 role="button"
                 onClick={this.prevQuestion}
                 tabIndex={0}
@@ -371,7 +371,7 @@ class SingleplayerSection extends PureComponent {
               </a>
               <a
                 className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}
-                style={{ display: player.questiontype.delay === 0 ? 'none' : 'flex' }}
+                style={{ display: player.questiontype.delay === 0 || player.questiontype.testmode ? 'none' : 'flex' }}
                 role="button"
                 onClick={this.nextQuestion}
                 tabIndex={0}
@@ -381,7 +381,7 @@ class SingleplayerSection extends PureComponent {
               </a>
               <a
                 className={['w3-btn', 'w3-round-large', this.buttonTheme(), Classes.BtnNumber].join(' ')}
-                style={{ display: player.questiontype.delay === 0 ? 'none' : 'flex' }}
+                style={{ display: player.questiontype.delay === 0 || player.questiontype.testmode ? 'none' : 'flex' }}
                 role="button"
                 onClick={this.restart}
                 tabIndex={0}
