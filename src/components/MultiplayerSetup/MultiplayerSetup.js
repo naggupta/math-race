@@ -155,14 +155,14 @@ class MultiplayerSetup extends PureComponent {
                   <input type="radio" name={`type${index}`} value="FILL" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'FILL'} />
                   <label>Fill</label>
                 </div>
-                <div className={Classes.ExtraWide}>
+                {/* <div className={Classes.ExtraWide}>
                   <input type="radio" name={`type${index}`} value="MONEY" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'MONEY'} />
                   <label>Money</label>
                 </div>
                 <div className={Classes.ExtraWide}>
                   <input type="radio" name={`type${index}`} value="WORD" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'WORD'} />
                   <label>Word</label>
-                </div>
+                </div> */}
 
                 {/* <div>
                 <input type="radio" placeholder="In words" name={`type${index}`} value="+-W" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === '+-W'} />
@@ -174,7 +174,7 @@ class MultiplayerSetup extends PureComponent {
                     </div> */}
               </div>
               <div style={{ display: 'flex' }}>
-                <div style={{ display: ['+-', '+-x', 'x', '/', 'X2', 'WORD', 'FILL', 'MONEY'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+                <div style={{ display: ['+-', 'x/y', '+-x', 'x', '/', 'X2', 'WORD', 'FILL', 'MONEY'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
                   <h2>Digits</h2>
                   <div>
                     <input type="radio" name={`digits${index}`} onChange={(e) => this.setState({ [`digits${index}`]: e.currentTarget.value })} value="1" defaultChecked={questiontype.digits === 1} />

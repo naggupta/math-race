@@ -8,6 +8,7 @@ export const generateQuestion = (questiontype, wordquestions, wordquestionsindex
   else if (type === 'x') return generateMultiplyQuestion(questiontype);
   else if (type === '/') return generateDivideQuestion(questiontype);
   else if (type === 'X2') return generateSquareQuestion(questiontype);
+  else if (type === 'x/y') return generateFractionQuestion(questiontype);
   else if (['WORD', 'MONEY', 'FILL', 'CONVERSIONS'].includes(type)) return generateWordsQuestion(questiontype, wordquestions, wordquestionsindexs);
   else if (['TIMEHRS+-'].includes(type)) return generateTimeHrsArthematicQuestion(questiontype);
   else if (['TIME+-'].includes(type)) return generateTimeArthematicQuestion(questiontype);
@@ -155,6 +156,28 @@ export const generateDivideQuestion = (questiontype) => {
   if (!inwords) question = `${dividend} / ${divider}`;
   else if (inwords) question = `${numberToEnglish(dividend)} X ${numberToEnglish(divider)}`;
 
+  return {
+    question: question,
+    questions: [],
+    answer: answer,
+  };
+};
+
+export const generateFractionQuestion = (questiontype) => {
+  const { type, digits, inwords } = questiontype;
+  const tonumber = 10 ** (digits + 1) - 1;
+  const fromnumber = 10 ** digits + 1;
+
+  const tofraction = 10 ** digits - 1;
+  const fromfraction = 10 ** (digits - 1) + 1;
+
+  const intermediateno = randomIntFromInterval(fromnumber, tonumber);
+  const denominator = randomIntFromInterval(fromfraction, tofraction);
+  let question = intermediateno * denominator;
+  const neumerator = randomIntFromInterval(fromfraction, tofraction, [denominator]);
+  const answer = intermediateno * neumerator;
+
+  question = `<sup>${neumerator}</sup>&frasl;<sub>${denominator}</sub> of ${question}`;
   return {
     question: question,
     questions: [],
@@ -473,10 +496,16 @@ const timeformat = (hrs, min) => {
   return `${hrs < 10 ? '0' : ''}${hrs}:${min < 10 ? '0' : ''}${min}`;
 };
 
-export const randomIntFromInterval = (min, max) => {
+export const randomIntFromInterval = (min, max, exceptList = []) => {
   // min and max included
   // if (decimals === 0)
-  return Math.floor(Math.random() * (max - min + 1) + min);
+  let val;
+
+  do {
+    val = Math.floor(Math.random() * (max - min + 1) + min);
+  } while (exceptList.indexOf(val) > -1);
+  return val;
+
   // else {
   //     const decimalnumber = (10 ** decimals);
   //     console.log(`${(max * decimalnumber)},${(min * decimalnumber) + 1}`)

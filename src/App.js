@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import DrawArea from './components/CanvasDraw/DrawArea';
 // import { Route, Switch } from 'react-router-dom';
 import Layout from './Layout/Layout';
 // import YahooReader from './containers/YahooReader/YahooReader';
@@ -13,6 +14,7 @@ function App() {
 
   return (
     <Layout />
+    // <DrawArea />
   );
 }
 

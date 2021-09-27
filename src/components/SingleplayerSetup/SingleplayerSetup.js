@@ -152,13 +152,17 @@ class SingleplayerSetup extends PureComponent {
               <input type="radio" name={`type${index}`} value="FILL" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'FILL'} />
               <label>Fill</label>
             </div>
-            <div>
+            {/* <div>
               <input type="radio" name={`type${index}`} value="MONEY" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'MONEY'} />
               <label>Money</label>
             </div>
             <div>
               <input type="radio" name={`type${index}`} value="WORD" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'WORD'} />
               <label>Word</label>
+            </div> */}
+            <div>
+              <input type="radio" name={`type${index}`} value="x/y" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'x/y'} />
+              <label>Fractions</label>
             </div>
             <div>
               <input
@@ -173,7 +177,7 @@ class SingleplayerSetup extends PureComponent {
           </div>
           <div className={['w3-col m6'].join(' ')}>
             <div className={[Classes.Options].join(' ')}>
-              <div style={{ display: ['+-', '+-x', 'x', '/', 'X2', 'WORD', 'FILL', 'MONEY', 'CONVERSIONS'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+              <div style={{ display: ['+-', '+-x', 'x', '/', 'X2', 'WORD', 'FILL', 'MONEY', 'CONVERSIONS', 'x/y'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
                 <h5>Digits</h5>
                 <InputRange name="digits0" minValue={1} maxValue={4} value={this.state.digits0} onChange={(value) => this.setState({ digits0: value })} step={1} />
               </div>
