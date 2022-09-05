@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/math-race/static/css/main.6e620565.chunk.css",
-    "main.js": "/math-race/static/js/main.aa7a5934.chunk.js",
-    "main.js.map": "/math-race/static/js/main.aa7a5934.chunk.js.map",
+    "main.js": "/math-race/static/js/main.c8ce0d06.chunk.js",
+    "main.js.map": "/math-race/static/js/main.c8ce0d06.chunk.js.map",
     "runtime-main.js": "/math-race/static/js/runtime-main.5cbc5bc9.js",
     "runtime-main.js.map": "/math-race/static/js/runtime-main.5cbc5bc9.js.map",
     "static/css/2.e995eac1.chunk.css": "/math-race/static/css/2.e995eac1.chunk.css",
@@ -23,6 +23,6 @@
     "static/css/2.e995eac1.chunk.css",
     "static/js/2.df83432c.chunk.js",
     "static/css/main.6e620565.chunk.css",
-    "static/js/main.aa7a5934.chunk.js"
+    "static/js/main.c8ce0d06.chunk.js"
   ]
 }
