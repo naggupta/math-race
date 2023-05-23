@@ -62,9 +62,9 @@ class SingleplayerSetup extends PureComponent {
       type: type0.value,
       nos: +numbers0.value,
       digits: +digits0.value,
-      decimals: ['+-'].includes(type0.value) ? +decimals0.value : 0,
+      decimals: ['+', '+-'].includes(type0.value) ? +decimals0.value : 0,
       points: +points0.value,
-      delay: ['+-', '+-x', 'BAL'].includes(type0.value) ? +delay0.value : 0,
+      delay: ['+', '+-', '+-x', 'BAL'].includes(type0.value) ? +delay0.value : 0,
       tens: tens0.checked,
       HR24: HR240.checked,
       level: +level0.value,
@@ -106,6 +106,10 @@ class SingleplayerSetup extends PureComponent {
           <div className={['w3-col m6', Classes.Type].join(' ')}>
             <div className={Classes.Group4}>
               <div>
+                <input type="radio" name={`type${index}`} value="+" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === '+'} />
+                <label>+</label>
+              </div>
+              <div>
                 <input type="radio" name={`type${index}`} value="+-" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === '+-'} />
                 <label>+-</label>
               </div>
@@ -117,16 +121,19 @@ class SingleplayerSetup extends PureComponent {
                 <input type="radio" name={`type${index}`} value="/" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === '/'} />
                 <label>/</label>
               </div>
+              
+            </div>
+            <div className={Classes.Group2}>
               <div>
                 <input type="radio" name={`type${index}`} value="+-x" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === '+-x'} />
                 <label>+-x</label>
               </div>
-            </div>
-            <div>
-              <input type="radio" name={`type${index}`} value="X2" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'X2'} />
-              <label>
-                X<sup>2</sup>
-              </label>
+              <div>
+                <input type="radio" name={`type${index}`} value="X2" onChange={(e) => this.setState({ [`type${index}`]: e.currentTarget.value })} defaultChecked={questiontype.type === 'X2'} />
+                <label>
+                  X<sup>2</sup>
+                </label>
+              </div>
             </div>
             <div className={Classes.Group2}>
               <div>
@@ -177,12 +184,12 @@ class SingleplayerSetup extends PureComponent {
           </div>
           <div className={['w3-col m6'].join(' ')}>
             <div className={[Classes.Options].join(' ')}>
-              <div style={{ display: ['+-', '+-x', 'x', '/', 'X2', 'WORD', 'FILL', 'MONEY', 'CONVERSIONS', 'x/y'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+              <div style={{ display: ['+', '+-', '+-x', 'x', '/', 'X2', 'WORD', 'FILL', 'MONEY', 'CONVERSIONS', 'x/y'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
                 <h5>Digits</h5>
                 <InputRange name="digits0" minValue={1} maxValue={4} value={this.state.digits0} onChange={(value) => this.setState({ digits0: value })} step={1} />
               </div>
 
-              <div style={{ marginLeft: '0px', display: ['+-', '+-x', 'BAL'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+              <div style={{ marginLeft: '0px', display: ['+', '+-', '+-x', 'BAL'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
                 <h5>Numbers</h5>
                 <InputRange name="numbers0" minValue={2} maxValue={20} value={this.state.numbers0} onChange={(value) => this.setState({ numbers0: value })} step={1} />
               </div>
@@ -199,18 +206,18 @@ class SingleplayerSetup extends PureComponent {
                   <ToggleControl label={`HR24${index}`} checked={!!questiontype.HR24} />
                 </div>
               </div>
-              <div style={{ display: ['+-', 'TIMEHRS+-', 'TIME+-', 'BAL'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+              <div style={{ display: ['+', '+-', 'TIMEHRS+-', 'TIME+-', 'BAL'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
                 <h5>Level</h5>
                 <InputRange
                   name="level0"
                   minValue={1}
-                  maxValue={['+-', 'BAL'].includes(this.state[`type${index}`]) ? 2 : 4}
+                  maxValue={['+', '+-', 'BAL'].includes(this.state[`type${index}`]) ? 2 : 4}
                   value={this.state.level0}
                   onChange={(value) => this.setState({ level0: value })}
                   step={1}
                 />
               </div>
-              <div style={{ display: ['+-', '+-x', 'BAL'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+              <div style={{ display: ['+', '+-', '+-x', 'BAL'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
                 <h5>Delay</h5>
                 <InputRange name="delay0" minValue={0} maxValue={10} value={this.state.delay0} onChange={(value) => this.setState({ delay0: value })} step={1} formatLabel={(value) => `${value}s`} />
               </div>
@@ -220,7 +227,7 @@ class SingleplayerSetup extends PureComponent {
                   <ToggleControl label={`inwords${index}`} checked={!!questiontype.inwords} />
                 </div>
               </div>
-              <div style={{ display: this.state[`type${index}`] === '+-' ? 'flex' : 'none' }}>
+              <div style={{ display: ['+', '+-'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
                 <h5>Decimals</h5>
                 <InputRange name="decimals0" minValue={0} maxValue={2} value={this.state.decimals0} onChange={(value) => this.setState({ decimals0: value })} step={1} />
               </div>

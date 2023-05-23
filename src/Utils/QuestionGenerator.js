@@ -4,7 +4,7 @@ import numberToEnglish from './NumberToEnglish';
 
 export const generateQuestion = (questiontype, wordquestions, wordquestionsindexs = []) => {
   const { type, nos, digits, inwords } = questiontype;
-  if (type === '+-' || type === '+-x') return generatePlusMinusQuestion(questiontype);
+  if (type === '+' || type === '+-' || type === '+-x') return generatePlusMinusQuestion(questiontype);
   else if (type === 'x') return generateMultiplyQuestion(questiontype);
   else if (type === '/') return generateDivideQuestion(questiontype);
   else if (type === 'X2') return generateSquareQuestion(questiontype);
@@ -315,7 +315,7 @@ export const generatePlusMinusQuestion = (questiontype) => {
     console.log(`Number generating i: ,${i}`);
     const temptype = type;
     let sign = '+';
-    if (i === 0 || answer < 10 ** (totaldigits - 1)) sign = '+';
+    if (i === 0 || type === '+' || answer < 10 ** (totaldigits - 1)) sign = '+';
     else if ((answer >= 100 || answer <= 10) && type === '+-x' && digits > 1) sign = randomSign('+-');
     else if (answer > 10 && type === '+-x' && digits === 1) sign = randomSign('+-');
     else if (i > 1 && type === '+-x' && !symbols.includes('x') && answer > 9 && answer < 100 && digits > 1) sign = 'x';

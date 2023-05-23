@@ -3,8 +3,8 @@
 import * as actionTypes from '../actionTypes';
 
 const questiontype = {
-  type: '+-',
-  nos: 2,
+  type: '+',
+  nos: 4,
   digits: 2,
   decimals: 0,
   points: 10,
