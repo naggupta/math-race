@@ -114,15 +114,15 @@ export const generateBalance = (questiontype) => {
 export const generateMultiplyQuestion = (questiontype) => {
   // let question = '';
   // let answer = 0;
-  const { type, digits, inwords, tens } = questiontype;
-  const nos = 2;
+  // console.log(questiontype)
+  const { type, digits, nos, inwords, tens } = questiontype;
   let { decimals = 0 } = questiontype;
   if (inwords) decimals = 0;
   const symbols = [];
   const tonumber = 10 ** digits - 1;
   const fromnumber = 10 ** (digits - 1) + 1;
   const multiplicend = randomIntFromInterval(fromnumber, tonumber);
-  const multiplier = randomIntFromInterval(2, 9);
+  const multiplier = randomIntFromInterval(10 ** (nos - 1) + 1, 10 ** nos - 1);
   const answer = multiplier * multiplicend;
   // console.log(`${question} ? ${answer}`);
   let question = '';
@@ -140,21 +140,21 @@ export const generateMultiplyQuestion = (questiontype) => {
 export const generateDivideQuestion = (questiontype) => {
   // let question = '';
   // let answer = 0;
-  const { type, digits, inwords, tens } = questiontype;
-  const nos = 2;
+  const { type, digits, nos, inwords, tens } = questiontype;
   let { decimals = 0 } = questiontype;
   if (inwords) decimals = 0;
   const symbols = [];
   const tonumber = 10 ** digits - 1;
   const fromnumber = 10 ** (digits - 1) + 1;
-  const answer = randomIntFromInterval(fromnumber, tonumber);
-  const divider = randomIntFromInterval(2, 9);
-  const dividend = answer * divider;
+  const dividend = randomIntFromInterval(fromnumber, tonumber);
+  const divisor = randomIntFromInterval(10 ** (nos - 1) + 1, 10 ** nos - 1);
+  let answer = dividend / divisor;
+  answer = Math.trunc(answer*100)/100
   // console.log(`${question} ? ${answer}`);
   let question = '';
 
-  if (!inwords) question = `${dividend} / ${divider}`;
-  else if (inwords) question = `${numberToEnglish(dividend)} X ${numberToEnglish(divider)}`;
+  if (!inwords) question = `${dividend} / ${divisor}`;
+  else if (inwords) question = `${numberToEnglish(dividend)} X ${numberToEnglish(divisor)}`;
 
   return {
     question: question,

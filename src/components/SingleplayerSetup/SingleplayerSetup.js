@@ -186,12 +186,12 @@ class SingleplayerSetup extends PureComponent {
             <div className={[Classes.Options].join(' ')}>
               <div style={{ display: ['+', '+-', '+-x', 'x', '/', 'X2', 'WORD', 'FILL', 'MONEY', 'CONVERSIONS', 'x/y'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
                 <h5>Digits</h5>
-                <InputRange name="digits0" minValue={1} maxValue={4} value={this.state.digits0} onChange={(value) => this.setState({ digits0: value })} step={1} />
+                <InputRange name="digits0" minValue={1} maxValue={5} value={this.state.digits0} onChange={(value) => this.setState({ digits0: value })} step={1} />
               </div>
 
-              <div style={{ marginLeft: '0px', display: ['+', '+-', '+-x', 'BAL'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
-                <h5>Numbers</h5>
-                <InputRange name="numbers0" minValue={2} maxValue={20} value={this.state.numbers0} onChange={(value) => this.setState({ numbers0: value })} step={1} />
+              <div style={{ marginLeft: '0px', display: ['+', '+-', 'x', '/', '+-x', 'BAL'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
+                <h5>{['x'].includes(this.state[`type${index}`]) ? 'Multiplier' : (['/'].includes(this.state[`type${index}`]) ? 'Divisor' : 'Numbers') }</h5>
+                <InputRange name="numbers0" minValue={1} maxValue={20} value={this.state.numbers0} onChange={(value) => this.setState({ numbers0: value })} step={1} />
               </div>
 
               <div style={{ display: this.state[`digits${index}`] === 2 && ['X2'].includes(this.state[`type${index}`]) ? 'flex' : 'none' }}>
