@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-class-component-methods */
 import React, { Component, Fragment, PureComponent } from 'react';
 import PropTypes, { bool } from 'prop-types';
 import { connect } from 'react-redux';

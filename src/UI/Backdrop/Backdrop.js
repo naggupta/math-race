@@ -14,7 +14,7 @@ function Backdrop(props) {
                             />
                             );
                             
-    return (<Fragment />)
+    return (<> </>)
 }
 
 Backdrop.propTypes = {

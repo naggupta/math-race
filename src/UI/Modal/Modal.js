@@ -4,9 +4,9 @@ import Backdrop from '../Backdrop/Backdrop'
 import * as classes from './Modal.module.css'
 
 function Modal(props) {
-    if (!props.show) return (<Fragment />)
+    if (!props.show) return (<> </>)
     return (
-        <Fragment>
+        <>
                 {/* <div id="myModal" className={classes.modal}>
   
                       <div className="modal-content" role="button" tabIndex={0} onKeyPress={props.modelClosed} onClick={props.modelClosed}>
@@ -27,7 +27,7 @@ function Modal(props) {
                     {props.children}
                 </div>
 
-        </Fragment>
+        </>
     )
 }
 

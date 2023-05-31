@@ -254,7 +254,6 @@ class SingleplayerSetup extends PureComponent {
     );
 
     return (
-      <Fragment>
         <form
           onSubmit={this.handleSubmit}
           ref={(e) => {
@@ -290,7 +289,6 @@ class SingleplayerSetup extends PureComponent {
             </div>
           </div>
         </form>
-      </Fragment>
     );
   }
 }

@@ -42,6 +42,7 @@ const initialState = {
   wordquestions: null,
 };
 
+// eslint-disable-next-line default-param-last
 const reducer = (state = initialState, action) => {
   // console.log(action.type)
   // console.log('[reducer]', action.type);

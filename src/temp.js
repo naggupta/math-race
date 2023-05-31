@@ -18,7 +18,7 @@ class Temp extends Component {
 
   async componentDidMount() {
     const questions = [];
-    const res=await axios.get('/questions.json');
+    const res = await axios.get('/questions.json');
     const { data } = await res;
 
     // axios

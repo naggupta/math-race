@@ -149,7 +149,7 @@ export const generateDivideQuestion = (questiontype) => {
   const dividend = randomIntFromInterval(fromnumber, tonumber);
   const divisor = randomIntFromInterval(10 ** (nos - 1) + 1, 10 ** nos - 1);
   let answer = dividend / divisor;
-  answer = Math.trunc(answer*100)/100
+  answer = Math.trunc(answer * 100) / 100
   // console.log(`${question} ? ${answer}`);
   let question = '';
 

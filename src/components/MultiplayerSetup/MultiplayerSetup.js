@@ -387,7 +387,6 @@ class MultiplayerSetup extends PureComponent {
 
       // </div>
 
-      <Fragment>
         <form
           onSubmit={this.handleSubmit}
           ref={(e) => {
@@ -419,7 +418,6 @@ class MultiplayerSetup extends PureComponent {
             </button>
           </div>
         </form>
-      </Fragment>
     );
   }
 }
